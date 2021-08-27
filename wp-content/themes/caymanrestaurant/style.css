@@ -71,7 +71,7 @@ a:focus{
     padding-bottom: 40px;
 }
 
-.font-white {
+.font-white{
     color: #ffffff;
 }
 
@@ -82,15 +82,6 @@ a:focus{
 .font-blue{
     color:#0A1F62;
 }
-
-/*font-family: 'Conv_DIN Condensed Bold';*/
-.font_Din_Condensed_Bold{
-    font-family: 'Conv_DIN Condensed Bold';
-}
-
-/*
-HEADER
-*/
 
 
 /**font**/
@@ -104,7 +95,24 @@ HEADER
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Tahu';
+    src: url('includes/Font/tahu/Tahu! 400.ttf');
+    src: local('☺'), url('includes/Font/tahu/Tahu! 400.ttf') format('truetype'); 
+    font-weight: normal;
+    font-style: normal;
+}
 
+
+.font_Din_Condensed_Bold{
+    font-family: 'Conv_DIN Condensed Bold';
+}
+.font-tahu{
+    font-family: 'Tahu';
+}
+/*
+HEADER
+*/
 
 /*======= MENU PRINCIPAL ========*/
 
@@ -303,4 +311,13 @@ HOME
 /*====== CAROUSEL ======*/
 .carousel-inner{
     height: 600px;
+}
+.carousel-item{
+    z-index: -1 !important;
+}
+.textindex{
+    z-index: 1;
+}
+.title-home{
+    font-family: 'Tahu';
 }

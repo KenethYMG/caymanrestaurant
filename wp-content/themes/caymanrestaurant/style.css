@@ -296,3 +296,11 @@ and (max-device-width : 1024px) {
         font-size: 11px;
     }
 }/*end media tablet*/
+/*
+HOME
+*/
+
+/*====== CAROUSEL ======*/
+.carousel-inner{
+    height: 600px;
+}

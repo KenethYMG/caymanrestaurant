@@ -1,0 +1,76 @@
+/*
+CAROUSEL WITH CONTROLS
+*/
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="">
+                <?php query_posts('post_type=slider&post_per_page=1') ?>
+                <div class="carousel-indicators">
+                <?php while (have_posts()): the_post(); 
+                $images_url = get_post_meta( get_the_ID(), 'upload-images', true );
+                $images = explode(",", $images_url); ?>
+                <?php $c = -1; ?>
+                <?php foreach($images as $image){ ?>
+                        <?php
+                        $c++;  
+                            if($c==0){
+                                $active = 'active';
+                                $ariacurrent = 'aria-current="true"';
+                            }else{
+                                $active = '';
+                                $ariacurrent = '';
+                            }
+                         ?>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="<?php echo $c; ?>" class="<?php echo $active; ?>" <?php echo $ariacurrent; ?> aria-label="Slide <?php echo $c ;?>"></button>
+                <?php } ?>
+                <?php endwhile; ?>
+                </div>
+                
+
+                
+                <div class="carousel-inner">
+                <?php while (have_posts()): the_post(); 
+                $images_url = get_post_meta( get_the_ID(), 'upload-images', true );
+                $d = 0; 
+                // Check if the custom field has a value.
+                if ( ! empty( $images_url ) ) {
+                     $images = explode(",", $images_url);
+                     foreach($images as $image){ ?>
+                        <?php  if($d==0){
+                                $active = 'active';
+                            }else{
+                                $active = '';
+                            }
+                        $d++; ?>
+                        <div class="carousel-item <?php echo $active; ?>">
+                            <img src="<?php echo $image; ?>" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>First slide label</h5>
+                                <p>Some representative placeholder content for the first slide.</p>
+                            </div>
+                        </div>
+                     <?php } 
+                }
+                ?>
+                </div>
+                <?php endwhile; ?>
+
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.carousel-inner{
+    height: 600px;
+}
+</style>

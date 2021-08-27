@@ -266,3 +266,33 @@ HEADER
     font-size:14px;
     font-family: "Trebuchet MS";
 }
+
+/****media querires****/
+/*320*/
+@media only screen and (max-width: 480px) , screen and (max-device-width: 480px) {
+    /**footer menu**/
+    .sectionCopyright ul li{
+        width:100%;
+        margin-bottom:10px;
+    }
+
+    .sectionCopyright ul li:after{
+        content:"";
+    }
+
+}/*end media 320*/
+
+/*480*/
+@media only screen and (min-width: 480px) and (max-width: 767px) {}
+
+/*768*/
+@media only screen and (min-width: 768px) and (max-width: 959px) {}
+/*tablet*/
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px) {
+    /**footer menu**/
+    .sectionCopyright ul li a{
+        font-size: 11px;
+    }
+}/*end media tablet*/

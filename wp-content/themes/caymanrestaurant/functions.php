@@ -79,6 +79,10 @@ function kr_scripts() {
     wp_register_script( 'bootstrap', PATH.'/js/bootstrap.bundle.min.js', array('jquery'),null,true);
     wp_enqueue_script('bootstrap');
 
+    //icon remote url
+    wp_register_style( 'icons-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css' );
+    wp_enqueue_style( 'icons-bootstrap' );
+
 
     wp_register_script( 'app', PATH.'/js/main.js', array('jquery'),null,true);
     wp_enqueue_script('app');
@@ -86,3 +90,143 @@ function kr_scripts() {
 
 }
 add_action( 'wp_enqueue_scripts', 'kr_scripts',1 );
+
+//social media
+function social_link_customizer_settings( $wp_customize ) {
+    $wp_customize->add_setting(
+        'url_facebook',
+        array(
+            'default' => '',
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control( new WP_Customize_Control(
+        $wp_customize,
+        'url_facebook',
+        array(
+            'label'      => __( 'Url Facebook', 'textdomain' ),
+            'settings'   => 'url_facebook',
+            'priority'   => 10,
+            'section'    => 'title_tagline',
+            'type'       => 'text',
+        ),
+    ),
+    );
+
+    //Twitter
+    $wp_customize->add_setting(
+        'url_twitter',
+        array(
+            'default' => '',
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control( new WP_Customize_Control(
+        $wp_customize,
+        'url_twitter',
+        array(
+            'label'      => __( 'Url Twitter', 'textdomain' ),
+            'settings'   => 'url_twitter',
+            'priority'   => 10,
+            'section'    => 'title_tagline',
+            'type'       => 'text',
+        ),
+
+        ),
+    );
+
+    //Youtube
+    $wp_customize->add_setting(
+        'url_youtube',
+        array(
+            'default' => '',
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control( new WP_Customize_Control(
+        $wp_customize,
+        'url_youtube',
+        array(
+            'label'      => __( 'Url Youtube', 'textdomain' ),
+            'settings'   => 'url_youtube',
+            'priority'   => 10,
+            'section'    => 'title_tagline',
+            'type'       => 'text',
+        ),
+
+        ),
+    );
+
+    //Instagram
+    $wp_customize->add_setting(
+        'url_instagram',
+        array(
+            'default' => '',
+            'type' => 'theme_mod',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control( new WP_Customize_Control(
+        $wp_customize,
+        'url_instagram',
+        array(
+            'label'      => __( 'Url Instagram', 'textdomain' ),
+            'settings'   => 'url_instagram',
+            'priority'   => 10,
+            'section'    => 'title_tagline',
+            'type'       => 'text',
+        ),
+
+        ),
+    );
+}
+add_action( 'customize_register', 'social_link_customizer_settings' );
+
+//Social Media
+function social_media_area() {
+
+    $div = '<div class="items_box justify-content-center justify-content-md-start justify-content-lg-start">';
+    //Facebook
+    if ( get_theme_mod( "url_facebook" ) ) :
+        $div .= '<a href="'.get_theme_mod( "url_facebook" ).'">';
+        $div .= '<img src="'.IMAGES.'/facebook_icon.png" alt="Facebook" class="img-fluid" />';
+        $div .= '</a>';
+    endif;
+
+     //Twitter
+    if ( get_theme_mod( "url_twitter" ) ) :
+        $div .= '<a href="'.get_theme_mod( "url_twitter" ).'">';
+        $div .= '<img src="'.IMAGES.'/twitter_icon.png" alt="Twitter" class="img-fluid" />';
+        $div .= '</a>';
+    endif;
+    
+    //Youtube
+    if ( get_theme_mod( "url_youtube" ) ) :
+        $div .= '<a href="'.get_theme_mod( "url_youtube" ).'">';
+        $div .= '<img src="'.IMAGES.'/youtube_icon.png" alt="Youtube" class="img-fluid" />';
+        $div .= '</a>';
+    endif;
+
+    //Instagram
+    if ( get_theme_mod( "url_instagram" ) ) :
+        $div .= '<a href="'.get_theme_mod( "url_instagram" ).'">';
+        $div .= '<img src="'.IMAGES.'/instagram_icon.png" alt="Instagram" class="img-fluid" />';
+        $div .= '</a>';
+    endif;
+
+    $div .= '</div>';
+		
+   
+
+    return $div;
+    
+}
+
+add_action( 'kr_before_content', 'social_media_area' );

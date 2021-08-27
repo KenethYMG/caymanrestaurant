@@ -66,3 +66,11 @@ ul>li>a{
     color:green;
     background-color: red;
 }
+/*
+HOME
+*/
+
+/*====== CAROUSEL ======*/
+.carousel-inner{
+    height: 600px;
+}

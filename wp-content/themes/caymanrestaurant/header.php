@@ -36,7 +36,7 @@
              <nav class="navbar navbar-expand-md navbar-light">
                     <div class="container-fluid">
 
-                         <!--Logo -->
+                        <!--Logo -->
                         <a class="col-6 col-md-2 col-lg-2" href="<?php echo HOMELINK ?>">
                             <div class="navbar-brand  logo_box">
                                 <?php

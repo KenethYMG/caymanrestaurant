@@ -71,10 +71,12 @@ a:focus{
     padding-bottom: 40px;
 }
 
-.font-white {
+.font-white{
     color: #ffffff;
 }
-
+.font-white p{
+    color: #ffffff;
+}
 .text-uppercase {
     text-transform: uppercase;
 }
@@ -281,6 +283,13 @@ HEADER
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Tahu';
+    src: url('includes/Font/tahu/Tahu! 400.ttf');
+    src: local('☺'), url('includes/Font/tahu/Tahu! 400.ttf') format('truetype'); 
+    font-weight: normal;
+    font-style: normal;
+}
 
 /*Tahu*/
 @font-face {
@@ -293,6 +302,16 @@ HEADER
 	font-weight: normal;
 	font-style: normal;
 }
+
+.font_Din_Condensed_Bold{
+    font-family: 'Conv_DIN Condensed Bold';
+}
+.font-tahu{
+    font-family: 'Tahu';
+}
+/*
+HEADER
+*/
 
 
 
@@ -674,6 +693,29 @@ HEADER
 
 
 /****media querires****/
+/* MIN 1200 */
+@media (min-width: 1200px){
+    .carousel-inner{
+        height: 650px;
+    }
+    .title-home{
+        font-size: 10em;
+    }
+    .site-description p{
+        font-size:22px;
+    }
+    .btn-orange{
+        font-size:36px;
+    }
+    .bk-site-description{
+        height:400px;
+    }
+}
+@media (max-width: 480px){
+    .bk-site-description{
+        height:500px;
+    }
+}
 /*320*/
 @media only screen and (max-width: 480px) , screen and (max-device-width: 480px) {
 
@@ -713,6 +755,46 @@ HOME
 */
 
 /*====== CAROUSEL ======*/
-.carousel-inner{
-    height: 600px;
+.carousel-item{
+    z-index: -1 !important;
+}
+.textindex{
+    z-index: 1;
+}
+.title-home{
+    font-family: 'Tahu';
+}
+.btn-orange{
+    background-color: #FF5C00 !important;
+    border-color:#FF5C00 !important;
+    font-family: 'Conv_DIN Condensed Bold';
+}
+.btn-orange:hover{
+    color: #ffffff;
+    background-color: #d44e00 !important;
+    border-color:#d44e00 !important;
+}
+.btn-check:active+.btn-orange, 
+.btn-check:checked+.btn-orange, 
+.btn-orange.active, 
+.btn-orange:active, 
+.show>.btn-orange.dropdown-toggle{
+    color: #ffffff;
+}
+.btn-check:focus+.btn-orange, 
+.btn-orange:focus,
+.btn-check:active+.btn-orange:focus, 
+.btn-check:checked+.btn-orange:focus, 
+.btn-orange.active:focus, 
+.btn-orange:active:focus, 
+.show>.btn-orange.dropdown-toggle:focus{
+    box-shadow: 0 0 0 0.25rem rgb(255 92 0 / 50%);
+    color: #ffffff;
+}
+.bk-site-description{
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }

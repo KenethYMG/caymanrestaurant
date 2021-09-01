@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12 px-0">
+        <div class="col-12 px-0">
             <?php query_posts('post_type=slider&post_per_page=1'); 
             while (have_posts()): the_post(); ?>
             <div id="CarouselHome" class="carousel slide carousel-fade" data-bs-ride="carousel">

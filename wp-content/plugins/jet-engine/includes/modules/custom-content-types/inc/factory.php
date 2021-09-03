@@ -521,7 +521,7 @@ class Factory {
 	 * @param  [type] $key [description]
 	 * @return [type]      [description]
 	 */
-	public function get_arg( $key, $default = false ) {
+	public function get_arg( $key = '', $default = false ) {
 		return isset( $this->args[ $key ] ) ? $this->args[ $key ] : $default;
 	}
 

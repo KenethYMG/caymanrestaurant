@@ -147,13 +147,9 @@ export default class FilterGroup {
 
 		this.currentQuery = query;
 		this.updateUrl();
-		if (this.isCustomProvider) {
-			this.customProvider.ajaxRequest();
-		} else {
-			this.ajaxRequest(response => {
-				this.ajaxRequestCompleted(response);
-			});
-		}
+		this.ajaxRequest(response => {
+			this.ajaxRequestCompleted(response);
+		});
 	}
 
 	ajaxRequest(callback, query = this.query) {
@@ -197,7 +193,14 @@ export default class FilterGroup {
 		}
 
 		// update provider content
-		this.renderResult(response.content);
+		if (response.content) {
+			this.renderResult(response.content);
+		}
+
+		// update provider data
+		if (response.is_data) {
+			this.$provider.trigger('jet-filter-data-updated', response);
+		}
 
 		// update fragments
 		if (response.fragments) {
@@ -208,6 +211,13 @@ export default class FilterGroup {
 					$el.html(response.fragments[selector]);
 				}
 			}
+		}
+
+		// backward compatibility for jet-engine-maps
+		if (this.provider) {
+			this.$provider
+				.closest('.elementor-widget-jet-engine-maps-listing,.jet-map-listing-block')
+				.trigger('jet-filter-custom-content-render', response);
 		}
 
 		eventBus.publish('ajaxFilters/updated', this.provider, this.queryId);
@@ -308,9 +318,19 @@ export default class FilterGroup {
 
 	// Url methods
 	updateUrl() {
-		const url = this.getUrl();
+		const filteringApplied = this.filters.some(filter => {
+			if (filter.data)
+				return true;
+		});
 
-		history.replaceState(null, null, this.baseUrl + url || this.baseUrl);
+		if (filteringApplied) {
+			const url = this.getUrl();
+
+			if (url)
+				history.replaceState(null, null, this.baseUrl + url);
+		} else {
+			history.replaceState(null, null, this.baseUrl);
+		}
 	}
 
 	getUrl(allFilters = false) {
@@ -407,16 +427,16 @@ export default class FilterGroup {
 					break;
 			}
 
-			if (filter.isHierarchy && filter.hierarchicalСhain)
-				data += 'hc' + filter.hierarchicalСhain;
-
 			const nesting = [queryType];
 
 			if (queryVar)
 				nesting.push(queryVar);
 
-			if (getNesting(urlData, ...nesting))
+			if (filter.mergeSameQueryKeys && getNesting(urlData, ...nesting))
 				data = mergeData(data, 'operator_AND');
+
+			if (filter.isHierarchy && filter.hierarchicalСhain)
+				data += 'hc' + filter.hierarchicalСhain;
 
 			setNesting(data, urlData, nesting, { merge: filter.mergeSameQueryKeys });
 		});
@@ -446,13 +466,13 @@ export default class FilterGroup {
 					url += queryTypeKey + '/';
 
 					if (!isObject(queryTypeValue)) {
-						url += queryTypeValue + '/';
+						url += encodeURIComponent(queryTypeValue) + '/';
 					} else {
 						if (Array.isArray(queryTypeValue)) {
-							url += queryTypeValue.join() + '/';
+							url += encodeURIComponent(queryTypeValue.join()) + '/';
 						} else {
 							for (const queryVarKey in queryTypeValue) {
-								const queryVarValue = queryTypeValue[queryVarKey];
+								const queryVarValue = encodeURIComponent(queryTypeValue[queryVarKey]);
 
 								url += queryVarKey + ':' + queryVarValue + ';';
 							}
@@ -480,14 +500,14 @@ export default class FilterGroup {
 					url += '&' + queryTypeKey + '=';
 
 					if (!isObject(queryTypeValue)) {
-						url += queryTypeValue;
+						url += encodeURIComponent(queryTypeValue);
 					} else {
 						if (Array.isArray(queryTypeValue)) {
-							url += queryTypeValue.join();
+							url += encodeURIComponent(queryTypeValue.join());
 						} else {
 							for (const queryVarKey in queryTypeValue) {
-								const queryVarValue = queryTypeValue[queryVarKey];
-	
+								const queryVarValue = encodeURIComponent(queryTypeValue[queryVarKey]);
+
 								url += queryVarKey + ':' + queryVarValue + ';';
 							}
 						}

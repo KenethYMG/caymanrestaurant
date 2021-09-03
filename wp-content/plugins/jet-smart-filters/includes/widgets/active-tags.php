@@ -830,7 +830,7 @@ class Jet_Smart_Filters_Active_Tags_Widget extends Widget_Base {
 		$clear_item           = isset( $settings['clear_item'] ) ? filter_var( $settings['clear_item'], FILTER_VALIDATE_BOOLEAN ) : false;
 
 		printf(
-			'<div class="%1$s jet-active-tags hide" data-label="%6$s" data-clear-item-label="%7$s" data-content-provider="%2$s" data-additional-providers="%3$s" data-apply-type="%4$s" data-query-id="%5$s">',
+			'<div class="%1$s jet-active-tags" data-label="%6$s" data-clear-item-label="%7$s" data-content-provider="%2$s" data-additional-providers="%3$s" data-apply-type="%4$s" data-query-id="%5$s">',
 			$base_class,
 			$provider,
 			$additional_providers,

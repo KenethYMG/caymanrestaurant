@@ -54,6 +54,10 @@ if ( ! class_exists( 'Jet_Engine_Listings_Filters' ) ) {
 					'cb'   => array( $this, 'img_gallery_grid' ),
 					'args' => 'full',
 				),
+				'render_checkbox' => array(
+					'cb'   => 'jet_engine_render_checkbox_values',
+					'args' => false,
+				),
 				'render_acf_checkbox' => array(
 					'cb'   => 'jet_engine_render_acf_checkbox_values',
 					'args' => false,
@@ -185,7 +189,9 @@ if ( ! class_exists( 'Jet_Engine_Listings_Filters' ) ) {
 			// Ensure gallery class is included
 			jet_engine_get_gallery();
 
-			return Jet_Engine_Img_Gallery::slider( $img_ids, $args );
+			ob_start();
+			Jet_Engine_Img_Gallery::slider( $img_ids, $args );
+			return ob_get_clean();
 
 		}
 

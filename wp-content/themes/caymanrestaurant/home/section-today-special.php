@@ -23,7 +23,7 @@
                     if ($Tab1_SpecialFood_Show["mostrar"] == "true") {
                         $image = get_post_meta($post->ID, 'sp-1-image-special-1', true);
                         $ImageUrl = $image;
-                        $titleFood = get_post_meta($post->ID, 'sp-1-title-special-1', true);
+                        $titleFood = get_post_meta($post->ID, 'restaurant-title-special-1', true);
                     } elseif ($Tab2_SpecialFood_Show["mostrar"] == "true") {
                         $image = get_post_meta($post->ID, 'sp-2-image-special-2', true);
                         $ImageUrl = $image;
@@ -55,15 +55,12 @@
                             <img src="<?php echo $ImageUrl; ?>" class="img-fluid" />
                         </div>
                         <div class="card-body mt-4">
-                            <span class="nameSpecial font-orange font_Trebuchet text-uppercase d-block"><?php echo $titleFood; ?></span>
+                            <span class="nameSpecial font-orange font_Trebuchet text-uppercase d-block">Title Restaurant</span>
                             <span class="nameRestaurant font-white font_Trebuchet text-uppercase d-block"><?php echo the_title(); ?></span>
                         </div>
                     </div>
                 </div>
                 <!--col-->
-
-
-
             <?php endwhile; ?>
         </div>
     </div>

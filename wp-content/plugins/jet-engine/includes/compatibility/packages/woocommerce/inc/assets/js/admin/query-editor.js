@@ -8,6 +8,7 @@
 			window.JetQueryWatcherMixin,
 			window.JetQueryDateParamsMixin,
 			window.JetQueryRepeaterMixin,
+			window.JetQueryTaxParamsMixin,
 			window.JetQueryMetaParamsMixin
 		],
 		props: [ 'value', 'dynamic-value' ],
@@ -19,6 +20,7 @@
 				productCategories: window.jet_query_component_wc_product_query.product_cat,
 				operators: window.JetEngineQueryConfig.operators_list,
 				dataTypes: window.JetEngineQueryConfig.data_types,
+				taxonomies: window.JetEngineQueryConfig.taxonomies,
 				query: {},
 				dynamicQuery: {}
 			};
@@ -50,6 +52,7 @@
 
 			this.presetDate();
 			this.presetMeta();
+			this.presetTax();
 
 		}
 	} );

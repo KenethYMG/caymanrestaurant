@@ -44,7 +44,6 @@ if ( ! class_exists( 'Jet_Engine_Relations' ) ) {
 		 */
 		function __construct() {
 
-			add_action( 'admin_menu', array( $this, 'add_menu_page' ), 20 );
 			add_action( 'init', array( $this, 'register_instances' ), 11 );
 
 			$this->init_data();
@@ -55,13 +54,7 @@ if ( ! class_exists( 'Jet_Engine_Relations' ) ) {
 			require_once $this->component_path( 'hierarchy.php' );
 			$this->hierarchy = new Jet_Engine_Relations_Hierarchy();
 
-			if ( ! $this->is_cpt_page() ) {
-				return;
-			}
-
-			add_action( 'admin_init', array( $this, 'register_pages' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ), 0 );
-			add_action( 'admin_init', array( $this, 'handle_actions' ) );
+			$this->init_admin_pages();
 
 		}
 
@@ -421,7 +414,7 @@ if ( ! class_exists( 'Jet_Engine_Relations' ) ) {
 		 *
 		 * @return void
 		 */
-		public function process_meta( $result, $post_id, $meta_key, $related_posts = array() ) {
+		public function process_meta( $result = null, $post_id = null, $meta_key = '', $related_posts = array() ) {
 
 			$relation = isset( $this->_active_relations[ $meta_key ] ) ? $this->_active_relations[ $meta_key ] : false;
 

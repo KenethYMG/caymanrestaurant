@@ -111,6 +111,13 @@ class Settings {
 	 */
 	public function register_settings_js() {
 
+		wp_enqueue_style(
+			'jet-engine-media',
+			jet_engine()->glossaries->component_url( 'assets/css/admin/media.css' ),
+			array(),
+			jet_engine()->get_version()
+		);
+
 		wp_enqueue_script(
 			'jet-engine-glossaries',
 			jet_engine()->glossaries->component_url( 'assets/js/admin/settings.js' ),
@@ -120,6 +127,8 @@ class Settings {
 		);
 
 		$items = $this->get();
+
+		wp_enqueue_media();
 
 		wp_localize_script(
 			'jet-engine-glossaries',
@@ -186,6 +195,20 @@ class Settings {
 				</div>
 			</div>
 		</script>
+		<script type="text/x-template" id="jet_engine_media">
+			<div class="jet-engine-media">
+				<div class="jet-engine-media__name" v-if="fileData.name">{{ fileData.name }}</div>
+				<cx-vui-button
+					button-style="accent"
+					size="mini"
+					@click="selectFile"
+				>
+					<span
+						slot="label"
+					><?php _e( 'Select file', 'jet-engine' ); ?></span>
+				</cx-vui-button>
+			</div>
+		</script>
 		<script type="text/x-template" id="jet_engine_glossary">
 			<div>
 				<cx-vui-input
@@ -195,8 +218,54 @@ class Settings {
 					size="fullwidth"
 					v-model="settings.name"
 				></cx-vui-input>
+				<cx-vui-select
+					label="<?php _e( 'Data Source', 'jet-engine' ); ?>"
+					description="<?php _e( 'The way to get the data for glossary', 'jet-engine' ); ?>"
+					:wrapper-css="[ 'equalwidth' ]"
+					size="fullwidth"
+					v-model="settings.source"
+					:options-list="[
+						{
+							value: 'manual',
+							label: '<?php _e( 'Set items manually', 'jet-engine' ); ?>'
+						},
+						{
+							value: 'file',
+							label: '<?php _e( 'Get items from uploaded file', 'jet-engine' ); ?>'
+						},
+					]"
+				>
+				</cx-vui-select>
+				<cx-vui-component-wrapper
+					label="<?php _e( 'File to Get Data From', 'jet-engine' ); ?>"
+					description="<?php _e( 'Select file from the media library to get data from. At the moment supports only JSON or CSV files', 'jet-engine' ); ?>"
+					:wrapper-css="[ 'equalwidth' ]"
+					size="fullwidth"
+					v-if="'file' === settings.source"
+				>
+					<jet-engine-media
+						v-model="settings.source_file"
+					></jet-engine-media>
+				</cx-vui-component-wrapper>
+				<cx-vui-input
+					label="<?php _e( 'Value Column', 'jet-engine' ); ?>"
+					description="<?php _e( 'Get value from the column (or key for JSON objects). Leave empty to detect automatically. <b>Please note:</b> columns names are case-sensitive.', 'jet-engine' ); ?>"
+					:wrapper-css="[ 'equalwidth' ]"
+					size="fullwidth"
+					v-if="'file' === settings.source"
+					v-model="settings.value_col"
+				></cx-vui-input>
+				<cx-vui-input
+					label="<?php _e( 'Label Column', 'jet-engine' ); ?>"
+					description="<?php _e( 'Get label from the column (or key for JSON objects). Leave empty to detect automatically. <b>Please note:</b> columns names are case-sensitive.', 'jet-engine' ); ?>"
+					:wrapper-css="[ 'equalwidth' ]"
+					size="fullwidth"
+					v-if="'file' === settings.source"
+					v-model="settings.label_col"
+				></cx-vui-input>
 				<cx-vui-component-wrapper
 					:wrapper-css="[ 'fullwidth-control' ]"
+					v-if="'file' !== settings.source"
 				>
 					<div class="cx-vui-inner-panel">
 						<cx-vui-repeater
@@ -275,6 +344,13 @@ class Settings {
 
 			if ( empty( $this->items ) ) {
 				$this->items = array();
+			}
+
+			foreach ( $this->items as $index => $item ) {
+				if ( empty( $item['source'] ) ) {
+					$item['source'] = 'manual';
+					$this->items[ $index ] = $item;
+				}
 			}
 
 			usort( $this->items, function( $a, $b ) {

@@ -15,7 +15,7 @@ class Filters {
 	 */
 	public function is_filters_request() {
 
-		if ( ! empty( $_REQUEST['action'] ) && 'jet_smart_filters' === $_REQUEST['action'] ) {
+		if ( ! empty( $_REQUEST['action'] ) && 'jet_smart_filters' === $_REQUEST['action'] && ! empty( $_REQUEST['provider'] ) ) {
 			return true;
 		}
 

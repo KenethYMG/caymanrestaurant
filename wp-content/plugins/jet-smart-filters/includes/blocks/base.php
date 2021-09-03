@@ -339,6 +339,7 @@ if ( ! class_exists( 'Jet_Smart_Filters_Block_Base' ) ) {
 			$base_class           = 'jet-smart-filters-' . $this->get_name();
 			$provider             = $settings['content_provider'];
 			$query_id             = 'default';
+			$show_label           = $settings['show_label'];
 			$show_items_label     = $settings['show_items_label'];
 			$show_decorator       = true;
 			$filter_image_size    = $settings['filter_image_size'];
@@ -366,6 +367,8 @@ if ( ! class_exists( 'Jet_Smart_Filters_Block_Base' ) ) {
 				$show_counter    = $settings['show_counter'] === true ? 'yes' : false;
 				$show_items_rule = $settings['show_items_rule'];
 			}
+
+			jet_smart_filters()->admin_bar->register_post_item( $filter_id );
 
 			ob_start();
 

@@ -222,7 +222,7 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms' ) ) {
 		 * Return builder for passed form ID
 		 * @return [type] [description]
 		 */
-		public function get_form_builder( $form_id, $form_data = false, $args = array() ) {
+		public function get_form_builder( $form_id = null, $form_data = false, $args = array() ) {
 
 			if ( ! class_exists( 'Jet_Engine_Booking_Forms_Builder' ) ) {
 				require_once jet_engine()->modules->modules_path( 'forms/builder.php' );

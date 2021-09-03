@@ -77,9 +77,9 @@ export default class SelectHierarchical {
 		if (this.isSingleTaxonomy && filter.depth) {
 			const hierarchicalСhain = [];
 
-			this.filters.forEach(currentFilter => {
+			/* this.filters.forEach(currentFilter => {
 				currentFilter.hierarchicalСhain = false;
-			});
+			}); */
 
 			for (let index = 0; index < filter.depth; index++)
 				hierarchicalСhain.push(this.filters[index].data);

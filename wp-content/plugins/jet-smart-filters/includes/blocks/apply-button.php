@@ -233,6 +233,8 @@ if ( ! class_exists( 'Jet_Smart_Filters_Block_Apply_Button' ) ) {
 				$data_atts .= sprintf( ' %1$s="%2$s"', $key, $value );
 			}
 
+			$settings['apply_button'] = true;
+
 			ob_start();
 
 			echo '<div class="' . $base_class . ' jet-filter">';

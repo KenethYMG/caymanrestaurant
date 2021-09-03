@@ -64,7 +64,7 @@ class Tab_Manager {
 		return $this->_tabs[ $slug ];
 	}
 
-	public function options( $slug, $default = array() ) {
+	public function options( $slug = '', $default = array() ) {
 		$this->isset_tab( $slug );
 
 		return $this->_tabs[ $slug ]->get_options( $default );

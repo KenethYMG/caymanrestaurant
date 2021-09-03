@@ -167,6 +167,11 @@ if ( ! class_exists( 'Jet_Smart_Filters_Provider_WooCommerce_Archive' ) ) {
 					$default_query['orderby']  = 'meta_value_num';
 					$default_query['order']    = 'DESC';
 					break;
+				case 'popularity':
+					$default_query['meta_key'] = 'total_sales';
+					$default_query['orderby']  = 'meta_value_num ID';
+					$default_query['order']    = 'DESC';
+					break;
 			}
 
 			jet_smart_filters()->query->store_provider_default_query( $this->get_id(), $default_query );

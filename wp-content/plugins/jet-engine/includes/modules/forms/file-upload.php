@@ -621,7 +621,7 @@ if ( ! class_exists( 'Jet_Engine_Forms_File_Upload' ) ) {
 
 		}
 
-		public function ensure_media_js( $content, $popup_data = array() ) {
+		public function ensure_media_js( $content = null, $popup_data = array() ) {
 			
 			ob_start();
 			jet_engine()->frontend->frontend_scripts();

@@ -117,7 +117,7 @@ if ( ! class_exists( 'Jet_Engine_Popup_Package' ) ) {
 					}
 
 					$post_obj = get_post( $popup_data['postId'] );
-					
+
 					break;
 			}
 

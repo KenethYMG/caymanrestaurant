@@ -13,7 +13,7 @@
                         $bk_description = get_post_meta( get_the_ID(), 'background-description', true );
                         //print_r($carousel_images); ?>
                          <div class="test-index position-absolute top-50 start-50 translate-middle text-center">
-                            <h1 class="title-home font-white">
+                            <h1 class="title-home font-white font_Tahu">
                                     <?php echo $carousel_text; ?>
                             </h1>
                             <a href="<?php echo $button_url; ?>" class="btn btn-light btn-lg btn-orange font-white"><?php echo $button_label; ?></a>

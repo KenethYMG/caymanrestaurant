@@ -140,7 +140,7 @@ class Manager {
 	}
 
 	/**
-	 * Return store instatnce by store slug
+	 * Return store instance by store slug
 	 */
 	public function get_store( $store ) {
 		return isset( $this->stores[ $store ] ) ? $this->stores[ $store ] : false;

@@ -1278,17 +1278,13 @@
 						break;
 
 					case 'success':
-
-						if ( response.redirect ) {
-							window.location = response.redirect;
-						} else if ( response.reload ) {
-							window.location.reload();
-						}
-
 						$( document ).trigger( 'jet-engine/form/ajax/on-success', [ response, $form, data ] );
-
 						break;
-
+				}
+				if ( response.redirect ) {
+					window.location = response.redirect;
+				} else if ( response.reload ) {
+					window.location.reload();
 				}
 
 				$( '.jet-form-messages-wrap[data-form-id="' + formID + '"]' ).html( response.message );

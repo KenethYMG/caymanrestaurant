@@ -169,7 +169,16 @@ if ( ! class_exists( 'Jet_Smart_Filters_Radio_Filter' ) ) {
 			$options = jet_smart_filters()->data->maybe_include_exclude_options( $use_exclude_include, $exclude_include_options, $options );
 
 			if ( $all_option_label ) {
-				$options = array( 'all' => htmlspecialchars( $all_option_label ) ) + $options;
+				if ( true === $by_parents ) {
+					$all_option = (object) array( 
+						'term_id' => 'all',
+						'name' => htmlspecialchars( $all_option_label )
+					);
+				} else {
+					$all_option = htmlspecialchars( $all_option_label );
+				}
+
+				$options = array( 'all' => $all_option ) + $options;
 			}
 
 			$options = apply_filters( 'jet-smart-filters/filters/filter-options', $options, $filter_id, $this );

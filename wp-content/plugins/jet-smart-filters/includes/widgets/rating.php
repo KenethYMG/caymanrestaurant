@@ -618,10 +618,13 @@ class Jet_Smart_Filters_Rating_Widget extends Jet_Smart_Filters_Base_Widget {
 		$filter_id            = $settings['filter_id'];
 		$provider             = ! empty( $settings['content_provider'] ) ? $settings['content_provider'] : '';
 		$query_id             = ! empty( $settings['query_id'] ) ? $settings['query_id'] : 'default';
+		$show_label           = ! empty( $settings['show_label'] ) ? filter_var( $settings['show_label'], FILTER_VALIDATE_BOOLEAN ) : false;
 		$additional_providers = jet_smart_filters()->utils->get_additional_providers( $settings );
 		$icon                 = ! empty( $settings['rating_icon'] ) ? $settings['rating_icon'] : 'fa fa-star';
 		$format               = '<i class="jet-rating-icon %s"></i>';
 		$rating_icon          = sprintf( $format, $icon );
+
+		jet_smart_filters()->admin_bar->register_post_item( $filter_id );
 
 		if ( 'submit' === $settings['apply_on'] && in_array( $settings['apply_type'], ['ajax', 'mixed'] ) ) {
 			$apply_type = $settings['apply_type'] . '-reload';

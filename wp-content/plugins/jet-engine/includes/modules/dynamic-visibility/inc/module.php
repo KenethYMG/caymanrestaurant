@@ -90,6 +90,7 @@ class Module {
 			'field'     => null,
 			'value'     => null,
 			'data_type' => null,
+			'context'   => null,
 		);
 
 		foreach ( $conditions as $index => $settings ) {

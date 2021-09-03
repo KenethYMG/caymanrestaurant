@@ -90,12 +90,34 @@ if ( ! class_exists( 'Jet_Engine_Frontend' ) ) {
 		}
 
 		/**
+		 * Defines how CSS should be included. If true - styles included in footer only when JetEngine widgets was used,
+		 * if false - styles always enqueued on wp_enqueue_scripts
+		 * @return boolean [description]
+		 */
+		public function is_styles_in_footer() {
+			return apply_filters( 'jet-engine/listings/styles-in-footer', false );
+		}
+
+		/**
 		 * Enqueue front-end styles
 		 *
 		 * @return void
 		 */
 		public function frontend_styles() {
-			wp_enqueue_style( 'jet-engine-frontend' );
+			if ( ! $this->is_styles_in_footer() ) {
+				wp_enqueue_style( 'jet-engine-frontend' );
+			}
+		}
+
+		/**
+		 * Enqueue front-end styles in footer
+		 *
+		 * @return [type] [description]
+		 */
+		public function footer_styles() {
+			if ( $this->is_styles_in_footer() ) {
+				wp_enqueue_style( 'jet-engine-frontend' );
+			}
 		}
 
 		/**
@@ -106,9 +128,11 @@ if ( ! class_exists( 'Jet_Engine_Frontend' ) ) {
 		public function preview_scripts() {
 
 			wp_enqueue_script( 'jquery-slick' );
-			$this->enqueue_masonry_assets();
 
-			wp_enqueue_script( 'jet-engine-frontend' );
+			$this->enqueue_masonry_assets();
+			$this->frontend_scripts();
+			
+			wp_enqueue_style( 'jet-engine-frontend' );
 
 			do_action( 'jet-engine/listings/preview-scripts' );
 
@@ -148,6 +172,15 @@ if ( ! class_exists( 'Jet_Engine_Frontend' ) ) {
 		public function reset_listing() {
 			$this->reset_data();
 			$this->listing_id = null;
+			jet_engine()->listings->did_posts->reset_currently_did_posts();
+		}
+
+		/**
+		 * Returns currently processed listing id
+		 * @return [type] [description]
+		 */
+		public function get_listing_id() {
+			return $this->listing_id;
 		}
 
 		/**
@@ -161,7 +194,24 @@ if ( ! class_exists( 'Jet_Engine_Frontend' ) ) {
 			$this->setup_data( $post );
 
 			$listing_id = apply_filters( 'jet-engine/listings/frontend/rendered-listing-id', $this->listing_id );
+			$content = $this->get_listing_item_content( $listing_id );
+
+			return apply_filters( 'jet-engine/listings/frontend/listing-item-content', $content, $listing_id, $post );
+
+		}
+
+		/**
+		 * Returns listing item content by listing ID
+		 * @param  [type] $listing_id [description]
+		 * @return [type]             [description]
+		 */
+		public function get_listing_item_content( $listing_id ) {
+
 			$content = null;
+
+			if ( ! $listing_id ) {
+				return $content;
+			}
 
 			if ( jet_engine()->blocks_views && jet_engine()->blocks_views->is_blocks_listing( $listing_id ) ) {
 				$content = jet_engine()->blocks_views->render->get_listing_content( $listing_id );
@@ -173,8 +223,7 @@ if ( ! class_exists( 'Jet_Engine_Frontend' ) ) {
 				}
 			}
 
-			return apply_filters( 'jet-engine/listings/frontend/listing-item-content', $content, $listing_id, $post );
-
+			return $content;
 		}
 
 		/**

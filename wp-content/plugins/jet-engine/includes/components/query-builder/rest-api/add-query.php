@@ -32,6 +32,10 @@ class Add_Query extends \Jet_Engine_Base_API_Endpoint {
 
 		$item_id = Manager::instance()->data->create_item( false );
 
+		if ( $item_id ) {
+			do_action( 'jet-engine/query-builder/after-query-update', Manager::instance()->data );
+		}
+
 		return rest_ensure_response( array(
 			'success' => ! empty( $item_id ),
 			'item_id' => $item_id,

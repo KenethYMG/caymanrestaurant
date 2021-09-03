@@ -146,7 +146,7 @@ if ( ! class_exists( 'Jet_Engine_Render_Dynamic_Image' ) ) {
 
 		}
 
-		public function render_image_by_meta_field( $field, $size = 'full', $settings = array() ) {
+		public function render_image_by_meta_field( $field = null, $size = 'full', $settings = array() ) {
 
 			$custom_output = apply_filters(
 				'jet-engine/listings/dynamic-image/custom-image',

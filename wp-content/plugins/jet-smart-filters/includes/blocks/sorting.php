@@ -133,6 +133,26 @@ if ( ! class_exists( 'Jet_Smart_Filters_Block_Sorting' ) ) {
 				),
 			]);
 
+			$this->controls_manager->add_control([
+				'id'         => 'reset_appearance',
+				'type'       => 'toggle',
+				'label'      => esc_html__( 'Reset Field Appearance', 'jet-smart-filters' ),
+				'help'       => esc_html__( 'Check this option to reset field appearance CSS value. This will make field appearance the same for all browsers', 'jet-smart-filters' ),
+				'return_value' => [
+					'true'  => '-webkit-appearance: none; appearance: none;',
+					'false' => '',
+				],
+				'css_selector' => [
+					'{{WRAPPER}} ' . $this->css_scheme['select'] => '{{VALUE}}',
+				],
+				'separator' => 'before',
+				'attributes' => [
+					'default' => [
+						'value' => false,
+					]
+				],
+			]);
+
 			$this->controls_manager->end_section();
 
 			$this->controls_manager->start_section(

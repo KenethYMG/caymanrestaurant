@@ -209,6 +209,11 @@ class Jet_Listing_Item_Document extends Elementor\Core\Base\Document {
 
 		}
 
+		/**
+		 * Add 3rd-party controls for link sources
+		 */
+		do_action( 'jet-engine/listings/document/custom-link-source-controls', $this );
+
 		$this->add_control(
 			'listing_link_open_in_new',
 			array(

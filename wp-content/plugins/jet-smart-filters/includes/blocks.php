@@ -106,7 +106,7 @@ if ( ! class_exists( 'Jet_Smart_Filters_Blocks_Manager' ) ) {
 				$providers_data['woocommerce-shortcode'] = __( 'WooCommerce Shortcode', 'jet-smart-filters' );
 			}
 
-			return $providers_data;
+			return apply_filters( 'jet-smart-filters/blocks/allowed-providers', $providers_data );
 
 		}
 

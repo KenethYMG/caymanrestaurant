@@ -8,6 +8,6 @@ export default class Sorting extends SelectControl {
 
 		super($container, $filter, $filter.find('.jet-sorting-select'));
 
-		this.mergeSameQueryKeys = false;
+		this.mergeSameQueryKeys = true;
 	}
 }

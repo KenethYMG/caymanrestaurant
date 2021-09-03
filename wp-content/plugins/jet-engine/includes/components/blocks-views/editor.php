@@ -318,6 +318,33 @@ if ( ! class_exists( 'Jet_Engine_Blocks_Views_Editor' ) ) {
 				$for
 			);
 
+			$extra_fields = apply_filters( 'jet-engine/listings/dynamic-image/fields', array(), $for );
+
+			if ( ! empty( $extra_fields ) ) {
+				foreach ( $extra_fields as $data ) {
+
+					if ( ! is_array( $data ) ) {
+						continue;
+					}
+
+					$values = array();
+
+					if ( ! empty( $data['options'] ) ) {
+						foreach ( $data['options'] as $val => $label ) {
+							$values[] = array(
+								'value' => $val,
+								'label' => $label,
+							);
+						}
+					}
+
+					$result[] = array(
+						'label'  => $data['label'],
+						'values' => $values,
+					);
+				}
+			}
+
 			return $result;
 
 		}

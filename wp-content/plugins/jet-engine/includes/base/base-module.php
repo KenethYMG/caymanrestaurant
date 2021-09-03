@@ -84,6 +84,15 @@ if ( ! class_exists( 'Jet_Engine_Module_Base' ) ) {
 			return true;
 		}
 
+		/**
+		 * Returns slug of the module to install it from the crocoblock.com
+		 * 
+		 * @return false or string
+		 */
+		public function external_slug() {
+			return false;
+		}
+
 	}
 
 }

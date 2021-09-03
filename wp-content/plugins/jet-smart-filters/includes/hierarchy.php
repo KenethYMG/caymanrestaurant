@@ -157,15 +157,15 @@ if ( ! class_exists( 'Jet_Smart_Filters_Hierarchy' ) ) {
 					continue;
 				}
 
-				$args = $filter->get_args();
+				$args       = $filter->get_args();
+				$show_label = ! empty( $args['show_label'] ) ? filter_var( $args['show_label'], FILTER_VALIDATE_BOOLEAN ) : false;
 
 				$args['depth']           = $level['depth'];
 				$args['query_var']       = $level['tax'];
 				$args['placeholder']     = ! empty( $level['placeholder'] ) ? $level['placeholder'] : __( 'Select...', 'jet-smart-filters' );
 				$args['max_depth']       = count( $this->hierarchy ) - 1;
 				$args['options']         = array();
-				$args['filter_label']    = ! empty( $level['label'] ) ? $level['label'] : '';
-				$args['show_label']      = ! empty( $this->args['show_label'] ) ? $this->args['show_label'] : '';
+				$args['filter_label']    = $show_label && ! empty( $level['label'] ) ? $level['label'] : '';
 				$args['display_options'] = ! empty( $this->args['display_options'] ) ? $this->args['display_options'] : array();
 
 				if ( $single_tax ) {

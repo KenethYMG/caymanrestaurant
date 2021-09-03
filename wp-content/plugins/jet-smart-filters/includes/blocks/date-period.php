@@ -32,13 +32,13 @@ if ( ! class_exists( 'Jet_Smart_Filters_Block_Date_Period' ) ) {
 			return 'air-datepicker';
 		}
 
-		public function get_editor_script_depends() {
+		/* public function get_editor_script_depends() {
 			return array( 'jet-smart-filters', 'air-datepicker' );
 		}
 
 		public function get_editor_style_depends() {
 			return array( 'jet-smart-filters', 'air-datepicker' );
-		}
+		} */
 
 		public function add_style_manager_options(){
 

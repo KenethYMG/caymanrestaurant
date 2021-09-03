@@ -148,7 +148,7 @@ class Lat_Lng {
 	 *
 	 * @return bool|string
 	 */
-	public function get_address_from_fields_group( $post, $fields = array() ) {
+	public function get_address_from_fields_group( $post = null, $fields = array() ) {
 
 		$group = array();
 

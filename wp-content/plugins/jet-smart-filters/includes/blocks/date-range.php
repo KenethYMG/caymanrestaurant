@@ -1096,6 +1096,7 @@ if ( ! class_exists( 'Jet_Smart_Filters_Block_Date_Range' ) ) {
 			$base_class           = 'jet-smart-filters-' . $this->get_name();
 			$provider             = $settings['content_provider'];
 			$query_id             = 'default';
+			$show_label           = $settings['show_label'];
 			$hide_button          = $settings['hide_apply_button'];
 			$apply_button_text    = $settings['apply_button_text'];
 			$filter_template_args = array(
@@ -1110,6 +1111,8 @@ if ( ! class_exists( 'Jet_Smart_Filters_Block_Date_Range' ) ) {
 			if ( isset( $settings['blockID'] ) ) {
 				$filter_template_args['block_id'] = $settings['blockID'];
 			}
+
+			jet_smart_filters()->admin_bar->register_post_item( $filter_id );
 
 			ob_start();
 

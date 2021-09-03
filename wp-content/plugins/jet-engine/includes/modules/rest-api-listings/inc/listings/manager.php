@@ -242,7 +242,7 @@ class Manager {
 	 *
 	 * @return [type] [description]
 	 */
-	public function custom_image_renderer( $result, $settings = array() ) {
+	public function custom_image_renderer( $result = false, $settings = array() ) {
 
 		$image = $this->get_custom_value_by_setting( 'dynamic_image_source', $settings );
 		$size  = isset( $settings['dynamic_image_size'] ) ? $settings['dynamic_image_size'] : 'full';

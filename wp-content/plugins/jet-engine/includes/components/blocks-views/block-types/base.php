@@ -134,12 +134,16 @@ if ( ! class_exists( 'Jet_Engine_Blocks_Views_Type_Base' ) ) {
 			$item       = $this->get_name();
 			$listing    = isset( $_REQUEST['listing'] ) ? $_REQUEST['listing'] : false;
 			$listing_id = isset( $_REQUEST['post_id'] ) ? absint( $_REQUEST['post_id'] ) : false;
-			$object_id  = isset( $_REQUEST['object'] ) ? absint( $_REQUEST['object'] ) : jet_engine()->listings->data->get_current_object_id();
+			$object_id  = isset( $_REQUEST['object'] ) ? absint( $_REQUEST['object'] ) : jet_engine()->listings->data->get_current_object();
 			$attributes = $this->prepare_attributes( $attributes );
 			$render     = $this->get_render_instance( $attributes );
 
 			if ( ! $render ) {
 				return __( 'Item renderer class not found', 'jet-engine' );
+			}
+
+			if ( ! $listing_id ) {
+				$listing_id = jet_engine()->blocks_views->render->get_current_listing_id();
 			}
 
 			$render->setup_listing( $listing, $object_id, true, $listing_id );

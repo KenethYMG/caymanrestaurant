@@ -93,13 +93,14 @@ class PayPal {
 	/**
 	 * Process status notification and enqueue message
 	 *
-	 * @param string $type [description]
-	 * @param  [type] $form_id  [description]
-	 * @param array $settings [description]
+	 * @param string $type        Notification type.
+	 * @param string|int $form_id Form ID.
+	 * @param array $settings     Settings array.
+	 * @param array $form_data    Form data array.
 	 *
-	 * @return [type]           [description]
+	 * @return void
 	 */
-	public function process_status( $type = 'success', $form_id, $settings = array(), $form_data ) {
+	public function process_status( $type = 'success', $form_id = null, $settings = array(), $form_data = array() ) {
 
 		$message       = ! empty( $settings[ $type . '_message' ] ) ? wp_kses_post( $settings[ $type . '_message' ] ) : null;
 		$notifications = isset( $settings[ 'notifications_' . $type ] ) ? $settings[ 'notifications_' . $type ] : array();

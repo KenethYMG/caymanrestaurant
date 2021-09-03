@@ -47,7 +47,7 @@ if ( ! class_exists( 'Jet_Engine_Forms_MailChimp_Handler' ) ) {
 
 		}
 
-		public function request( $end_point, $request_args = array() ) {
+		public function request( $end_point = '', $request_args = array() ) {
 			$args     = array_merge_recursive( $this->api_request_args, $request_args );
 			$response = wp_remote_request( $this->api_base_url . $end_point, $args );
 

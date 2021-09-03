@@ -34,7 +34,7 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Notifications' ) ) {
 		/**
 		 * Constructor for the class
 		 */
-		function __construct( $form = null, $data = array(), $manager, $handler ) {
+		function __construct( $form = null, $data = array(), $manager = null, $handler = null ) {
 
 			$this->form    = $form;
 			$this->data    = $data;
@@ -542,10 +542,25 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Notifications' ) ) {
 		 * @return [type] [description]
 		 */
 		public function register_user( $notification ) {
+			$allow_register    = isset( $notification['allow_register'] ) ? $notification['allow_register'] : false;
+			$role_can_register = isset( $notification['role_can_register'] ) ? $notification['role_can_register'] : false;
+
+			if ( $allow_register && ! $role_can_register ) {
+				$this->set_specific_status( __( '"role_can_register" is empty', 'jet-engine' ) );
+
+				return;
+			}
 
 			if ( is_user_logged_in() ) {
+				$user = wp_get_current_user();
 
-				if ( 1 === count( $this->notifications ) ) {
+				if ( $allow_register && ! in_array( $role_can_register, $user->roles ) ) {
+					$this->set_specific_status( __( 'Not enough capabilities', 'jet-engine' ) );
+
+					return;
+				}
+
+				if ( ! $allow_register && 1 === count( $this->notifications ) ) {
 					$this->log[] = $this->set_specific_status( 'already_logged_in' );
 
 					return;
@@ -553,10 +568,17 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Notifications' ) ) {
 					$this->log[] = true;
 				}
 
-				if ( $notification['add_user_id'] ) {
+				if ( ! empty( $notification['add_user_id'] ) ) {
 					$this->data['user_id']               = get_current_user_id();
 					$this->handler->form_data['user_id'] = get_current_user_id();
 				}
+
+				if ( ! $allow_register ) {
+					return;
+				}
+
+			} elseif ( $allow_register ) {
+				$this->set_specific_status( __( 'Not Logged in', 'jet-engine' ) );
 
 				return;
 			}

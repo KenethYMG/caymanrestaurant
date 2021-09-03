@@ -107,6 +107,26 @@ class WC_Product_Query extends \Jet_Engine\Query_Builder\Queries\Base_Query {
 			unset( $args['date_query'] );
 		}
 
+		if ( ! empty( $args['tax_query'] ) ) {
+			$raw               = $args['tax_query'];
+			$args['tax_query'] = [];
+
+			if ( ! empty( $args['tax_query_relation'] ) ) {
+				$args['tax_query']['relation'] = $args['tax_query_relation'];
+			}
+
+			foreach ( $raw as $query_row ) {
+				// 'exclude_children' => true  is replaced to 'include_children' => false
+				// 'exclude_children' => false is replaced to 'include_children' => true
+				if ( isset( $query_row['exclude_children'] ) ) {
+					$query_row['include_children'] = ! $query_row['exclude_children'];
+					unset( $query_row['exclude_children'] );
+				}
+
+				$args['tax_query'][] = $query_row;
+			}
+		}
+
 		$this->current_wc_query = new \WC_Product_Query( $args );
 
 		return $this->current_wc_query;
@@ -252,6 +272,7 @@ class WC_Product_Query extends \Jet_Engine\Query_Builder\Queries\Base_Query {
 
 			case 'orderby':
 			case 'order':
+			case 'meta_key':
 				$this->set_filtered_order( $prop, $value );
 				break;
 
@@ -273,11 +294,11 @@ class WC_Product_Query extends \Jet_Engine\Query_Builder\Queries\Base_Query {
 	 */
 	public function set_filtered_order( $key, $value ) {
 
-		if ( empty( $this->final_query['orderby'] ) || ! isset( $this->final_query['orderby']['custom'] ) ) {
-			$this->final_query['orderby'] = [ 'custom' => [] ];
+		if ( empty( $this->final_query['orderby'] ) ) {
+			$this->final_query['orderby'] = 'ID';
 		}
 
-		$this->final_query['orderby']['custom'][ $key ] = $value;
+		$this->final_query[ $key ] = $value;
 
 	}
 

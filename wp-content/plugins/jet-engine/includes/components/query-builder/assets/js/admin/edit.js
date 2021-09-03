@@ -134,6 +134,7 @@
 
 				if ( ! value ) {
 					self.$set( self.generalSettings, 'preview_page', null );
+					self.$set( self.generalSettings, 'preview_page_title', '' );
 					self.updatePreview();
 					return;
 				}

@@ -86,6 +86,10 @@ if ( ! class_exists( 'Jet_Smart_Filters_Sorting_Filter' ) ) {
 			$options_list['meta_value']     = __( 'Meta key', 'jet-smart-filters' );
 			$options_list['meta_value_num'] = __( 'Meta key numeric', 'jet-smart-filters' );
 
+			if ( class_exists( 'Jet_Engine' ) ) {
+				$options_list['clause_value'] = __( 'Clause key', 'jet-smart-filters' );
+			}
+
 			return $options_list;
 
 		}

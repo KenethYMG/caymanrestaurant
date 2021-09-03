@@ -209,7 +209,7 @@ if ( ! class_exists( 'Jet_Smart_Filters_Provider_Jet_Woo_Grid' ) ) {
 			}
 
 			foreach ( $store_settings as $key ) {
-				if ( $key === 'selected_compare_button_icon_normal' || $key === 'selected_compare_button_icon_added' || $key === 'selected_wishlist_button_icon_normal' || $key === 'selected_wishlist_button_icon_added' || $key === 'selected_quickview_button_icon_normal' ) {
+				if ( false !== strpos( $key, 'selected_' ) ) {
 					$default_settings[ $key ] = isset( $settings[ $key ] ) ? htmlspecialchars( $widget->__render_icon( str_replace( 'selected_', '', $key ), '%s', '', false ) ) : '';
 				} else {
 					$default_settings[ $key ] = isset( $settings[ $key ] ) ? $settings[ $key ] : '';
@@ -229,8 +229,8 @@ if ( ! class_exists( 'Jet_Smart_Filters_Provider_Jet_Woo_Grid' ) ) {
 		 * Returns settings to store list
 		 * @return [type] [description]
 		 */
-		public function settings_to_store(){
-			return array(
+		public function settings_to_store() {
+			return apply_filters( 'jet-smart-filters/providers/jet-woo-products-grid/settings-list', [
 				'show_compare',
 				'compare_button_order',
 				'compare_button_order_tablet',
@@ -276,7 +276,7 @@ if ( ! class_exists( 'Jet_Smart_Filters_Provider_Jet_Woo_Grid' ) ) {
 				'selected_next_arrow',
 				'enable_custom_query',
 				'custom_query_id',
-			);
+			] );
 		}
 
 		/**

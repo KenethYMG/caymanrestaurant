@@ -17,6 +17,7 @@ if ( ! class_exists( 'Jet_Engine_Blocks_Views_Render' ) ) {
 
 		private $contents = array();
 		private $enqueued_css = array();
+		private $current_listing = null;
 
 		public function __construct() {
 			add_action( 'enqueue_block_assets', array( jet_engine()->frontend, 'frontend_styles' ) );
@@ -50,16 +51,29 @@ if ( ! class_exists( 'Jet_Engine_Blocks_Views_Render' ) ) {
 		public function get_listing_content( $listing_id ) {
 			$content = $this->get_raw_content( $listing_id );
 			$this->enqueue_listing_css( $listing_id );
-			return do_shortcode( $this->parse_content( $content ) );
+			return do_shortcode( $this->parse_content( $content, $listing_id ) );
 		}
 
 		public function fix_context( $context ) {
+
 			$object = jet_engine()->listings->data->get_current_object();
+
 			if ( $object && 'WP_Post' === get_class( $object ) ) {
 				$context['postId']   = $object->ID;
 				$context['postType'] = $object->post_type;
 			}
+
 			return $context;
+
+		}
+
+		/**
+		 * Returns current listing ID
+		 *
+		 * @return [type] [description]
+		 */
+		public function get_current_listing_id() {
+			return $this->current_listing;
 		}
 
 		/**
@@ -68,10 +82,14 @@ if ( ! class_exists( 'Jet_Engine_Blocks_Views_Render' ) ) {
 		 * @param  [type] $content [description]
 		 * @return [type]          [description]
 		 */
-		public function parse_content( $content ) {
+		public function parse_content( $content, $listing_id ) {
 
 			add_filter( 'render_block_context', array( $this, 'fix_context' ) );
+
+			$this->current_listing = $listing_id;
 			$parsed = do_blocks( $content );
+			$this->current_listing = false;
+
 			remove_filter( 'render_block_context', array( $this, 'fix_context' ) );
 
 			return $parsed;

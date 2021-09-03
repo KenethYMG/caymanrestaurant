@@ -138,7 +138,7 @@ class Edit_Item_Page extends \Jet_Engine_Options_Page_Factory {
 	 * @param  boolean $default [description]
 	 * @return [type]           [description]
 	 */
-	public function get( $option, $default = false, $field = array() ) {
+	public function get( $option = null, $default = false, $field = array() ) {
 
 		$item  = ! empty( $this->page['item'] ) ? $this->page['item'] : array();
 		$value = isset( $item[ $option ] ) ? wp_unslash( $this->pages_manager->factory->maybe_from_timestamp( $item[ $option ], $field ) ) : $default;

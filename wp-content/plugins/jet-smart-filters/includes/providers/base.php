@@ -64,10 +64,19 @@ if ( ! class_exists( 'Jet_Smart_Filters_Provider_Base' ) ) {
 		/**
 		 * Set prefix for unique ID selector. Mostly is default '#' sign, but sometimes class '.' sign needed
 		 *
-		 * @return bool
+		 * @return string
 		 */
 		public function id_prefix() {
 			return '#';
+		}
+
+		/**
+		 * If true, then only data without content is expected in the ajax response
+		 *
+		 * @return bool
+		 */
+		public function is_data() {
+			return false;
 		}
 
 		public function merge_query( $query_args, $default_query_args ) {

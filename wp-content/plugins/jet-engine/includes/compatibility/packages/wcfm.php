@@ -53,7 +53,7 @@ if ( ! class_exists( 'Jet_Engine_WCFM_Package' ) ) {
 		 *
 		 * @return [type] [description]
 		 */
-		public function update_settings( $user_id, $wcfm_settings_form = array() ) {
+		public function update_settings( $user_id = null, $wcfm_settings_form = array() ) {
 
 			if ( empty( $wcfm_settings_form['jet_wcfm'] ) ) {
 				return;

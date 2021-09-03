@@ -437,7 +437,7 @@ if ( ! class_exists( 'Jet_Engine_Blocks_Views_Type_Grid' ) ) {
 			add_action( 'jet-engine/listing/grid-items/before', array( $this, 'slider_before' ), 10, 2 );
 			add_action( 'jet-engine/listing/grid-items/after', array( $this, 'slider_after' ), 10, 2 );
 
-			$render->render();
+			$render->render_content();
 
 			remove_action( 'jet-engine/listing/grid-items/before', array( $this, 'slider_before' ), 10, 2 );
 			remove_action( 'jet-engine/listing/grid-items/after', array( $this, 'slider_after' ), 10, 2 );
@@ -468,8 +468,6 @@ if ( ! class_exists( 'Jet_Engine_Blocks_Views_Type_Grid' ) ) {
 			}
 
 			$content = ob_get_clean();
-
-			jet_engine()->frontend->frontend_scripts();
 
 			return sprintf(
 				'<div class="jet-listing-grid--blocks%3$s" data-element-id="%1$s" data-listing-type="blocks">%2$s</div>',

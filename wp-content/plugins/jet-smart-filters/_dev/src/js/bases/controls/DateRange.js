@@ -47,14 +47,15 @@ export default class DateRangeControl extends Filter {
 	}
 
 	setData(newData) {
+		console.log(newData);
 		this.$dateRangeInput.val(newData);
 
 		const data = newData.split('-');
 
 		if (data[0])
-			this.$dateRangeFrom.val($.datepicker.formatDate(this.dateFormat, new Date(data[0].replaceAll('.', '-'))));
+			this.$dateRangeFrom.val($.datepicker.formatDate(this.dateFormat, new Date(data[0].replaceAll('.', '/'))));
 		if (data[1])
-			this.$dateRangeTo.val($.datepicker.formatDate(this.dateFormat, new Date(data[1].replaceAll('.', '-'))));
+			this.$dateRangeTo.val($.datepicker.formatDate(this.dateFormat, new Date(data[1].replaceAll('.', '/'))));
 
 		this.processData();
 	}

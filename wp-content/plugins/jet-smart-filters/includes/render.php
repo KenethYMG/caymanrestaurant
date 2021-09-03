@@ -128,7 +128,7 @@ if ( ! class_exists( 'Jet_Smart_Filters_Render' ) ) {
 					continue;
 				}
 
-				$_REQUEST[$query_var] = $matches[1][0];
+				$_REQUEST[$query_var] = urldecode( $matches[1][0] );
 			}
 
 			$this->apply_filters_from_request();
@@ -192,6 +192,10 @@ if ( ! class_exists( 'Jet_Smart_Filters_Render' ) ) {
 				'content'    => $this->render_content( $provider ),
 				'pagination' => jet_smart_filters()->query->get_current_query_props()
 			);
+
+			if ( $provider->is_data() ) {
+				$args['is_data'] = 1;
+			}
 
 			$args = apply_filters( 'jet-smart-filters/render/ajax/data', $args );
 

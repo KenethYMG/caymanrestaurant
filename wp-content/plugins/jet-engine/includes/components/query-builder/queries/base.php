@@ -8,11 +8,13 @@ abstract class Base_Query {
 	public $query         = array();
 	public $dynamic_query = array();
 	public $final_query   = null;
+	public $query_type    = null;
 
 	public function __construct( $args = array() ) {
 
 		$this->id            = ! empty( $args['id'] ) ? $args['id'] : false;
 		$this->name          = ! empty( $args['name'] ) ? $args['name'] : false;
+		$this->query_type    = ! empty( $args['type'] ) ? $args['type'] : false;
 		$this->query         = ! empty( $args['query'] ) ? $args['query'] : false;
 		$this->dynamic_query = ! empty( $args['dynamic_query'] ) ? $args['dynamic_query'] : false;
 

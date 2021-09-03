@@ -354,7 +354,7 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Builder' ) ) {
 		 * @param bool|string $checked
 		 * @return string
 		 */
-		public function get_custom_template( $object_id, $args, $checked = false ) {
+		public function get_custom_template( $object_id = null, $args = array(), $checked = false ) {
 
 			$listing_id = ! empty( $args['custom_item_template_id'] ) ? $args['custom_item_template_id'] : false;
 			$listing_id = absint( $listing_id );
@@ -473,7 +473,7 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Builder' ) ) {
 		/**
 		 * Add attribute
 		 */
-		public function add_attribute( $attr, $value = null ) {
+		public function add_attribute( $attr = null, $value = null ) {
 
 			if ( '' === $value ) {
 				return;
@@ -550,7 +550,7 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Builder' ) ) {
 		/**
 		 * Render current repeater row
 		 */
-		public function render_repeater_row( $children, $index = false, $manage_items = 'manually', $calc_dataset = '' ) {
+		public function render_repeater_row( $children = array(), $index = false, $manage_items = 'manually', $calc_dataset = '' ) {
 
 			if ( false !== $index ) {
 				$this->current_repeater_i = $index;
@@ -917,7 +917,7 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Builder' ) ) {
 		 * @param  [type] $content [description]
 		 * @return [type]          [description]
 		 */
-		public function ensure_mask_js( $content, $popup_data = array() ) {
+		public function ensure_mask_js( $content = null, $popup_data = array() ) {
 
 			ob_start();
 
@@ -941,7 +941,7 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Builder' ) ) {
 		 * @param  [type] $content [description]
 		 * @return [type]          [description]
 		 */
-		public function ensure_wysiwyg_js( $content, $popup_data = array() ) {
+		public function ensure_wysiwyg_js( $content = null, $popup_data = array() ) {
 
 			if ( ! empty( $popup_data['hasEditor'] ) ) {
 				return $content;
@@ -973,7 +973,7 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Builder' ) ) {
 		public function maybe_adjust_value( $args ) {
 
 			if ( 'hidden' === $args['type'] ) {
-				return $args['default'];
+				return isset( $args['default'] ) ? $args['default'] : '';
 			}
 
 			$value       = isset( $args['default'] ) ? $args['default'] : false;

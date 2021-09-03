@@ -7,37 +7,29 @@
                 query_posts('post_type=restaurants&posts_per_page=3');
                 //While Food in the news
                 while (have_posts()): the_post();
-
-                //Get Image Field
-                $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail');
-                $ImageUrl = $image[0];
-                
-                //Description
-                $content = get_the_content();
-                $content = strip_tags($content);
-
                 //Get Location Restaurant Field
-                $location_restaurant = get_post_meta( get_the_ID(), 'location_address', true );
-                
-                
+                $location_restaurant = get_post_meta( get_the_ID(), 'restaurant-location', true );
             ?>
             <!--col-->
             <div class="col-12 col-md-4 col-lg-4 mb-5 boxItemGray">
                 <div class="card">
                     <div class="boxImage">
-                        <img src="<?php echo $ImageUrl; ?>"  class="img-fluid">
+                        <?php the_post_thumbnail('full', array('class'=>'img-fluid')); ?>
                     </div>
                     <div class="card-body">
                         <h3 class="card-title font_Trebuchet text-uppercase mb-4"><?php echo the_title(); ?></h3>
-                        <p class="card-text font_Trebuchet mb-4"><?php echo substr($content, 0, 112); ?></p>
-                        <span class="card-location font_Trebuchet mb-2"><i class="bi bi-tag"></i><?php echo $location_restaurant; ?></span>
+                        <p class="card-text font_Trebuchet mb-4"><?php the_excerpt(); ?></p>
+                        <p class="card-location font_Trebuchet mb-2"><i class="bi bi-tag"></i><?php echo $location_restaurant; ?></p>
                         <a href="<?php the_permalink();?>" class="buttonLink btn btn-light btn-lg btn-orange font-white  text-uppercase font_Din_Condensed_Bold">Find Out More</a>
                     </div>
                 </div>
             </div>
             <!--col-->
 
-            <?php endwhile; ?>
+            <?php 
+                endwhile; 
+                wp_reset_query();
+            ?>
         </div>
     </div>
     <a href="" class="button_view_more views_read_more  text-uppercase font-white font_Din_Condensed_Bold">

@@ -268,7 +268,7 @@ class Jet_Engine_Check_Mark_Widget extends Widget_Base {
 
 	protected function render() {
 		$instance = jet_engine()->listings->get_render_instance( 'check-mark', $this->get_settings_for_display() );
-		$instance->render();
+		$instance->render_content();
 	}
 
 }

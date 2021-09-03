@@ -119,7 +119,7 @@ if ( ! class_exists( 'Cherry_X_Term_Meta' ) ) {
 		 * @param  mixed            $default default argument value.
 		 * @return mixed
 		 */
-		public function get_arg( $field, $arg, $default = '' ) {
+		public function get_arg( $field = array(), $arg = '', $default = '' ) {
 			if ( is_array( $field ) && isset( $field[ $arg ] ) ) {
 				return $field[ $arg ];
 			}
@@ -182,7 +182,7 @@ if ( ! class_exists( 'Cherry_X_Term_Meta' ) ) {
 		 * @param  array  $field   Meta field appropriate to current key.
 		 * @return string
 		 */
-		public function get_meta( $term, $key, $default = false, $field = array() ) {
+		public function get_meta( $term = null, $key = '', $default = false, $field = array() ) {
 
 			if ( ! is_object( $term ) ) {
 				return $default;

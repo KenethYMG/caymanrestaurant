@@ -71,7 +71,41 @@ abstract class Base {
 		$current_value = null;
 
 		if ( ! empty( $args['field_raw'] ) ) {
-			$current_value = get_post_meta( get_the_ID(), $args['field_raw'], true );
+
+			$context = ! empty( $args['context'] ) ? $args['context'] : 'default';
+
+			if ( 'current_listing' === $context ) {
+
+				$object_id = jet_engine()->listings->data->get_current_object_id();
+				$object    = jet_engine()->listings->data->get_current_object();
+
+				if ( $object && is_object( $object ) ) {
+					switch ( get_class( $object ) ) {
+
+						case 'WP_Comment':
+							$current_value = get_comment_meta( $object_id, $args['field_raw'], true );
+							break;
+
+						case 'WP_Term':
+							$current_value = get_term_meta( $object_id, $args['field_raw'], true );
+							break;
+
+						case 'WP_User':
+							$current_value = get_user_meta( $object_id, $args['field_raw'], true );
+							break;
+
+						default:
+							$current_value = get_post_meta( $object_id, $args['field_raw'], true );
+							break;
+
+					}
+
+				}
+
+			} else {
+				$current_value = get_post_meta( get_the_ID(), $args['field_raw'], true );
+			}
+
 		} else {
 			$current_value = $args['field'];
 		}

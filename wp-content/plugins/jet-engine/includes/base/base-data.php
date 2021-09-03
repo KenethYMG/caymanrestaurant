@@ -159,7 +159,7 @@ if ( ! class_exists( 'Jet_Engine_Base_Data' ) ) {
 		/**
 		 * Rewrite this function in the child class to perform any actions on item update
 		 */
-		public function after_item_update( $item, $is_new = false ) {}
+		public function after_item_update( $item = array(), $is_new = false ) {}
 
 		/**
 		 * Rewrite this function in the child class to perform any actions on item delete

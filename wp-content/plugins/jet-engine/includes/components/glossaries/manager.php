@@ -40,6 +40,16 @@ class Manager {
 		$this->forms       = new Forms();
 		$this->filters     = new Filters();
 
+		add_filter( 'mime_types', array( $this, 'ensure_allowed_import_mimes' ) );
+
+	}
+
+	public function ensure_allowed_import_mimes( $mimes ) {
+
+		$mimes['json'] = 'application/json';
+		$mimes['csv']  = 'text/csv';
+
+		return $mimes;
 	}
 
 	/**

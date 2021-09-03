@@ -100,7 +100,7 @@ class Render_Links {
 	/**
 	 * register count macros
 	 */
-	public function post_count( $store, $post_id = false ) {
+	public function post_count( $store = null, $post_id = false ) {
 
 		$store_instance = Module::instance()->stores->get_store( $store );
 

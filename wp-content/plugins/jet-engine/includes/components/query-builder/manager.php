@@ -93,17 +93,7 @@ class Manager extends \Jet_Engine_Base_WP_Intance {
 
 		add_action( 'jet-engine/rest-api/init-endpoints', array( $this, 'init_rest' ) );
 
-		if ( is_admin() ) {
-			add_action( 'admin_menu', array( $this, 'add_menu_page' ), 20 );
-		}
-
-		if ( ! $this->is_cpt_page() ) {
-			return;
-		}
-
-		add_action( 'admin_init', array( $this, 'register_pages' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ), 0 );
-		add_action( 'admin_init', array( $this, 'handle_actions' ) );
+		$this->init_admin_pages();
 
 	}
 
@@ -236,6 +226,10 @@ class Manager extends \Jet_Engine_Base_WP_Intance {
 		return isset( $this->queries[ $id ] ) ? $this->queries[ $id ] : false;
 	}
 
+	public function get_queries() {
+		return $this->queries;
+	}
+
 	/**
 	 * Return admin pages for current instance
 	 *
@@ -272,7 +266,7 @@ class Manager extends \Jet_Engine_Base_WP_Intance {
 	 *
 	 * @return [type] [description]
 	 */
-	public function get_queries_for_options( $blocks = false ) {
+	public function get_queries_for_options( $blocks = false, $type = null ) {
 
 		$items = $this->data->get_items();
 
@@ -287,7 +281,17 @@ class Manager extends \Jet_Engine_Base_WP_Intance {
 		}
 
 		foreach ( $items as $item ) {
+
 			$labels = maybe_unserialize( $item['labels'] );
+
+			if ( $type ) {
+				$args = maybe_unserialize( $item['args'] );
+
+				if ( empty( $args['query_type'] ) || $args['query_type'] !== $type ) {
+					continue;
+				}
+
+			}
 
 			if ( $blocks ) {
 				$result[] = array(

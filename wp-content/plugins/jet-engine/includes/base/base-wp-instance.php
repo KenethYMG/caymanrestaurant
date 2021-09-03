@@ -84,6 +84,17 @@ if ( ! class_exists( 'Jet_Engine_Base_WP_Intance' ) ) {
 
 			add_action( 'jet-engine/rest-api/init-endpoints', array( $this, 'init_rest' ) );
 
+			$this->init_admin_pages();
+
+		}
+
+		/**
+		 * Initialize instance-related admin pages
+		 *
+		 * @return [type] [description]
+		 */
+		public function init_admin_pages() {
+
 			if ( is_admin() ) {
 				add_action( 'admin_menu', array( $this, 'add_menu_page' ), 20 );
 			}
@@ -193,7 +204,9 @@ if ( ! class_exists( 'Jet_Engine_Base_WP_Intance' ) ) {
 		 */
 		public function register_pages() {
 
-			$this->data->ensure_db_table();
+			if ( $this->data ) {
+				$this->data->ensure_db_table();
+			}
 
 			if ( ! class_exists( 'Jet_Engine_CPT_Page_Base' ) ) {
 				require_once jet_engine()->plugin_path( 'includes/base/base-admin-page.php' );
@@ -202,8 +215,12 @@ if ( ! class_exists( 'Jet_Engine_Base_WP_Intance' ) ) {
 			$default = $this->get_instance_pages();
 
 			foreach ( $default as $class => $file ) {
-				require $file;
-				$this->register_page( $class );
+				if ( is_object( $file ) ) {
+					$this->register_page( $file );
+				} else {
+					require $file;
+					$this->register_page( $class );
+				}
 			}
 
 			/**
@@ -219,8 +236,15 @@ if ( ! class_exists( 'Jet_Engine_Base_WP_Intance' ) ) {
 		 * @return [type] [description]
 		 */
 		public function register_page( $class ) {
-			$page = new $class( $this );
+
+			if ( is_object( $class ) ) {
+				$page = $class;
+			} else {
+				$page = new $class( $this );
+			}
+
 			$this->_pages[ $page->get_slug() ] = $page;
+
 		}
 
 		/**

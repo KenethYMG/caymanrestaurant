@@ -31,8 +31,18 @@ if ( ! class_exists( 'Jet_Engine_REST_API' ) ) {
 			require_once jet_engine()->plugin_path( 'includes/base/base-api-endpoint.php' );
 
 			require jet_engine()->plugin_path( 'includes/rest-api/endpoints/search-posts.php' );
+			require jet_engine()->plugin_path( 'includes/rest-api/endpoints/add-item.php' );
+			require jet_engine()->plugin_path( 'includes/rest-api/endpoints/edit-item.php' );
+			require jet_engine()->plugin_path( 'includes/rest-api/endpoints/delete-item.php' );
+			require jet_engine()->plugin_path( 'includes/rest-api/endpoints/get-item.php' );
+			require jet_engine()->plugin_path( 'includes/rest-api/endpoints/get-items.php' );
 
 			$this->register_endpoint( new Jet_Engine_Rest_Search_Posts() );
+			$this->register_endpoint( new Jet_Engine_Rest_Add_Item() );
+			$this->register_endpoint( new Jet_Engine_Rest_Edit_Item() );
+			$this->register_endpoint( new Jet_Engine_Rest_Delete_Item() );
+			$this->register_endpoint( new Jet_Engine_Rest_Get_Item() );
+			$this->register_endpoint( new Jet_Engine_Rest_Get_Items() );
 
 			do_action( 'jet-engine/rest-api/init-endpoints', $this );
 

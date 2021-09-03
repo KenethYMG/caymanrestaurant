@@ -129,18 +129,10 @@ a:focus{
 .text-uppercase {
     text-transform: uppercase;
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> Master
 /**font colors**/
 .font-dark-blue{
     color:#003B71;
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> Master
 .font-orange{
     color:#E65300;
 }
@@ -149,16 +141,6 @@ a:focus{
 }
 .font-light-blue{
     color:#007CBA;
-<<<<<<< HEAD
-}
-
-.font-teal{
-    color:#0095A9;
-}
-.color-green{
-    color:#AAC27F;
-}
-=======
 }
 
 .font-teal{
@@ -169,39 +151,10 @@ a:focus{
     color:#AAC27F;
 }
 
->>>>>>> Master
 /**bg colors**/
 .bg-dark-blue{
     background:#003B71;
 }
-<<<<<<< HEAD
-.bg-orange{
-    background:#E65300;
-}
-.bg-blue{
-    background:#00205C;
-}
-.bg-light-blue{
-    background:#007CBA;
-}
-.bg-teal{
-    background:#0095A9;
-}
-.bg-green{
-    background:#AAC27F;
-}
-.font-uppercase{
-    text-transform: uppercase;
-}
-/**/
-.font_Tahu{
-    font-family: 'Conv_Tahu!';
-}
-/*font-family: 'Conv_Tahu!'; - IMPACT HEADING*/
-.font_Tahu{
-    font-family: 'Conv_Tahu!';
-}
-=======
 
 .bg-orange{
     background:#E65300;
@@ -223,42 +176,23 @@ a:focus{
     background:#AAC27F;
 }
 
-
-
 /*font-family: 'Conv_Tahu!'; - IMPACT HEADING*/
 .font_Tahu{
     font-family: 'Conv_Tahu!';
 }
 
->>>>>>> Master
 /*font-family: 'Conv_DIN Condensed Bold'; - HEADINGS*/
 .font_Din_Condensed_Bold{
     font-family: 'Conv_DIN Condensed Bold';
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> Master
 /* font-family: "Trebuchet MS BOLD"; - SUB HEADINGS*/
 .font_Trebuchet_Bold{
     font-family: 'Conv_trebuchet-ms-bold';
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> Master
 /* font-family: "Trebuchet MS"; - BODY COPY*/
 .font_Trebuchet{
     font-family: 'Conv_Trebuchet_MS';
 }
-<<<<<<< HEAD
-=======
-
-
-
-
-
->>>>>>> Master
 .btn-blue{
     background-color: #0095A9 !important;
     border-color:#0095A9 !important;
@@ -422,8 +356,6 @@ HEADER
 */
 
 
-<<<<<<< HEAD
-=======
 /**font**/
 /*DIN Condensed Bold*/
 @font-face {
@@ -492,7 +424,6 @@ HEADER
 */
 
 
->>>>>>> Master
 
 /*======= MENU PRINCIPAL ========*/
 
@@ -959,7 +890,7 @@ HEADER
     justify-content: center;
     align-items: center;
     font-family: 'Conv_Trebuchet_MS';
-    font-size:14px;
+    font-size:18px;
     max-width: 980px;
     margin:0 auto;
 }
@@ -1283,9 +1214,6 @@ HOME
 }
 .textindex{
     z-index: 1;
-}
-.title-home{
-    font-family: 'Tahu';
 }
 .btn-orange{
     background-color: #FF5C00 !important;

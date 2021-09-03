@@ -17,7 +17,7 @@ class Block_Generator {
 		$this->raw_blocks = $raw_blocks;
 	}
 
-	public function add_block( $namespace, $attrs = array(), $additional = array() ) {
+	public function add_block( $namespace = null, $attrs = array(), $additional = array() ) {
 		$this->raw_blocks[] = array_merge(
 			array(
 				'blockName' => $namespace,

@@ -152,7 +152,7 @@ class Manager {
 	 * @param  string $tag  [description]
 	 * @return [type]       [description]
 	 */
-	public function iterate_data( $data, $tag = 'tr' ) {
+	public function iterate_data( $data = array(), $tag = 'tr' ) {
 
 		$row   = ( 'tr' === $tag ) ? 'tr' : 'div';
 		$title = ( 'tr' === $tag ) ? 'td' : 'b';

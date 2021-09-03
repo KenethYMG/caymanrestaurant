@@ -117,11 +117,11 @@ if ( ! class_exists( 'Jet_Engine_Render_Dynamic_Field' ) ) {
 
 						if ( 'post_content' === $field ) {
 
-							static $did_posts = array();
 							$post_id = get_the_ID();
 
-							if ( ! in_array( $post_id, $did_posts ) ) {
-								$did_posts[] = $post_id;
+							if ( ! jet_engine()->listings->did_posts->did_post( $post_id ) ) {
+
+								jet_engine()->listings->did_posts->do_post( $post_id );
 
 								if ( jet_engine()->has_elementor() && Elementor\Plugin::$instance->documents->get( $post_id )
 									&& Elementor\Plugin::$instance->documents->get( $post_id )->is_built_with_elementor()

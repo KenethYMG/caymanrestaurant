@@ -120,7 +120,7 @@ if ( ! class_exists( 'Jet_Engine_Module_Calendar' ) ) {
 			}
 
 			$instance = jet_engine()->listings->get_render_instance( 'listing-calendar', $settings );
-			$instance->render();
+			$instance->render_content();
 
 			wp_send_json_success( array(
 				'content' => ob_get_clean(),

@@ -108,10 +108,29 @@
 											value: 'modified',
 											label: 'Last modified date',
 										},
+										{
+											value: 'meta_value',
+											label: 'Meta Value',
+										},
+										{
+											value: 'meta_value_num',
+											label: 'Numeric Meta Value',
+										},
 									]"
 					size="fullwidth"
 					v-model="query.orderby"
 				></cx-vui-select>
+				<cx-vui-input
+					label="<?php _e( 'Meta Key', 'jet-engine' ); ?>"
+					description="<?php _e( 'Set meta field key.', 'jet-engine' ); ?>"
+					:wrapper-css="[ 'equalwidth', 'has-macros' ]"
+					size="fullwidth"
+					name="query_meta_key"
+					v-model="query.meta_key"
+					v-if="'meta_value_num' === query.orderby || 'meta_value' === query.orderby"
+				>
+					<jet-query-dynamic-args v-model="dynamicQuery.meta_key"></jet-query-dynamic-args>
+				</cx-vui-input>
 				<cx-vui-select
 					label="<?php _e( 'Order', 'jet-engine' ); ?>"
 					description="<?php _e( 'Designates the ascending or descending order of the `Order By` parameter.', 'jet-engine' ); ?>"
@@ -763,6 +782,134 @@
 					]"
 					size="fullwidth"
 					v-model="query.meta_query_relation"
+				></cx-vui-select>
+			</cx-vui-tabs-panel>
+			<cx-vui-tabs-panel
+				name="tax_query"
+				label="<?php _e( 'Tax Query', 'jet-engine' ); ?>"
+				key="tax_query"
+			>
+				<cx-vui-component-wrapper
+					:wrapper-css="[ 'query-fullwidth' ]"
+				>
+					<div class="cx-vui-inner-panel query-panel">
+						<div class="cx-vui-component__label"><?php _e( 'Tax Query Clauses', 'jet-engine' ); ?></div>
+						<cx-vui-repeater
+							button-label="<?php _e( 'Add new', 'jet-engine' ); ?>"
+							button-style="accent"
+							button-size="mini"
+							v-model="query.tax_query"
+							@add-new-item="addNewField( $event, [], query.tax_query, newDynamicTax )"
+						>
+							<cx-vui-repeater-item
+								v-for="( taxClause, index ) in query.tax_query"
+								:collapsed="isCollapsed( taxClause )"
+								:index="index"
+								@clone-item="cloneField( $event, taxClause._id, query.tax_query, newDynamicTax )"
+								@delete-item="deleteField( $event, taxClause._id, query.tax_query, deleteDynamicTax )"
+								:key="taxClause._id"
+							>
+								<cx-vui-select
+									label="<?php _e( 'Taxonomy', 'jet-engine' ); ?>"
+									description="<?php _e( 'Select taxonomy to get posts from', 'jet-engine' ); ?>"
+									:wrapper-css="[ 'equalwidth' ]"
+									:options-list="taxonomies"
+									size="fullwidth"
+									:value="query.tax_query[ index ].taxonomy"
+									@input="setFieldProp( taxClause._id, 'taxonomy', $event, query.tax_query )"
+								></cx-vui-select>
+								<cx-vui-select
+									label="<?php _e( 'Field', 'jet-engine' ); ?>"
+									description="<?php _e( 'Select taxonomy term by. Default value is `Term ID`.', 'jet-engine' ); ?>"
+									:wrapper-css="[ 'equalwidth' ]"
+									:options-list="[
+										{
+											value: 'term_id',
+											label: '<?php _e( 'Term ID', 'jet-engine' ); ?>',
+										},
+										{
+											value: 'name',
+											label: '<?php _e( 'Name', 'jet-engine' ); ?>',
+										},
+										{
+											value: 'slug',
+											label: '<?php _e( 'Slug', 'jet-engine' ); ?>',
+										},
+										{
+											value: 'term_taxonomy_id',
+											label: '<?php _e( 'Term taxonomy ID', 'jet-engine' ); ?>',
+										},
+									]"
+									size="fullwidth"
+									:value="query.tax_query[ index ].field"
+									@input="setFieldProp( taxClause._id, 'field', $event, query.tax_query )"
+								></cx-vui-select>
+								<cx-vui-input
+									label="<?php _e( 'Terms', 'jet-engine' ); ?>"
+									description="<?php _e( 'Taxonomy term(s) to get posts by.', 'jet-engine' ); ?>"
+									:wrapper-css="[ 'equalwidth', 'has-macros' ]"
+									size="fullwidth"
+									:value="query.tax_query[ index ].terms"
+									@input="setFieldProp( taxClause._id, 'terms', $event, query.tax_query )"
+								><jet-query-dynamic-args v-model="dynamicQuery.tax_query[ taxClause._id ].terms"></jet-query-dynamic-args></cx-vui-input>
+								<cx-vui-switcher
+									label="<?php _e( 'Exclude children', 'jet-engine' ); ?>"
+									description="<?php _e( 'By default children for hierarchical taxonomies will be included into query results. Enable this option to exclude children terms.', 'jet-engine' ); ?>"
+									:wrapper-css="[ 'equalwidth' ]"
+									:value="query.tax_query[ index ].exclude_children"
+									@input="setFieldProp( taxClause._id, 'exclude_children', $event, query.tax_query )"
+								></cx-vui-switcher>
+								<cx-vui-select
+									label="<?php _e( 'Compare operator', 'jet-engine' ); ?>"
+									description="<?php _e( 'Operator to test terms against.', 'jet-engine' ); ?>"
+									:wrapper-css="[ 'equalwidth' ]"
+									:options-list="[
+										{
+											value: 'IN',
+											label: 'IN',
+										},
+										{
+											value: 'NOT IN',
+											label: 'NOT IN',
+										},
+										{
+											value: 'AND',
+											label: 'AND',
+										},
+										{
+											value: 'EXISTS',
+											label: 'EXISTS',
+										},
+										{
+											value: 'NOT EXISTS',
+											label: 'NOT EXISTS',
+										}
+									]"
+									size="fullwidth"
+									:value="query.tax_query[ index ].operator"
+									@input="setFieldProp( taxClause._id, 'operator', $event, query.tax_query )"
+								></cx-vui-select>
+							</cx-vui-repeater-item>
+						</cx-vui-repeater>
+					</div>
+				</cx-vui-component-wrapper>
+				<cx-vui-select
+					v-if="1 < query.tax_query.length"
+					label="<?php _e( 'Relation', 'jet-engine' ); ?>"
+					description="<?php _e( 'The logical relationship between tax query clauses', 'jet-engine' ); ?>"
+					:wrapper-css="[ 'equalwidth' ]"
+					:options-list="[
+						{
+							value: 'and',
+							label: '<?php _e( 'And', 'jet-engine' ); ?>',
+						},
+						{
+							value: 'or',
+							label: '<?php _e( 'Or', 'jet-engine' ); ?>',
+						},
+					]"
+					size="fullwidth"
+					v-model="query.tax_query_relation"
 				></cx-vui-select>
 			</cx-vui-tabs-panel>
 		</cx-vui-tabs>

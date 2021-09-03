@@ -115,7 +115,7 @@ if ( ! class_exists( 'Jet_Engine_Relations_Hierarchy' ) ) {
 		 * @param  [type] $post_type [description]
 		 * @return [type]            [description]
 		 */
-		public function get_grandparent( $from_post_type, $current = null, $post_id = null ) {
+		public function get_grandparent( $from_post_type = null, $current = null, $post_id = null ) {
 
 			if ( ! $current ) {
 				$current = get_post_type();
@@ -166,7 +166,7 @@ if ( ! class_exists( 'Jet_Engine_Relations_Hierarchy' ) ) {
 		 * @param  [type] $post_type [description]
 		 * @return [type]            [description]
 		 */
-		public function get_grandchild( $from_post_type, $current = null, $post_id = null ) {
+		public function get_grandchild( $from_post_type = null, $current = null, $post_id = null ) {
 
 			if ( ! $current ) {
 				$current = get_post_type();
@@ -215,7 +215,7 @@ if ( ! class_exists( 'Jet_Engine_Relations_Hierarchy' ) ) {
 		 *
 		 * @return [type] [description]
 		 */
-		public function get_posts_by_trail( $post_id, $trail = array(), $dir = 'down', $column = false ) {
+		public function get_posts_by_trail( $post_id = null, $trail = array(), $dir = 'down', $column = false ) {
 
 			$post_types = $trail['post_types'];
 			$keys       = $trail['keys'];

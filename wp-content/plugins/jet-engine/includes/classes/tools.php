@@ -192,7 +192,7 @@ class Jet_Engine_Tools {
 	 *
 	 * @return [type] [description]
 	 */
-	public static function render_icon( $icon, $icon_class, $custom_atts = array() ) {
+	public static function render_icon( $icon = null, $icon_class = '', $custom_atts = array() ) {
 
 		$custom_atts_string = '';
 
@@ -297,7 +297,7 @@ class Jet_Engine_Tools {
 	 * @param  bool|string $key
 	 * @return bool
 	 */
-	public static function is_empty( $source, $key = false ) {
+	public static function is_empty( $source = null, $key = false ) {
 
 		if ( is_array( $source ) && $key ) {
 

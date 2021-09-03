@@ -207,11 +207,15 @@ if ( ! class_exists( 'Jet_Engine_Listings_Data' ) ) {
 		 *
 		 * @return [type] [description]
 		 */
-		public function get_listing() {
+		public function get_listing( $listing_id = false ) {
 
 			if ( ! $this->current_listing ) {
-				$default_settings      = $this->setup_default_listing();
-				$this->current_listing = jet_engine()->listings->get_new_doc( $default_settings, get_the_ID() );
+				if ( ! $listing_id ) {
+					$default_settings      = $this->setup_default_listing();
+					$this->current_listing = jet_engine()->listings->get_new_doc( $default_settings, get_the_ID() );
+				} else {
+					$this->set_listing_by_id( $listing_id );
+				}
 			}
 
 			return $this->current_listing;
@@ -221,7 +225,7 @@ if ( ! class_exists( 'Jet_Engine_Listings_Data' ) ) {
 		 * Retuns current object fields array
 		 * @return [type] [description]
 		 */
-		public function get_object_fields( $where = 'elementor' ) {
+		public function get_object_fields( $where = 'elementor', $blocks_values_key = 'values' ) {
 
 			switch ( $this->get_listing_source() ) {
 
@@ -333,9 +337,11 @@ if ( ! class_exists( 'Jet_Engine_Listings_Data' ) ) {
 						);
 					}
 
+					$values_key = ! empty( $blocks_values_key ) ? $blocks_values_key : 'values';
+
 					$result[] = array(
-						'label'  => $group['label'],
-						'values' => $values,
+						'label'     => $group['label'],
+						$values_key => $values,
 					);
 
 				}
@@ -392,9 +398,9 @@ if ( ! class_exists( 'Jet_Engine_Listings_Data' ) ) {
 		 *
 		 * @return [type] [description]
 		 */
-		public function get_listing_settings() {
+		public function get_listing_settings( $listing_id = false ) {
 
-			$listing = $this->get_listing();
+			$listing = $this->get_listing( $listing_id );
 
 			if ( ! $listing ) {
 				return $this->defaults;
@@ -904,7 +910,7 @@ if ( ! class_exists( 'Jet_Engine_Listings_Data' ) ) {
 		 * @param  [type] $key [description]
 		 * @return [type]      [description]
 		 */
-		public function get_meta( $key, $object = null ) {
+		public function get_meta( $key = null, $object = null ) {
 
 			if ( in_array( $key, $this->user_fields ) ) {
 

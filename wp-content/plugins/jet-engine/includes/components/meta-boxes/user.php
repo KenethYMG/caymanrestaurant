@@ -259,7 +259,7 @@ if ( ! class_exists( 'Jet_Engine_CPT_User_Meta' ) ) {
 		 * @param  mixed            $default default argument value.
 		 * @return mixed
 		 */
-		public function get_arg( $field, $arg, $default = '' ) {
+		public function get_arg( $field = array(), $arg = '', $default = '' ) {
 			if ( is_array( $field ) && isset( $field[ $arg ] ) ) {
 				return $field[ $arg ];
 			}
@@ -278,7 +278,7 @@ if ( ! class_exists( 'Jet_Engine_CPT_User_Meta' ) ) {
 		 * @param  array  $field   Meta field apropriate to current key.
 		 * @return string
 		 */
-		public function get_meta( $key, $default = false, $field = array() ) {
+		public function get_meta( $key = '', $default = false, $field = array() ) {
 
 			$user_id = $this->get_user_id();
 

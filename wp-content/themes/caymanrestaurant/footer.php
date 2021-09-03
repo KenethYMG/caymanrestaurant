@@ -13,7 +13,7 @@
                     <div class="col-12 col-md-6 col-lg-6 text-center text-md-end text-lg-end text-uppercase font-orange textFollow font_Din_Condensed_Bold">Follow Us</div>
                     <!--Social Media-->
                     <div class="col-12 col-md-6 col-lg-6 text-center text-md-start text-lg-start social_box">
-                        <?php echo social_media_area(); ?>
+                        <?php// echo social_media_area(); ?>
                     </div>
 
                 </div>

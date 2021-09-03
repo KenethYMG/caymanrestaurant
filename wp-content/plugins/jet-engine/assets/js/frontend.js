@@ -178,6 +178,7 @@
 					}
 
 					query.post__in = posts;
+					query.is_front_store = true;
 
 					JetEngine.ajaxGetListing( {
 						handler: 'get_listing',
@@ -204,7 +205,8 @@
 			event.preventDefault();
 
 			var $this = $( this ),
-				args  = $this.data( 'args' );
+				args  = $this.data( 'args' ),
+				isDataStoreBtn = $this.hasClass( 'jet-data-store-link' );
 
 			if ( args.store.is_front ) {
 
@@ -226,10 +228,46 @@
 					JetEngine.switchDataStoreStatus( $( this ), true );
 				} );
 
+				$( '.jet-data-store-link.jet-remove-from-store[data-store="' + args.store.slug + '"][data-post="' + args.post_id + '"]' ).each( function() {
+					JetEngine.switchDataStoreStatus( $( this ), true );
+				} );
+
 				$( 'span.jet-engine-data-store-count[data-store="' + args.store.slug + '"]' ).text( count );
 
 				if ( args.remove_from_listing ) {
 					$this.closest( '.jet-listing-dynamic-post-' + args.post_id ).remove();
+				}
+
+				if ( args.synch_id ) {
+					var $container     = $( '#' + args.synch_id ),
+						$elemContainer = $container.find( '> .elementor-widget-container' ),
+						$items         = $container.find( '.jet-listing-grid__items' ),
+						posts          = [],
+						nav            = $items.data( 'nav' ) || {},
+						query          = nav.query || {};
+
+					posts = store.getStore( args.store.slug );
+
+					if ( ! posts.length ) {
+						posts = [ 'is-front', args.store.type, args.store.slug ];
+					}
+
+					query.post__in = posts;
+					query.is_front_store = true;
+
+					JetEngine.ajaxGetListing( {
+						handler: 'get_listing',
+						container: $elemContainer.length ? $elemContainer : $container,
+						masonry: false,
+						slider: false,
+						append: false,
+						query: query,
+						widgetSettings: nav.widget_settings,
+						postID: window.elementorFrontendConfig.post.id,
+						elementID: $container.data( 'id' ),
+					}, function( response ) {
+						JetEngine.widgetListingGrid( $container );
+					} );
 				}
 
 				$( document ).trigger( 'jet-engine-data-stores-on-remove', args );
@@ -255,11 +293,40 @@
 
 				if ( response.success ) {
 
-					$this.addClass( 'is-hidden' );
+					if ( ! isDataStoreBtn ) {
+						$this.addClass( 'is-hidden' );
+					}
 
 					$( '.jet-add-to-store[data-store="' + args.store.slug + '"][data-post="' + args.post_id + '"]' ).each( function() {
 						JetEngine.switchDataStoreStatus( $( this ), true );
 					} );
+
+					$( '.jet-data-store-link.jet-remove-from-store[data-store="' + args.store.slug + '"][data-post="' + args.post_id + '"]' ).each( function() {
+						JetEngine.switchDataStoreStatus( $( this ), true );
+					} );
+
+					if ( args.synch_id ) {
+						var $container     = $( '#' + args.synch_id ),
+							$elemContainer = $container.find( '> .elementor-widget-container' ),
+							$items         = $container.find( '.jet-listing-grid__items' ),
+							nav            = $items.data( 'nav' ),
+							query          = nav.query;
+
+						JetEngine.ajaxGetListing( {
+							handler: 'get_listing',
+							container: $elemContainer.length ? $elemContainer : $container,
+							masonry: false,
+							slider: false,
+							append: false,
+							query: query,
+							widgetSettings: nav.widget_settings,
+							postID: window.elementorFrontendConfig.post.id,
+							elementID: $container.data( 'id' ),
+						}, function( response ) {
+							JetEngine.widgetListingGrid( $container );
+						} );
+
+					}
 
 					if ( args.remove_from_listing ) {
 						$this.closest( '.jet-listing-grid__item[data-post="' + args.post_id + '"]' ).remove();
@@ -328,6 +395,8 @@
 			if ( $this.hasClass( 'in-store' ) ) {
 				if ( args.popup ) {
 					JetEngine.triggerPopup( args.popup, args.isJetEngine, args.post_id );
+				} else if ( '_blank' === $this.attr( 'target' ) ) {
+					window.open( $this.attr( 'href' ) );
 				} else {
 					window.location = $this.attr( 'href' );
 				}
@@ -363,6 +432,34 @@
 				JetEngine.switchDataStoreStatus( $this );
 				$( 'span.jet-engine-data-store-count[data-store="' + args.store.slug + '"]' ).text( count );
 				$( '.jet-remove-from-store[data-store="' + args.store.slug + '"][data-post="' + args.post_id + '"]' ).removeClass( 'is-hidden' );
+
+				if ( args.synch_id ) {
+					var $container     = $( '#' + args.synch_id ),
+						$elemContainer = $container.find( '> .elementor-widget-container' ),
+						$items         = $container.find( '.jet-listing-grid__items' ),
+						posts          = [],
+						nav            = $items.data( 'nav' ) || {},
+						query          = nav.query || {};
+
+					posts = store.getStore( args.store.slug );
+
+					query.post__in = posts;
+					query.is_front_store = true;
+
+					JetEngine.ajaxGetListing( {
+						handler: 'get_listing',
+						container: $elemContainer.length ? $elemContainer : $container,
+						masonry: false,
+						slider: false,
+						append: false,
+						query: query,
+						widgetSettings: nav.widget_settings,
+						postID: window.elementorFrontendConfig.post.id,
+						elementID: $container.data( 'id' ),
+					}, function( response ) {
+						JetEngine.widgetListingGrid( $container );
+					} );
+				}
 
 				$( document ).trigger( 'jet-engine-data-stores-on-add', args );
 
@@ -448,14 +545,48 @@
 
 		switchDataStoreStatus: function( $item, toInitial ) {
 
-			var $label = $item.find( '.jet-listing-dynamic-link__label' ),
-				$icon  = $item.find( '.jet-listing-dynamic-link__icon' ),
+			var isDataStoreLink = $item.hasClass( 'jet-data-store-link' ),
+				$label = $item.find( '.jet-listing-dynamic-link__label, .jet-data-store-link__label' ),
+				$icon  = $item.find( '.jet-listing-dynamic-link__icon, .jet-data-store-link__icon' ),
 				args   = $item.data( 'args' ),
 				replaceLabel,
 				replaceURL,
 				replaceIcon;
 
 			toInitial = toInitial || false;
+
+			if ( isDataStoreLink ) {
+
+				switch ( args.action_after_added ) {
+					case 'remove_from_store':
+
+						if ( toInitial ) {
+							$item.addClass( 'jet-add-to-store' );
+							$item.removeClass( 'jet-remove-from-store' );
+
+							$item.removeClass( 'in-store' );
+						} else {
+							$item.addClass( 'jet-remove-from-store' );
+							$item.removeClass( 'jet-add-to-store' );
+
+							$item.addClass( 'in-store' );
+
+						}
+
+						break;
+
+					case 'hide':
+
+						if ( toInitial ) {
+							$item.removeClass( 'is-hidden' );
+						} else {
+							$item.addClass( 'is-hidden' );
+						}
+
+						return;
+				}
+
+			}
 
 			if ( toInitial ) {
 				replaceLabel = args.label;
@@ -477,6 +608,10 @@
 				$icon.replaceWith( replaceIcon );
 			} else {
 				$item.prepend( replaceIcon );
+			}
+
+			if ( isDataStoreLink && 'remove_from_store' === args.action_after_added ) {
+				return;
 			}
 
 			$item.attr( 'href', replaceURL );
@@ -638,16 +773,21 @@
 
 				var $gridItems    = $scope.closest( '.jet-listing-grid__items' ),
 					$gridItem     = $scope.closest( '.jet-listing-grid__item' ),
-					$calendarItem = $scope.closest( '.jet-calendar-week__day-event' );
+					$calendarItem = $scope.closest( '.jet-calendar-week__day-event' ),
+					$itemObject   = $scope.closest( '[data-item-object]' );
 
 				if ( $gridItems.length ) {
 					popupData['listingSource'] = $gridItems.data( 'listing-source' );
 				}
 
+				console.log( $itemObject );
+
 				if ( $gridItem.length ) {
 					popupData['postId'] = $gridItem.data( 'post-id' );
 				} else if ( $calendarItem.length ) {
 					popupData['postId'] = $calendarItem.data( 'post-id' );
+				} else if ( $itemObject ) {
+					popupData['postId'] = $itemObject.data( 'item-object' );
 				} else if ( window.elementorFrontendConfig && window.elementorFrontendConfig.post ) {
 					popupData['postId'] = window.elementorFrontendConfig.post.id;
 				}
@@ -870,6 +1010,10 @@
 			masonryInstance.runOnImageLoad( function () {
 				masonryInstance.recalculate( true );
 			}, true );
+
+			$( document ).on( 'jet-engine/listing/recalculate-masonry', function() {
+				masonryInstance.recalculate( true );
+			} );
 
 		},
 

@@ -14,7 +14,7 @@ class Jet_Engine_Meta_Boxes_Rest_Edit extends Jet_Engine_Base_API_Endpoint {
 		return 'edit-meta-box';
 	}
 
-	public function safe_get( $args, $group, $key, $default = false ) {
+	public function safe_get( $args = array(), $group = '', $key = '', $default = false ) {
 		return isset( $args[ $group ][ $key ] ) ? $args[ $group ][ $key ] : $default;
 	}
 

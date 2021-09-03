@@ -20,6 +20,7 @@ class Module {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ), 0 );
+		add_action( 'jet-engine/listings/renderers/registered', array( $this, 'register_render_class' ) );
 	}
 
 	/**
@@ -54,6 +55,21 @@ class Module {
 
 	}
 
+	/**
+	 * Register render class.
+	 *
+	 * @param object $listings
+	 */
+	public function register_render_class( $listings ) {
+
+		$listings->register_render_class(
+			'data-store-button',
+			array(
+				'class_name' => 'Jet_Engine\Modules\Data_Stores\Render\Button',
+				'path'       => jet_engine()->modules->modules_path( 'data-stores/inc/render/button.php' ),
+			)
+		);
+	}
 
 	/**
 	 * Returns the instance.

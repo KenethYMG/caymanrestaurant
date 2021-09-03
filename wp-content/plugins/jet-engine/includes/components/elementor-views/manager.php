@@ -314,7 +314,7 @@ if ( ! class_exists( 'Jet_Engine_Elementor_Views' ) ) {
 		 *
 		 * @return void
 		 */
-		public function register_widget( $file, $widgets_manager, $class = false ) {
+		public function register_widget( $file = '', $widgets_manager = null, $class = false ) {
 
 			if ( ! $class ) {
 				$base  = basename( str_replace( '.php', '', $file ) );

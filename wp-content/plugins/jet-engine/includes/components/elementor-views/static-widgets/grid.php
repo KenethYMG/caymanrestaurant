@@ -2502,7 +2502,6 @@ if ( ! class_exists( 'Elementor\Jet_Listing_Grid_Widget' ) ) {
 		}
 
 		protected function render() {
-			timer_start();
 			$this->render_posts();
 		}
 

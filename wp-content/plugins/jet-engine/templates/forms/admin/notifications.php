@@ -193,6 +193,21 @@
 								</div>
 							</div>
 						</div>
+                        <div class="jet-form-editor__row" v-if="'register_user' === currentItem.type">
+                            <div class="jet-form-editor__row-label"><?php _e( 'Allow creating new users by existing users', 'jet-engine' ); ?></div>
+                            <div class="jet-form-editor__row-control">
+                                <input type="checkbox" value="yes" v-model="currentItem.allow_register">
+                            </div>
+                        </div>
+                        <div class="jet-form-editor__row" v-if="'register_user' === currentItem.type && currentItem.allow_register">
+                            <div class="jet-form-editor__row-label"><?php _e( 'Who can add new user?', 'jet-engine' ); ?></div>
+                            <div class="jet-form-editor__row-control">
+                                <select v-model="currentItem.role_can_register">
+                                    <option value="">--</option>
+                                    <option v-for="({ value, label }) in userRoles" :value="value">{{ label }}</option>
+                                </select>
+                            </div>
+                        </div>
 						<div class="jet-form-editor__row" v-if="'register_user' === currentItem.type">
 							<div class="jet-form-editor__row-label"><?php _e( 'Fields Map:', 'jet-engine' ); ?></div>
 							<div class="jet-form-editor__row-control">

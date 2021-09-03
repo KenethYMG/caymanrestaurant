@@ -68,10 +68,11 @@ class List_Table extends \WP_List_Table {
 				break;
 
 			case 'wp_get_attachment_image':
-				$size  = ! empty( $data['image_size'] ) ? $data['image_size'] : array( 50, 50 );
-				$img   = \Jet_Engine_Tools::get_attachment_image_data_array( $value, 'id' );
 
-				if ( ! empty( $img['id'] ) ) {
+				$img  = \Jet_Engine_Tools::get_attachment_image_data_array( $value, 'id' );
+				$size = ! empty( $data['image_size'] ) ? $data['image_size'] : array( 50, 50 );
+
+				if ( $img && is_array( $img ) && ! empty( $img['id'] ) ) {
 					$value = wp_get_attachment_image( $img['id'], $size );
 				}
 
@@ -105,7 +106,7 @@ class List_Table extends \WP_List_Table {
 		return $value;
 	}
 
-	public function convert_array( $value, $glue = false ) {
+	public function convert_array( $value = null, $glue = false ) {
 
 		$children_glue = false;
 

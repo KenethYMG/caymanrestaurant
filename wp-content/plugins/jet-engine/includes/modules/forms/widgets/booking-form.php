@@ -2525,7 +2525,7 @@ class Jet_Engine_Booking_Form_Widget extends Widget_Base {
 		}
 	}
 
-	protected function combine_selector( $engine, $control_id = '' ) {
+	protected function combine_selector( $engine = '', $control_id = '' ) {
 		$selectors = $this->css_selector( $engine );
 
 		$additional = apply_filters( 'jet-engine/booking-form/combine-selector', false, $engine, $control_id );
@@ -2551,7 +2551,7 @@ class Jet_Engine_Booking_Form_Widget extends Widget_Base {
 			$instance->set_edit_mode( true );
 		}
 
-		$instance->render();
+		$instance->render_content();
 	}
 
 }

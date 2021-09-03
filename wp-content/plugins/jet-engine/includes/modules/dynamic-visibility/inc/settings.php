@@ -175,6 +175,24 @@ class Settings {
 			)
 		);
 
+		$repeater->add_control(
+			'jedv_context',
+			array(
+				'label'       => __( 'Context', 'jet-engine' ),
+				'description' => __( 'Context of object to get value from - current post by default or current listing item object', 'jet-engine' ),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => true,
+				'default'     => 'default',
+				'options'     => array(
+					'default'         => __( 'Default', 'jet-engine' ),
+					'current_listing' => __( 'Current listing item object', 'jet-engine' ),
+				),
+				'condition'   => array(
+					'jedv_condition' => Module::instance()->conditions->get_conditions_for_fields(),
+				),
+			)
+		);
+
 		Module::instance()->conditions->add_condition_specific_controls( $repeater );
 
 		$repeater->add_control(

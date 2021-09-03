@@ -1285,7 +1285,7 @@ if ( ! class_exists( 'Elementor\Jet_Listing_Calendar_Widget' ) ) {
 		 */
 		public function render_posts() {
 			$instance = jet_engine()->listings->get_render_instance( 'listing-calendar', $this->get_widget_settings() );
-			$instance->render();
+			$instance->render_content();
 		}
 
 		protected function render() {

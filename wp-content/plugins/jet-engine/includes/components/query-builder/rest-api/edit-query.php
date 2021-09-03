@@ -14,7 +14,7 @@ class Edit_Query extends \Jet_Engine_Base_API_Endpoint {
 		return 'edit-query';
 	}
 
-	public function safe_get( $args, $group, $key, $default = false ) {
+	public function safe_get( $args = array(), $group = '', $key = '', $default = false ) {
 		return isset( $args[ $group ][ $key ] ) ? $args[ $group ][ $key ] : $default;
 	}
 
@@ -50,6 +50,10 @@ class Edit_Query extends \Jet_Engine_Base_API_Endpoint {
 		) ) );
 
 		$updated = Manager::instance()->data->edit_item( false );
+
+		if ( $updated ) {
+			do_action( 'jet-engine/query-builder/after-query-update', Manager::instance()->data );
+		}
 
 		return rest_ensure_response( array(
 			'success' => $updated,

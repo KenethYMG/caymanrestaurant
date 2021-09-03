@@ -1,6 +1,22 @@
 # JetSmartFilters
 
 # ChangeLog
+## 2.3.2
+* ADD: multi sorting
+* ADD: Sorting filter Reset Field Appearance control
+* FIX: url with additional filters
+* FIX: apply button filter for gutenberg
+* FIX: Alphabet filter
+* FIX: Date period filter events duplication
+* FIX: Active tag filter visibility for Hello Elementor theme
+* FIX: guten get_editor_script_depends
+* FIX: Radio All option label when Group terms by parents
+* FIX: Date Range with page reload in Safari
+* FIX: hierarchical chaining for identical taxonomies
+* FIX: Range filter WooCommerce min/max prices with gets params
+* FIX: Hierarchical label
+* FIX: jet-engine-calendar current request query
+
 ## 2.3.1
 * ADD: Query Builder settings to store for JetWooBuilder Product Grid/List providers;
 * FIX: Custom query arguments for Product List provider.

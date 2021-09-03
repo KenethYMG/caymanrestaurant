@@ -126,7 +126,9 @@ if ( ! class_exists( 'Jet_Engine_Render_Dynamic_Repeater' ) ) {
 					);
 				}
 
-
+				if ( apply_filters( 'jet-engine/listings/dynamic-repeater/allow-shorcodes', false ) ) {
+					$item_content = do_shortcode( $item_content );
+				}
 
 				if ( false === strpos( $item_content, '<' ) ) {
 					$item_content = '<div>' . $item_content . '</div>';

@@ -26,7 +26,20 @@ class Jet_Engine_Listings_Document {
 	 * @param array $settings [description]
 	 */
 	public function __construct( $settings = array(), $id = null ) {
-		$this->settings = $settings;
+
+		if ( ! empty( $settings ) ) {
+			$this->settings = $settings;
+		} else {
+
+			$listing_settings = get_post_meta( $id, '_elementor_page_settings', true );
+
+			if ( empty( $listing_settings ) ) {
+				$listing_settings = array();
+			}
+
+			$this->settings = $listing_settings;
+		}
+
 		$this->main_id  = $id;
 	}
 

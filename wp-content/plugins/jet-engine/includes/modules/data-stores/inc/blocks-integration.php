@@ -8,6 +8,8 @@ class Blocks_Integration {
 		add_filter( 'jet-engine/blocks-views/block-types/attributes/dynamic-link', array( $this, 'register_store_atts' ) );
 		add_filter( 'jet-engine/blocks-views/custom-blocks-controls', array( $this, 'register_link_controls' ) );
 		add_filter( 'jet-engine/blocks-views/editor/config', array( $this, 'register_data_stores' ) );
+		add_action( 'jet-engine/blocks-views/register-block-types', array( $this, 'register_block_types' ) );
+		add_action( 'jet-engine/blocks-views/editor-script/after', array( $this, 'editor_js' ) );
 	}
 
 	public function register_data_stores( $config ) {
@@ -28,6 +30,8 @@ class Blocks_Integration {
 		}
 
 		$config['dataStores'] = $stores;
+
+		$config['atts']['dataStoreButton'] = jet_engine()->blocks_views->block_types->get_block_atts( 'data-store-button' );
 
 		return $config;
 	}
@@ -103,6 +107,32 @@ class Blocks_Integration {
 		$controls['dynamic-link'] = $link_controls;
 
 		return $controls;
+	}
+
+
+	/**
+	 * Register block types
+	 *
+	 * @param object $blocks_types
+	 *
+	 * @return void
+	 */
+	public function register_block_types( $blocks_types ) {
+		require jet_engine()->modules->modules_path( 'data-stores/inc/block-types/button.php' );
+
+		$blocks_types->register_block_type( new Block_Types\Button() );
+	}
+
+	public function editor_js() {
+
+		wp_enqueue_script(
+			'jet-engine-data-stores-blocks-editor',
+			jet_engine()->modules->modules_url( 'data-stores/inc/assets/js/admin/blocks/blocks.js' ),
+			array(),
+			jet_engine()->get_version(),
+			true
+		);
+
 	}
 
 }

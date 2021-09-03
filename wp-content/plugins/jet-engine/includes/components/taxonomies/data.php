@@ -466,7 +466,7 @@ if ( ! class_exists( 'Jet_Engine_CPT_Tax_Data' ) ) {
 
 		}
 
-		public function after_item_update( $item, $is_new = false ) {
+		public function after_item_update( $item = array(), $is_new = false ) {
 			
 			if ( ! $is_new ) {
 				return;

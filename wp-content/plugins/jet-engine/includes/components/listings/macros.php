@@ -78,8 +78,19 @@ if ( ! class_exists( 'Jet_Engine_Listings_Macros' ) ) {
 					),
 				),
 				'current_meta_string' => array(
-					'label' => esc_html__( 'Current meta string', 'jet-engine' ),
+					'label' => esc_html__( 'Current meta as string', 'jet-engine' ),
 					'cb'    => array( $this, 'get_current_meta_string' ),
+					'args'  => array(
+						'meta_key' => array(
+							'label'   => __( 'Meta field', 'jet-engine' ),
+							'type'    => 'text',
+							'default' => '',
+						),
+					),
+				),
+				'current_user_meta' => array(
+					'label' => esc_html__( 'Current user meta', 'jet-engine' ),
+					'cb'    => array( $this, 'get_current_user_meta' ),
 					'args'  => array(
 						'meta_key' => array(
 							'label'   => __( 'Meta field', 'jet-engine' ),
@@ -380,8 +391,25 @@ if ( ! class_exists( 'Jet_Engine_Listings_Macros' ) ) {
 				case 'WP_Term':
 					return get_term_meta( $object->term_id, $meta_key, true );
 
+				case 'WP_User':
+					return get_user_meta( $object->ID, $meta_key, true );
+
 			}
 
+		}
+
+		/**
+		 * Return current user meta data
+		 */
+		public function get_current_user_meta( $field_value = null, $meta_key = null ) {
+
+			$user_id = get_current_user_id();
+
+			if ( ! $user_id || ! $meta_key ) {
+				return null;
+			}
+
+			return get_user_meta( $user_id, $meta_key, true );
 		}
 
 		/**
@@ -466,7 +494,7 @@ if ( ! class_exists( 'Jet_Engine_Listings_Macros' ) ) {
 		 * @param  string $taxonomy    Taxonomy name.
 		 * @return string
 		 */
-		public function get_current_terms( $field_value, $taxonomy = null ) {
+		public function get_current_terms( $field_value = null, $taxonomy = null ) {
 
 			if ( ! $taxonomy && ! empty( $field_value ) ) {
 				$taxonomy = $field_value;
@@ -668,7 +696,7 @@ if ( ! class_exists( 'Jet_Engine_Listings_Macros' ) ) {
 		 * @param  [type] $field_value [description]
 		 * @return [type]              [description]
 		 */
-		public function do_macros( $string, $field_value = null ) {
+		public function do_macros( $string = '', $field_value = null ) {
 
 			$macros = $this->get_all();
 

@@ -438,8 +438,6 @@ if ( ! class_exists( 'Jet_Smart_Filters_Query_Manager' ) ) {
 				return;
 			}
 
-			$query_var_value = urldecode( $query_var_value );
-
 			switch ( $query_var ) {
 				case 'tax':
 				case 'meta':
@@ -593,47 +591,88 @@ if ( ! class_exists( 'Jet_Smart_Filters_Query_Manager' ) ) {
 
 							case 'sort':
 
-								$sort_props = json_decode( wp_unslash( $value ), true );
+								$sort_data = array();
 
-								if ( ! empty( $sort_props['orderby'] ) ) {
-									switch ( $sort_props['orderby'] ) {
-										case 'price':
-											$this->_query['orderby']  = 'meta_value_num';
-											$this->_query['meta_key'] = '_price';
+								if ( ! is_array( $value ) ) {
+									$value = array( $value );
+								}
 
-											break;
+								foreach ( $value as $data ) {
+									$data = json_decode( wp_unslash( $data ), true );
 
-										case 'sales_number':
-											$this->_query['orderby']  = 'meta_value_num';
-											$this->_query['meta_key'] = 'total_sales';
+									if ( ! $data ) {
+										continue;
+									}
 
-											break;
+									if ( ! empty( $data['orderby'] ) ) {
+										switch ( $data['orderby'] ) {
+											case 'price':
+												$data['orderby']  = 'meta_value_num';
+												$data['meta_key'] = '_price';
+	
+												break;
+	
+											case 'sales_number':
+												$data['orderby']  = 'meta_value_num';
+												$data['meta_key'] = 'total_sales';
+	
+												break;
+	
+											case 'rating':
+												$data['orderby']  = 'meta_value_num';
+												$data['meta_key'] = '_wc_average_rating';
+	
+												break;
+	
+											case 'reviews_number':
+												$data['orderby']  = 'meta_value_num';
+												$data['meta_key'] = '_wc_review_count';
+	
+												break;
+										}
+									}
 
-										case 'rating':
-											$this->_query['orderby']  = 'meta_value_num';
-											$this->_query['meta_key'] = '_wc_average_rating';
+									array_push( $sort_data, $data );
+								}
 
-											break;
+								if ( count( $sort_data ) === 1 ) {
+									$data = $sort_data[0];
 
-										case 'reviews_number':
-											$this->_query['orderby']  = 'meta_value_num';
-											$this->_query['meta_key'] = '_wc_review_count';
-
-											break;
-
-										default:
-											$this->_query['orderby'] = $sort_props['orderby'];
-
-											break;
+									if ( $data['orderby'] === 'clause_value' ) {
+										$this->_query['orderby'] = array(
+											$data['meta_key'] => $data['order']
+										);
+									} else {
+										foreach ( array_keys( $data ) as $key ) {
+											$this->_query[$key] = $data[$key];
+										}
 									}
 								}
+								if ( count( $sort_data ) > 1 ) {
+									$this->_query['orderby'] = array();
 
-								if ( ! empty( $sort_props['order'] ) ) {
-									$this->_query['order'] = $sort_props['order'];
-								}
+									foreach ( $sort_data as $data ) {
+										$key   = $data['orderby'];
+										$order = $data['order'];
 
-								if ( ! empty( $sort_props['meta_key'] ) ) {
-									$this->_query['meta_key'] = $sort_props['meta_key'];
+										if ( in_array( $key, ['meta_value', 'meta_value_num'] ) ) {
+											$key =  $data['meta_key'] . '_clause';
+
+											if ( ! isset( $this->_query['meta_query'] ) ) {
+												$this->_query['meta_query'] = array();
+											}
+
+											$this->_query['meta_query'][$key] = array(
+												'key' => $data['meta_key']
+											);
+										}
+
+										if ( $key === 'clause_value' ) {
+											$key = $data['meta_key'];
+										}
+
+										$this->_query['orderby'][$key] = $order;
+									}
 								}
 
 								break;
@@ -1020,8 +1059,15 @@ if ( ! class_exists( 'Jet_Smart_Filters_Query_Manager' ) ) {
 
 					case 'date':
 						$date_value = explode( '-', $value );
-						$start_date = strtotime( str_replace( '.', '-', $date_value[0] ) );
-						$end_date = strtotime( str_replace( '.', '-', $date_value[1] ) );
+						$start_date = false;
+						$end_date   = false;
+
+						if ( isset( $date_value[0] ) ) {
+							$start_date = strtotime( str_replace( '.', '-', $date_value[0] ) );
+						}
+						if ( isset( $date_value[1] ) ) {
+							$end_date = strtotime( str_replace( '.', '-', $date_value[1] ) ) + ( 24*60*60 ) -1;
+						}
 
 						if ( $start_date && $end_date ) {
 							$current_row['value'] = array( $start_date, $end_date );
@@ -1062,21 +1108,17 @@ if ( ! class_exists( 'Jet_Smart_Filters_Query_Manager' ) ) {
 
 		public function set_query_where( $where, $query ) {
 
-			if ( $query->get( 'jet_smart_filters' ) || $this->is_ajax_filter() ) {
+			if ( $query->get( 'jet_smart_filters' ) && ! empty( $this->_query['alphabet'] ) ) {
+				$letter = $this->_query['alphabet'];
 
-				if ( ! empty( $this->_query['alphabet'] ) ) {
-					$letter = $this->_query['alphabet'];
-	
-					if ( is_array( $letter ) ) {
-						$letter = implode( '|', $letter );
-					}
-
-					$letter = mb_strtolower($letter);
-					$where .= " AND LOWER(`post_title`) REGEXP '^($letter)'";
+				if ( is_array( $letter ) ) {
+					$letter = implode( '|', $letter );
 				}
 
-				add_action( 'posts_selection', array( $this, 'remove_query_where' ) );
+				$letter = mb_strtolower($letter);
+				$where .= " AND LOWER(`post_title`) REGEXP '^($letter)'";
 
+				add_action( 'posts_selection', array( $this, 'remove_query_where' ) );
 			}
 
 			return $where;

@@ -185,7 +185,7 @@ if ( ! class_exists( 'Jet_Engine_Module_Listing_Injections' ) ) {
 		 * @param  [type] $widget  [description]
 		 * @return [type]          [description]
 		 */
-		public function maybe_add_colspan( $classes, $post, $i, $widget, $is_static = false ) {
+		public function maybe_add_colspan( $classes = array(), $post = null, $i = null, $widget = null, $is_static = false ) {
 
 			if ( empty( $this->injected_indexes[ $i ] ) ) {
 				return $classes;

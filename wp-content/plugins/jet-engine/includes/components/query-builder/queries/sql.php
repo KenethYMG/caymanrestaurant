@@ -49,8 +49,13 @@ class SQL_Query extends Base_Query {
 
 		$this->setup_query();
 
-		$sql    = $this->build_sql_query( true );
-		$result = $this->wpdb()->get_var( $sql );
+		$sql = $this->build_sql_query( true );
+
+		if ( 'nosql' === $sql ) {
+			$result = count( $this->get_items() );
+		} else {
+			$result = $this->wpdb()->get_var( $sql );
+		}
 
 		$this->update_query_cache( $result, 'count' );
 
@@ -108,7 +113,7 @@ class SQL_Query extends Base_Query {
 
 				if ( 'orderby' === $prop ) {
 					$key = 'type';
-					$value = ( 'meta_key' === $value ) ? 'CHAR' : 'DECIMAL';
+					$value = ( in_array( $value, array( 'meta_key', 'meta_value' ) ) ) ? 'CHAR' : 'DECIMAL';
 				} elseif ( 'meta_key' === $prop ) {
 					$key = 'orderby';
 				}
@@ -190,25 +195,171 @@ class SQL_Query extends Base_Query {
 		return $wpdb;
 	}
 
+	public function get_var( $column = null, $function = null, $decimal_count = 0 ) {
+
+		$this->setup_query();
+		$sql = $this->build_sql_query();
+
+		$quote = '';
+
+		if ( $this->is_grouped() ) {
+			$quote = '`';
+		}
+
+		if ( $function ) {
+			if ( 'COUNT' === $function ) {
+				$select = sprintf( '%1$s( %3$s%2$s%3$s )', $function, $column, $quote );
+			} else {
+				$select = sprintf( '%1$s( CAST( %4$s%2$s%4$s AS DECIMAL( 10, %3$s ) ) )', $function, $column, $decimal_count, $quote );
+			}
+		} else {
+			$select = sprintf( '%2$s%1$s%2$s', $column, $quote );
+		}
+
+		$advanced_query = $this->get_advanced_query();
+
+		if ( $advanced_query ) {
+			$sql = rtrim( $sql, ';' );
+			$sql = 'SELECT ' . $select . ' FROM ( ' . $sql . ' ) AS advanced_query_result;';
+			return round( $this->wpdb()->get_var( $sql ), $decimal_count );
+		}
+
+		if ( $this->is_grouped() ) {
+			$sql = $this->wrap_grouped_query( $select, $sql );
+		} else {
+			$sql = preg_replace( '/SELECT (.+?) FROM/', 'SELECT ' . $select . ' FROM', $sql );
+		}
+
+		return round( $this->wpdb()->get_var( $sql ), $decimal_count );
+
+	}
+
+	public function sanitize_sql( $query ) {
+
+		/**
+		 * ensure query is not stacked
+		 * temporary disabled because can return false positive
+		 *
+		 * $query = explode( ';', $query );
+		 * $query = $query[0];
+		 */
+
+		// Remove the / * * / style comments
+		$query = preg_replace( '%(/\*)(.*?)(\*/)%s',"",$query );
+		// Remove the — style comments
+		$query = preg_replace( '%(–).*%',"",$query );
+
+		$query = stripslashes( $query );
+
+		return $query;
+
+	}
+
+	public function is_query_safe( $query ) {
+
+		$query = trim( $query );
+
+		// Should start from SELECT word
+		if ( 0 !== strpos( $query, 'SELECT' ) ) {
+			return false;
+		}
+
+		// Should not contain any dangerous SQL commands
+		$disallowed = array(
+			'DROP',
+			'TRUNCATE',
+			'DELETE',
+			'COMMIT',
+			'GRANT ALL',
+			'CREATE',
+			'REPLACE',
+			'INSERT',
+			'ALTER',
+			'ADD ',
+			'UPDATE',
+		);
+
+		foreach ( $disallowed as $command ) {
+			if ( false !== strpos( $query, $command ) ) {
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	public function get_advanced_query( $is_count = false ) {
+
+		if ( empty( $this->final_query['advanced_mode'] ) ) {
+			return false;
+		}
+
+		if ( $is_count ) {
+			$query = $this->final_query['count_query'];
+
+			if ( ! $query ) {
+				return 'nosql';
+			}
+
+		} else {
+			$query = $this->final_query['manual_query'];
+		}
+
+		if ( ! $query ) {
+			return false;
+		}
+
+		$query = $this->sanitize_sql( $query );
+
+		if ( ! $this->is_query_safe( $query ) ) {
+			return false;
+		}
+
+		$query = str_replace( '{prefix}', $this->wpdb()->prefix, $query );
+
+		return $this->apply_macros( $query );
+
+	}
+
 	public function build_sql_query( $is_count = false ) {
+
+		// Return advanced query early if set
+		$advanced_query = $this->get_advanced_query( $is_count );
+
+		if ( $advanced_query ) {
+			return $advanced_query;
+		}
 
 		$prefix = $this->wpdb()->prefix;
 
 		$select_query = "SELECT ";
 
-		if ( $is_count ) {
+		if ( $is_count && ! $this->is_grouped() ) {
 			$select_query .= " COUNT(*) ";
 		} else {
+
+			$implode = array();
+
 			if ( ! empty( $this->final_query['include_columns'] ) ) {
-				$implode = array();
 				foreach ( $this->final_query['include_columns'] as $col ) {
 					$implode[] = $col . " AS '" . $col . "'";
 				}
+			}
 
+			if ( ! empty( $this->final_query['include_calc'] ) && ! empty( $this->final_query['calc_cols'] ) ) {
+				foreach ( $this->final_query['calc_cols'] as $col ) {
+					$prepared_col = sprintf( '%1$s(%2$s)', $col['function'], $col['column'] );
+					$implode[] = $prepared_col . " AS '" . $prepared_col . "'";
+				}
+			}
+
+			if ( ! empty( $implode ) ) {
 				$select_query .= implode( ', ', $implode ) . " ";
 			} else {
 				$select_query .= "* ";
 			}
+
 		}
 
 		if ( null === $this->current_query ) {
@@ -223,7 +374,7 @@ class SQL_Query extends Base_Query {
 
 			$current_query .= "FROM $prefixed_table AS $raw_table ";
 
-			if ( ! empty( $this->final_query['join_tables'] ) ) {
+			if ( ! empty( $this->final_query['use_join'] ) && ! empty( $this->final_query['join_tables'] ) ) {
 				foreach ( $this->final_query['join_tables'] as $table ) {
 
 					$type           = $table['type'];
@@ -257,6 +408,10 @@ class SQL_Query extends Base_Query {
 				$current_query .= $this->add_where_args( $where );
 			}
 
+			if ( ! empty( $this->final_query['group_results'] ) && ! empty( $this->final_query['group_by'] ) ) {
+				$current_query .= " GROUP BY " . $this->final_query['group_by'];
+			}
+
 			if ( ! empty( $this->final_query['orderby'] ) ) {
 
 				$orderby        = array();
@@ -283,11 +438,13 @@ class SQL_Query extends Base_Query {
 		}
 
 		if ( $limit ) {
-			$limit_offset .= " ";
-			$limit_offset .= "LIMIT $limit";
+			$limit_offset .= " LIMIT";
 			$offset = ! empty( $this->final_query['offset'] ) ? absint( $this->final_query['offset'] ) : 0;
+
 			if ( $offset ) {
-				$limit_offset .= ", $offset";
+				$limit_offset .= " $offset, $limit";
+			} else {
+				$limit_offset .= " $limit";
 			}
 		}
 
@@ -298,8 +455,21 @@ class SQL_Query extends Base_Query {
 			$is_count
 		);
 
+		if ( $is_count && $this->is_grouped() ) {
+			$result = $this->wrap_grouped_query( 'COUNT(*)', $result );
+		}
+
 		return $result;
 
+	}
+
+	public function wrap_grouped_query( $select, $query ) {
+		$query = rtrim( $query, ';' );
+		return "SELECT $select FROM ( $query ) AS grouped;";
+	}
+
+	public function is_grouped() {
+		return ( ! empty( $this->final_query['group_results'] ) && ! empty( $this->final_query['group_by'] ) );
 	}
 
 	/**
@@ -350,7 +520,7 @@ class SQL_Query extends Base_Query {
 	 * @param  boolean $format [description]
 	 * @return [type]          [description]
 	 */
-	public function get_sub_query( $key, $value, $format = false ) {
+	public function get_sub_query( $key = null, $value = null, $format = false ) {
 
 		$query = '';
 		$glue  = '';
@@ -613,6 +783,12 @@ class SQL_Query extends Base_Query {
 			$cols = $this->query['include_columns'];
 		} elseif ( ! empty( $this->query['default_columns'] ) ) {
 			$cols = $this->query['default_columns'];
+		}
+
+		if ( ! empty( $this->query['include_calc'] ) && ! empty( $this->query['calc_cols'] ) ) {
+			foreach ( $this->query['calc_cols'] as $col ) {
+				$cols[] = sprintf( '%1$s(%2$s)', $col['function'], $col['column'] );
+			}
 		}
 
 		$result = array();

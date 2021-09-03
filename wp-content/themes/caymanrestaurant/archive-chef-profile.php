@@ -39,10 +39,7 @@
 
                 //While Chef
                 while ($loop->have_posts()) : $loop->the_post();
-                    //Get Image Chef Field
-                    $images_chef = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
-
-
+                    
                     //Description Chef
                     $content = get_post_meta(get_the_ID(), 'chef-description', true);;
                     $content = strip_tags($content);
@@ -56,7 +53,7 @@
                         <div class="bg-light">
                             <div class="row shadow rounded">
                                 <div class="col-6 px-0 boxImages">
-                                    <img src="<?php echo $images_chef[0]; ?>" class="img-fluid">
+                                    <?php the_post_thumbnail('full', array('class' => 'img-fluid')) ?>
                                 </div>
                                 <div class="col-6 bg-gray informationChef d-flex flex-wrap justify-content-center align-items-center font_Trebuchet text-center pt-5 pb-5">
                                     <h2 class="name_chef text-center text-uppercase font-blue mb-1"><?php echo the_title(); ?></h2>
@@ -69,7 +66,10 @@
                     
 
 
-                <?php endwhile; ?>
+                <?php 
+                    endwhile;
+                    wp_reset_query();
+                ?>
 
 
                 <div class="pagination-box">

@@ -4,26 +4,26 @@
         <div class="row justify-content-around">
                 <?php
                 //Query Post - Chef 
-                query_posts('post_type=chefs&posts_per_page=2');
+                query_posts('post_type=chef-profile&posts_per_page=2');
                 //While Chef
                 while (have_posts()): the_post();
                 //Get Image Chef Field
-                $images_chef = get_post_meta( get_the_ID(), 'photo-chef', true );
-                
+                $images_chef = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
+
                 //Description Chef
-                $content = get_the_content();
+                $content = get_post_meta( get_the_ID(), 'chef-description', true );;
                 $content = strip_tags($content);
                 
                 //Get Name Restaurant Chef
-                $name_restaurant_chef = get_post_meta( get_the_ID(), 'restaurant-name', true );
+                $name_restaurant_chef = get_post_meta( get_the_ID(), 'chef-name-restaurant', true );
                 
                 ?>
 
                 <div class="col-12 col-md-6 col-lg-6 mb-3 mb-md-0 mb-lg-0 box_chef">
                     <div class="d-flex innerChef">
                         <div class="row">
-                            <div class="col-6 boxImages">
-                                <img src="<?php echo $images_chef; ?>"  class="img-fluid">
+                            <div class="col-6 px-0 boxImages">
+                                <img src="<?php echo $images_chef[0]; ?>"  class="img-fluid">
                             </div>
                             <div class="col-6 informationChef d-flex flex-wrap justify-content-center align-items-center font_Trebuchet text-center pt-5 pb-5">
                                 <h2 class="name_chef text-center text-uppercase font-blue mb-1"><?php echo the_title(); ?></h2>
@@ -34,11 +34,13 @@
                         </div>
                     </div>
                 </div>
+
+                
             <?php endwhile; ?>
         </div>
     </div><!--inner_box_columns-->
 
-    <a href="" class="button_view_more_chef views_read_more text-uppercase font-white font_Din_Condensed_Bold">
+    <a href="<?php echo HOMELINK ?>chef-profile" class="button_view_more_chef views_read_more text-uppercase font-white font_Din_Condensed_Bold">
         Sell all chefs
     </a><!-- /.button_view_more -->
     

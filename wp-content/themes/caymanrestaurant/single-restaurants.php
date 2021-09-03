@@ -109,7 +109,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 padding-top-lg padding-bottom-lg">
-                    <h1 class="title-about text-center font-blue font_Din_Condensed_Bold font-uppercase">About us</h1>
+                    <h1 class="title-about text-center font-blue font_Din_Condensed_Bold text-uppercase">About us</h1>
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -119,48 +119,56 @@
             </div>
         </div>
     </section>
-    <section class="bk-menus padding-top-lg padding-bottom-lg">
+    <section class="bk-menus margin-top-lg margin-bottom-lg padding-top-lg padding-bottom-lg">
         <div class="container">
             <div class="row">
                 <div class="col-12 padding-bottom-lg">
-                    <h1 class="title-about text-center font-blue font_Tahu font-uppercase">Menús</h1>
+                    <h1 class="title-menu text-center font-blue font_Tahu">Menús</h1>
                 </div>
             </div>
             <div class="row justify-content-center">
                <div class="col-sm-3 col-12 padding-top-md padding-bottom-md">
                    <?php $restaurant_breakfast = get_post_meta( get_the_ID(), 'restaurant-breakfast', true ); ?>
                    <div class="text-center">
-                        <a target="_blank" href="<?php echo $restaurant_breakfast['url']; ?>" class="btn btn-light btn-lg btn-dark-blue font-white font-uppercase">Breakfast menu</a>
+                       <a target="_blank" href="<?php echo $restaurant_breakfast['url']; ?>" class="text-uppercase btn btn-light btn-lg btn-dark-blue font-white font-uppercase">Breakfast menu</a>
                    </div>
                </div>
                <div class="col-sm-3 col-12 padding-top-md padding-bottom-md">
                     <?php $restaurant_lunch = get_post_meta( get_the_ID(), 'restaurant-lunch', true ); ?>
                     <div class="text-center">
-                        <a target="_blank" href="<?php echo $restaurant_lunch['url']; ?>" class="btn btn-light btn-lg btn-dark-blue font-white font-uppercase">Lunch menu</a>
+                       <a target="_blank" href="<?php echo $restaurant_lunch['url']; ?>" class="text-uppercase btn btn-light btn-lg btn-dark-blue font-white font-uppercase">Lunch menu</a>
                     </div>
                </div>
                <div class="col-sm-3 col-12 padding-top-md padding-bottom-md">
                     <?php $restaurant_dinner = get_post_meta( get_the_ID(), 'restaurant-dinner', true ); ?>
                     <div class="text-center">
-                        <a target="_blank" href="<?php echo $restaurant_dinner['url']; ?>" class="btn btn-light btn-lg btn-dark-blue font-white font-uppercase">Dinner menu</a>
-                        </div>
+                       <a target="_blank" href="<?php echo $restaurant_dinner['url']; ?>" class="text-uppercase btn btn-light btn-lg btn-dark-blue font-white font-uppercase">Dinner menu</a>
+                    </div>
                </div>
                <div class="col-sm-3 col-12 padding-top-md padding-bottom-md">
                     <?php $restaurant_brunch = get_post_meta( get_the_ID(), 'restaurant-brunch', true ); ?>
                     <div class="text-center">
-                        <a target="_blank" href="<?php echo $restaurant_brunch['url']; ?>" class="btn btn-light btn-lg btn-dark-blue font-white font-uppercase">Brunch menu</a>
+                       <a target="_blank" href="<?php echo $restaurant_brunch['url']; ?>" class="text-uppercase btn btn-light btn-lg btn-dark-blue font-white font-uppercase">Brunch menu</a>
                     </div>
                </div>
             </div>
         </div>
     </section>
-    <section>
+    <section class="margin-top-lg margin-bottom-lg">
         <div class="container">
             <div class="row">
                 <div class="col-12 padding-top-lg padding-bottom-lg">
-                    <h1 class="title-about text-center font-blue font_Din_Condensed_Bold font-uppercase">Features</h1>
+                    <h1 class="title-features text-center font-blue font_Din_Condensed_Bold text-uppercase">Features</h1>
+                </div>
+                <div class="col-12">
+                    <?php 
+                        $term_obj_list = get_the_terms( $post->ID, 'category-features' );
+                        $features = join(', ', wp_list_pluck($term_obj_list, 'name'));
+                    ?>
+                    <p class="p-info"><?php echo $features; ?></p>
                 </div>
             </div>
         </div>
     </section>
 <?php endwhile; ?>
+<?php get_footer(); ?>

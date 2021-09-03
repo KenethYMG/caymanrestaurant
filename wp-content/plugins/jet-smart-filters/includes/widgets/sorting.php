@@ -202,11 +202,11 @@ class Jet_Smart_Filters_Sorting_Widget extends Widget_Base {
 		$repeater->add_control(
 			'meta_key',
 			array(
-				'label'      => __( 'Meta key', 'jet-smart-filters' ),
+				'label'      => __( 'Key', 'jet-smart-filters' ),
 				'type'       => Controls_Manager::TEXT,
 				'default'    => '',
 				'condition'  => array(
-					'orderby' => array( 'meta_value', 'meta_value_num' ),
+					'orderby' => array( 'meta_value', 'meta_value_num', 'clause_value' ),
 				)
 			)
 		);
@@ -448,6 +448,23 @@ class Jet_Smart_Filters_Sorting_Widget extends Widget_Base {
 				'condition' => array(
 					'label_block!' => ''
 				)
+			)
+		);
+
+		$this->add_control(
+			'reset_appearance',
+			array(
+				'label' => esc_html__( 'Reset Field Appearance', 'jet-smart-filters' ),
+				'description' => esc_html__( 'Check this option to reset field appearance CSS value. This will make field appearance the same for all browsers', 'jet-smart-filters' ),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => '',
+				'separator' => 'before',
+				'selectors_dictionary' => array(
+					'yes' => '-webkit-appearance: none;',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} ' . $css_scheme['select'] => '{{VALUE}}',
+				),
 			)
 		);
 

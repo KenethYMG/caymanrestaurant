@@ -98,7 +98,46 @@ class SQL_Query extends Base_Query {
 		return Manager::instance()->component_url( 'assets/js/admin/types/sql.js' );
 	}
 
+	public function get_advanced_mode_columns( $args ) {
+
+		Manager::instance()->include_factory();
+
+		$factory = new \Jet_Engine\Query_Builder\Query_Factory( array(
+			'id'     => 0,
+			'lables' => array( 'name' => 'Preview' ),
+			'args'   => array(
+				'query_type'                   => $this->get_id(),
+				$this->get_id()                => $args,
+				'__dynamic_' . $this->get_id() => array(),
+			),
+		) );
+
+		$query = $factory->get_query();
+
+		if ( ! $query ) {
+			return array();
+		}
+
+		$items = $query->get_items();
+
+		if ( ! empty( $items ) ) {
+
+			$vars = $items[0];
+
+			if ( is_object( $items[0] ) ) {
+				$vars = get_object_vars( $items[0] );
+			}
+
+			return array_keys( $vars );
+
+		} else {
+			return array();
+		}
+
+	}
+
 	public function get_default_columns( $args ) {
+
 		$tables = array();
 
 		if ( ! empty( $args['table'] ) ) {
@@ -109,6 +148,10 @@ class SQL_Query extends Base_Query {
 
 		if ( ! defined( 'DB_NAME' ) ) {
 			return $result;
+		}
+
+		if ( ! empty( $args['advanced_mode'] ) ) {
+			return $this->get_advanced_mode_columns( $args );
 		}
 
 		$db_name = DB_NAME;

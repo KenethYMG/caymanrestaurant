@@ -61,6 +61,7 @@ if ( ! class_exists( 'Jet_Engine_Render_Listing_Grid' ) ) {
 		}
 
 		public function render() {
+			jet_engine()->frontend->frontend_scripts();
 			$this->render_posts();
 		}
 
@@ -650,7 +651,7 @@ if ( ! class_exists( 'Jet_Engine_Render_Listing_Grid' ) ) {
 		 * @param  string $string
 		 * @return mixed
 		 */
-		public function explode_string( $string, $unfiltered = false ) {
+		public function explode_string( $string = '', $unfiltered = false ) {
 
 			if ( is_array( $string ) ) {
 				return $string;
@@ -1360,7 +1361,7 @@ if ( ! class_exists( 'Jet_Engine_Render_Listing_Grid' ) ) {
 		 * @param string $equal_cols_class
 		 * @param bool $start_from
 		 */
-		public function posts_loop( $query, $settings, $base_class, $equal_cols_class, $start_from = false ) {
+		public function posts_loop( $query = array(), $settings = array(), $base_class = '', $equal_cols_class = '', $start_from = false ) {
 
 			$query = apply_filters( 'jet-engine/listing/query/items', $query, $settings, $this );
 
@@ -1491,8 +1492,8 @@ if ( ! class_exists( 'Jet_Engine_Render_Listing_Grid' ) ) {
 			}
 
 			$wp_query->queried_object = $default_object;
-			jet_engine()->frontend->reset_listing();
 
+			jet_engine()->frontend->reset_listing();
 			jet_engine()->listings->data->set_index( $initial_index );
 
 		}

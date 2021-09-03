@@ -705,6 +705,7 @@ class Jet_Smart_Filters_Base_Widget extends Widget_Base {
 		}
 
 		$query_id             = ! empty( $settings['query_id'] ) ? $settings['query_id'] : 'default';
+		$show_label           = ! empty( $settings['show_label'] ) ? filter_var( $settings['show_label'], FILTER_VALIDATE_BOOLEAN ) : false;
 		$show_items_label     = ! empty( $settings['show_items_label'] ) ? $settings['show_items_label'] : false;
 		$show_decorator       = ! empty( $settings['show_decorator'] ) ? $settings['show_decorator'] : false;
 		$apply_indexer        = ! empty( $settings['apply_indexer'] ) ? filter_var( $settings['apply_indexer'], FILTER_VALIDATE_BOOLEAN ) : false;
@@ -737,6 +738,8 @@ class Jet_Smart_Filters_Base_Widget extends Widget_Base {
 
 			$filter_id = apply_filters( 'jet-smart-filters/render_filter_template/filter_id', $filter_id );
 
+			jet_smart_filters()->admin_bar->register_post_item( $filter_id );
+
 			printf(
 				'<div class="%1$s jet-filter %2$s" data-indexer-rule="%3$s" data-show-counter="%4$s" data-change-counter="%5$s">',
 				apply_filters( 'jet-smart-filters/render_filter_template/base_class', $base_class, $filter_id ),
@@ -755,6 +758,7 @@ class Jet_Smart_Filters_Base_Widget extends Widget_Base {
 				'additional_providers' => $additional_providers,
 				'apply_type'           => $apply_type,
 				'query_id'             => $query_id,
+				'show_label'           => $show_label,
 				'display_options'      => array(
 					'show_items_label'  => $show_items_label,
 					'show_decorator'    => $show_decorator,
@@ -762,6 +766,11 @@ class Jet_Smart_Filters_Base_Widget extends Widget_Base {
 					'show_counter'      => $show_counter,
 				),
 			);
+
+			// hide main label is hierarchical select
+			if ( $this->get_name() === 'jet-smart-filters-select' && filter_var( get_post_meta( $filter_id, '_is_hierarchical', true ), FILTER_VALIDATE_BOOLEAN ) ) {
+				$show_label = false;
+			}
 
 			// search
 			if ( $search_enabled ) $filter_template_args['search_enabled'] = $search_enabled;

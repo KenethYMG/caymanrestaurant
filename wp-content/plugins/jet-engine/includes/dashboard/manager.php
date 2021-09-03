@@ -124,8 +124,11 @@ if ( ! class_exists( 'Jet_Engine_Dashboard' ) ) {
 				apply_filters(
 					'jet-engine/dashboard/config',
 					array(
-						'available_modules' => jet_engine()->modules->get_all_modules_for_js( true ),
+						'internal_modules'  => jet_engine()->modules->get_all_modules_for_js( true, 'internal' ),
+						'external_modules'  => jet_engine()->modules->get_all_modules_for_js( true, 'external' ),
 						'active_modules'    => jet_engine()->modules->get_active_modules(),
+						'modules_to_update' => jet_engine()->modules->updater->get_pluign_updates(),
+						'is_license_active' => jet_engine()->modules->installer->is_license_active(),
 						'components_list'   => array(
 							array(
 								'value' => 'meta_field',

@@ -11,7 +11,7 @@ $nameRestaurantCR = get_post_meta(get_the_ID(), 'name-restaurant-recipes-chef', 
 $bannerChef = get_post_meta(get_the_ID(), 'banner-recipe', true);;
 
 //introduction
-$contentIntroduction = get_post_meta(get_the_ID(), 'introduction', true);;
+$contentIntroduction = get_post_meta(get_the_ID(), 'chef-recipes-introduction', true);;
 
 //Get Image recipe Field
 $images_recipe = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');

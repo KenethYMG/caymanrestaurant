@@ -16,44 +16,31 @@ function jet_smart_filters_woo_prices( $args = array() ) {
 		return false;
 	}
 
-	$wc_query = wc()->query->get_main_query();
+	$wc_query  = wc()->query->get_main_query();
+	$tax_query = array();
 
 	if ( $wc_query ) {
-		$args = wc()->query->get_main_query()->query_vars;
-	} else {
-		$args = array();
-	}
+		$wc_queried_object = $wc_query->queried_object;
 
-	$tax_query  = isset( $args['tax_query'] ) ? $args['tax_query'] : array();
-	$meta_query = isset( $args['meta_query'] ) ? $args['meta_query'] : array();
-
-	if ( ! is_post_type_archive( 'product' ) && ! empty( $args['taxonomy'] ) && ! empty( $args['term'] ) ) {
-		$tax_query[] = array(
-			'taxonomy' => $args['taxonomy'],
-			'terms'    => array( $args['term'] ),
-			'field'    => 'slug',
-		);
-	}
-
-	foreach ( $meta_query + $tax_query as $key => $query ) {
-		if ( ! empty( $query['price_filter'] ) || ! empty( $query['rating_filter'] ) ) {
-			unset( $meta_query[ $key ] );
+		if ( ! empty( $wc_queried_object->taxonomy ) && ! empty( $wc_queried_object->term_id ) ) {
+			$tax_query[] = array(
+				'taxonomy' => $wc_queried_object->taxonomy,
+				'terms'    => array( $wc_queried_object->term_id ),
+				'field'    => 'term_id',
+			);
 		}
 	}
 
-	$meta_query = new WP_Meta_Query( $meta_query );
 	$tax_query  = new WP_Tax_Query( $tax_query );
-
-	$meta_query_sql = $meta_query->get_sql( 'post', $wpdb->posts, 'ID' );
 	$tax_query_sql  = $tax_query->get_sql( $wpdb->posts, 'ID' );
 
 	$sql  = "SELECT min( FLOOR( price_meta.meta_value ) ) as min, max( CEILING( price_meta.meta_value ) ) as max FROM {$wpdb->posts} ";
-	$sql .= " LEFT JOIN {$wpdb->postmeta} as price_meta ON {$wpdb->posts}.ID = price_meta.post_id " . $tax_query_sql['join'] . $meta_query_sql['join'];
+	$sql .= " LEFT JOIN {$wpdb->postmeta} as price_meta ON {$wpdb->posts}.ID = price_meta.post_id " . $tax_query_sql['join'];
 	$sql .= " 	WHERE {$wpdb->posts}.post_type IN ('" . implode( "','", array_map( 'esc_sql', apply_filters( 'woocommerce_price_filter_post_type', array( 'product' ) ) ) ) . "')
 		AND {$wpdb->posts}.post_status = 'publish'
 		AND price_meta.meta_key IN ('" . implode( "','", array_map( 'esc_sql', apply_filters( 'woocommerce_price_filter_meta_keys', array( '_price' ) ) ) ) . "')
 		AND price_meta.meta_value > '' ";
-	$sql .= $tax_query_sql['where'] . $meta_query_sql['where'];
+	$sql .= $tax_query_sql['where'];
 
 	if ( $wc_query ) {
 		$search = WC_Query::get_main_search_query_sql();
@@ -88,7 +75,7 @@ function jet_smart_filters_meta_values( $args = array() ) {
 
 	global $wpdb;
 	$queried_object = get_queried_object();
-	$tax_query      = isset( $args['tax_query'] ) ? $args['tax_query'] : array();
+	$tax_query      = array();
 
 	if ( ! empty( $queried_object->taxonomy ) && ! empty( $queried_object->term_id ) ) {
 		$tax_query[] = array(

@@ -512,12 +512,15 @@ if ( ! class_exists( 'Jet_Smart_Filters_Block_Search' ) ) {
 			$base_class = 'jet-smart-filters-' . $this->get_name();
 			$provider   = $settings['content_provider'];
 			$query_id   = 'default';
+			$show_label = $settings['show_label'];
 
 			if ( in_array( $settings['apply_type'], ['ajax', 'mixed'] ) ) {
 				$apply_type = $settings['apply_type'] . '-reload';
 			} else {
 				$apply_type = $settings['apply_type'];
 			}
+
+			jet_smart_filters()->admin_bar->register_post_item( $filter_id );
 
 			ob_start();
 

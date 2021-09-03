@@ -49,6 +49,14 @@ class Update_Preview extends \Jet_Engine_Base_API_Endpoint {
 
 		$query = $factory->get_query();
 
+		if ( ! $query ) {
+			return rest_ensure_response( array(
+				'success' => true,
+				'count'   => 0,
+				'data'    => __( 'Can`t find the query object', 'jet-engine' ),
+			) );
+		}
+
 		$items = $query->get_items();
 		$more  = '';
 		$count = $query->get_items_total_count();

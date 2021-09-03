@@ -129,7 +129,7 @@ registerBlockType('jet-smart-filters/sorting', {
 													this.updateItem(item, 'orderby', newValue)
 												}}
 											/>
-											{['meta_value', 'meta_value_num'].includes(item.orderby) && (
+											{['meta_value', 'meta_value_num', 'clause_value'].includes(item.orderby) && (
 												<TextControl
 													type="text"
 													label={__('Meta key')}

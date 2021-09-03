@@ -3,13 +3,13 @@
  * Filter label template
  */
 
-$show_label = ! empty( $settings['show_label'] ) ? filter_var( $settings['show_label'], FILTER_VALIDATE_BOOLEAN ) : false;
-
-if ( ! $show_label ) {
+if ( ! ( ( isset( $show_label ) && $show_label ) || ( isset( $filter_label ) && $filter_label ) ) ) {
 	return;
 }
 
-$filter_label = get_post_meta( $filter_id, '_filter_label', true );
+if ( ! isset( $filter_label ) ) {
+	$filter_label = get_post_meta( $filter_id, '_filter_label', true );
+}
 
 if ( empty( $filter_label ) ) {
 	return;

@@ -18,6 +18,11 @@ class Request {
 		return $this;
 	}
 
+	public function get_url() {
+		$this->url = jet_engine()->listings->macros->do_macros( $this->url );
+		return apply_filters( 'jet-engine/rest-api-listings/request/url', $this->url, $this );
+	}
+
 	public function get_endpoint() {
 		return $this->endpoint;
 	}
@@ -43,7 +48,7 @@ class Request {
 		$args       = apply_filters( 'jet-engine/rest-api-listings/request/args', $args, $this );
 		$query_args = apply_filters( 'jet-engine/rest-api-listings/request/query-args', $query_args, $this );
 
-		$url = $this->url;
+		$url = $this->get_url();
 
 		if ( ! empty( $query_args ) ) {
 			if ( is_array( $query_args ) ) {
@@ -120,7 +125,7 @@ class Request {
 
 	public function get_cache_transient( $query = array() ) {
 
-		$hash = $this->url;
+		$hash = $this->get_url();
 
 		if ( ! empty( $query ) ) {
 

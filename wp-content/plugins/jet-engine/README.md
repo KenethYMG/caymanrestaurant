@@ -1,5 +1,34 @@
 # ChangeLog
 
+## 2.9.2
+* ADD: `Tax Query` to `WC_Product_Query`;
+* FIX: preview scripts loading for the Listing grid widget.
+
+## 2.9.1
+* ADD: WC_Product_Query meta value sorting;
+* ADD: Data Store Button block and widget;
+* ADD: Allow to enqueue JetEngine CSS in footer only when JetEngine widgets are used on the page. Controls by `jet-engine/listings/styles-in-footer` hook;
+* UPD: Allow to select context for the dynamic values in visibility conditions;
+* UPD: Install external modules from api.crocoblock.com instead of account.crocoblock.com;
+* FIX: Better PHP 8 compatibility;
+* FIX: enqueue JetEngine frontend JS only when listing grid widget used to improve performance;
+* FIX: Better form data sanitization and validation.
+
+## 2.9.0
+* ADD: Import glossaries from the file;
+* ADD: Calculated Columns and Grouping Results for SQL Queries;
+* ADD: Advanced mode for the SQL queries to write Query manually;
+* ADD: `Current user meta` macros;
+* ADD: Query Results for Dynamic Functions;
+* ADD: External Modules;
+* ADD: Dynamic Tables Module;
+* ADD: Dynamic Charts Module;
+* ADD: Post Expiration Period Module;
+* ADD: Attachment file link by ID Module;
+* ADD: Custom visibility conditions Module;
+* ADD: Trim string callback Module;
+* FIX: various fixes and improvements.
+
 ## 2.8.10
 * FIX: compatibility with Elementor 3.4;
 * FIX: accessibility in the Listing Grid Slider;

@@ -2,7 +2,7 @@
 /**
  * Post Meta module
  *
- * Version: 1.5.4
+ * Version: 1.5.5
  */
 
 // If this file is called directly, abort.
@@ -303,7 +303,7 @@ if ( ! class_exists( 'Cherry_X_Post_Meta' ) ) {
 		 * @param  mixed            $default default argument value.
 		 * @return mixed
 		 */
-		public function get_arg( $field, $arg, $default = '' ) {
+		public function get_arg( $field = array(), $arg = '', $default = '' ) {
 			if ( is_array( $field ) && isset( $field[ $arg ] ) ) {
 				return $field[ $arg ];
 			}
@@ -428,7 +428,7 @@ if ( ! class_exists( 'Cherry_X_Post_Meta' ) ) {
 		 * @param  object $post    The post object currently being saved.
 		 * @return void|int
 		 */
-		public function save_meta( $post_id, $post = '' ) {
+		public function save_meta( $post_id = null, $post = '' ) {
 
 			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 				return;
@@ -620,7 +620,7 @@ if ( ! class_exists( 'Cherry_X_Post_Meta' ) ) {
 		 * @param  array  $fields Meta fields array.
 		 * @return mixed
 		 */
-		public function sanitize_meta( $key, $value, $fields = null ) {
+		public function sanitize_meta( $key = '', $value = null, $fields = null ) {
 
 			$fields = ! $fields ? $this->args['fields'] : $fields;
 			$field  = $fields[ $key ];
@@ -693,7 +693,7 @@ if ( ! class_exists( 'Cherry_X_Post_Meta' ) ) {
 		 * @param  array  $field   Meta field apropriate to current key.
 		 * @return string
 		 */
-		public function get_meta( $post, $key, $default = false, $field = array() ) {
+		public function get_meta( $post = null, $key = '', $default = false, $field = array() ) {
 
 			if ( ! is_object( $post ) ) {
 				return '';

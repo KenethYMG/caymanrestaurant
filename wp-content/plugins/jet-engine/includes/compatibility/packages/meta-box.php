@@ -65,7 +65,7 @@ if ( ! class_exists( 'Jet_Engine_Meta_Box_Package' ) ) {
 		 * @param  [type] $index        [description]
 		 * @return [type]               [description]
 		 */
-		public function repeater_val( $value, $object, $source_field, $field, $index = 0 ) {
+		public function repeater_val( $value = null, $object = null, $source_field = null, $field = null, $index = 0 ) {
 
 			if ( ! $object->ID || ! $source_field ) {
 				return $value;
@@ -135,7 +135,7 @@ if ( ! class_exists( 'Jet_Engine_Meta_Box_Package' ) ) {
 		 * @param  array  $settings [description]
 		 * @return [type]           [description]
 		 */
-		public function field_render( $result, $settings = array() ) {
+		public function field_render( $result = null, $settings = array() ) {
 
 			$key = isset( $settings['mb_field_key'] ) ? $settings['mb_field_key'] : false;
 
@@ -189,7 +189,7 @@ if ( ! class_exists( 'Jet_Engine_Meta_Box_Package' ) ) {
 		 * @param  array  $settings [description]
 		 * @return [type]           [description]
 		 */
-		public function image_url_render( $url, $settings = array() ) {
+		public function image_url_render( $url = false, $settings = array() ) {
 
 			$custom = ! empty( $settings['image_link_source_custom'] ) ? $settings['image_link_source_custom'] : false;
 
@@ -220,7 +220,7 @@ if ( ! class_exists( 'Jet_Engine_Meta_Box_Package' ) ) {
 		 * @param  array  $settings [description]
 		 * @return [type]           [description]
 		 */
-		public function link_render( $url, $settings = array() ) {
+		public function link_render( $url = false, $settings = array() ) {
 
 			$custom = $settings['dynamic_link_source_custom'];
 
@@ -300,7 +300,7 @@ if ( ! class_exists( 'Jet_Engine_Meta_Box_Package' ) ) {
 
 		}
 
-		public function add_control( $widget, $args = array() ) {
+		public function add_control( $widget = null, $args = array() ) {
 
 			$group     = isset( $args['group'] ) ? $args['group'] : 'fields';
 			$condition = isset( $args['condition'] ) ? $args['condition'] : array();

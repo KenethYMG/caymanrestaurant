@@ -133,7 +133,7 @@ class Plugin_Manager {
 	 * @param  [type] $_args   [description]
 	 * @return [type]          [description]
 	 */
-	public function plugins_api_filter( $_data, $_action = '', $_args = null ) {
+	public function plugins_api_filter( $_data = false, $_action = '', $_args = null ) {
 
 		if ( 'plugin_information' !== $_action ) {
 			return $_data;
@@ -757,7 +757,7 @@ class Plugin_Manager {
 	 * @param  boolean $plugin_url [description]
 	 * @return [type]              [description]
 	 */
-	public function install_plugin( $plugin_file, $plugin_url = false ) {
+	public function install_plugin( $plugin_file = false, $plugin_url = false ) {
 
 		$status = array();
 

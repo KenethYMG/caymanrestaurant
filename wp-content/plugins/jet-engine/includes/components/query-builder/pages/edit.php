@@ -55,8 +55,6 @@ class Edit extends \Jet_Engine_CPT_Page_Base {
 	 */
 	public function page_specific_assets() {
 
-		timer_start();
-
 		$module_data = jet_engine()->framework->get_included_module_data( 'cherry-x-vue-ui.php' );
 
 		$ui = new \CX_Vue_UI( $module_data );
@@ -148,7 +146,7 @@ class Edit extends \Jet_Engine_CPT_Page_Base {
 				'data_types'              => \Jet_Engine_Tools::data_types_list(),
 				'help_links'              => array(
 					array(
-						'url'   => 'https://crocoblock.com/knowledge-base/article-category/jetengine-query-builder/?utm_source=jetengine&amp;utm_medium=query-builder&amp;utm_campaign=need-help',
+						'url'   => 'https://crocoblock.com/knowledge-base/article-category/jetengine-query-builder/?utm_source=jetengine&utm_medium=query-builder&utm_campaign=need-help',
 						'label' => __( 'Query Builder knowledge base', 'jet-engine' ),
 					),
 				),

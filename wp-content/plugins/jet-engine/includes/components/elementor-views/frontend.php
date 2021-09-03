@@ -26,10 +26,15 @@ if ( ! class_exists( 'Jet_Engine_Elementor_Frontend' ) ) {
 		 * Constructor for the class
 		 */
 		public function __construct() {
-			add_action( 'elementor/frontend/after_enqueue_scripts', array( jet_engine()->frontend, 'frontend_scripts' ) );
-			add_action( 'elementor/frontend/after_enqueue_styles',  array( jet_engine()->frontend, 'frontend_styles' ) );
-			add_action( 'elementor/preview/enqueue_scripts',        array( jet_engine()->frontend, 'preview_scripts' ) );
-			add_action( 'elementor/preview/enqueue_scripts',        array( $this, 'preview_scripts' ) );
+
+			/**
+			 * Disable to improve performance, requires testing
+			 * add_action( 'elementor/frontend/after_enqueue_scripts', array( jet_engine()->frontend, 'frontend_scripts' ) );
+			 */
+
+			add_action( 'elementor/frontend/after_enqueue_styles', array( jet_engine()->frontend, 'frontend_styles' ) );
+			add_action( 'elementor/preview/enqueue_scripts',       array( jet_engine()->frontend, 'preview_scripts' ) );
+			add_action( 'elementor/preview/enqueue_scripts',       array( $this, 'preview_scripts' ) );
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_listing_css' ) );
 			add_action( 'jet-engine/locations/enqueue-location-css', array( $this, 'loc_enqueue_listing_css' ) );

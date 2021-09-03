@@ -866,11 +866,14 @@ class Jet_Smart_Filters_Date_Range_Widget extends Jet_Smart_Filters_Base_Widget 
 		$filter_id            = $settings['filter_id'];
 		$provider             = ! empty( $settings['content_provider'] ) ? $settings['content_provider'] : '';
 		$query_id             = ! empty( $settings['query_id'] ) ? $settings['query_id'] : 'default';
+		$show_label           = ! empty( $settings['show_label'] ) ? filter_var( $settings['show_label'], FILTER_VALIDATE_BOOLEAN ) : false;
 		$additional_providers = jet_smart_filters()->utils->get_additional_providers( $settings );
 		$format               = '<i class="%s"></i>';
 		$icon                 = $settings['apply_button_icon'] ? sprintf( $format, $settings['apply_button_icon'] ) : '';
 		$hide_button          = ! empty( $settings['hide_apply_button'] ) ? $settings['hide_apply_button'] : false;
 		$hide_button          = filter_var( $hide_button, FILTER_VALIDATE_BOOLEAN );
+
+		jet_smart_filters()->admin_bar->register_post_item( $filter_id );
 
 		include jet_smart_filters()->get_template( 'common/filter-label.php' );
 

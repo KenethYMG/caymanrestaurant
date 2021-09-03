@@ -33,7 +33,7 @@ if ( ! class_exists( 'Jet_Engine_Dynamic_Functions' ) ) {
 					'type'    => 'number',
 					'default' => 0,
 					'min'     => 0,
-					'max'     => 3,
+					'max'     => 5,
 				),
 			);
 
@@ -72,7 +72,14 @@ if ( ! class_exists( 'Jet_Engine_Dynamic_Functions' ) ) {
 					'cb'              => array( $this, 'number_format' ),
 					'custom_settings' => $number_format_settings,
 				),
-
+				'query_var' => array(
+					'label'              => __( 'SQL query results', 'jet-engine' ),
+					'type'               => 'query_var',
+					'query'              => false,
+					'cb'                 => array( $this, 'number_format' ),
+					'custom_settings'    => $number_format_settings,
+					'custom_settings_cb' => array( $this, 'get_query_settings' ),
+				),
 			) );
 
 		}
@@ -92,32 +99,113 @@ if ( ! class_exists( 'Jet_Engine_Dynamic_Functions' ) ) {
 
 		}
 
+		public function get_query_settings() {
+
+			$queries = \Jet_Engine\Query_Builder\Manager::instance()->get_queries();
+
+			$options = array();
+			$sql_queries = array();
+
+			if ( ! empty( $queries ) ) {
+				foreach( $queries as $query ) {
+
+					if ( ! $query || ! is_object( $query ) ) {
+						continue;
+					}
+
+					if ( 'sql' === $query->query_type ) {
+						$sql_queries[] = $query;
+					}
+				}
+			}
+
+			if ( empty( $sql_queries ) ) {
+				$options['no_query_notice'] = array(
+					'type' => 'raw_html',
+					'raw'  => sprintf(
+						esc_html__( 'With this function you can output any data from custom SQL query. To start, please %s', 'jet-elements' ),
+						'<a target="_blank" href="' . admin_url( 'admin.php?page=jet-engine-query&query_action=add' ) . '">' . esc_html__( 'create your query', 'jet-elements' ) . '</a>'
+					)
+				);
+			}
+
+			$columns = array();
+
+			foreach ( $sql_queries as $query ) {
+
+				$fields          = $query->get_instance_fields();
+				$prepared_fields = array();
+
+				foreach ( $fields as $field ) {
+					$prepared_fields[ $query->get_instance_id() . '::' . $field ] = $field;
+				}
+
+				$columns[] = array(
+					'label'   => $query->get_instance_name(),
+					'options' => $prepared_fields,
+				);
+
+			}
+
+			$options['_query_field'] = array(
+				'label'       => __( 'Query Column', 'jet-engine' ),
+				'description' => __( 'Select column from the query to show', 'jet-engine' ),
+				'type'        => 'select',
+				'groups'      => $columns,
+			);
+
+			$options['_additional_function'] = array(
+				'label'       => __( 'Additional Function', 'jet-engine' ),
+				'description' => __( 'Apply additional function to SQL query', 'jet-engine' ),
+				'type'        => 'select',
+				'options'     => array(
+					''      => __( 'Select...', 'jet-engine' ),
+					'SUM'   => __( 'Sum', 'jet-engine' ),
+					'AVG'   => __( 'Average', 'jet-engine' ),
+					'COUNT' => __( 'Count', 'jet-engine' ),
+					'MIN'   => __( 'Minimum', 'jet-engine' ),
+					'MAX'   => __( 'Maximum', 'jet-engine' ),
+				),
+			);
+
+			return $options;
+		}
+
 		/**
 		 * Allow to register custom settings to each function
 		 */
 		public function register_custom_settings( $tag ) {
 
-			$controls = array();
+			$controls       = array();
+			$functions_list = array_reverse( $this->functions_list );
 
-			foreach ( $this->functions_list as $func_name => $data ) {
+			foreach ( $functions_list as $func_name => $data ) {
 
-				if ( empty( $data['custom_settings'] ) ) {
-					continue;
+				$custom_settings = array();
+
+				if ( ! empty( $data['custom_settings_cb'] ) && is_callable( $data['custom_settings_cb'] ) ) {
+					$custom_settings = array_merge( $custom_settings, call_user_func( $data['custom_settings_cb'] ) );
 				}
 
-				foreach ( $data['custom_settings'] as $setting_key => $setting_data ) {
+				if ( ! empty( $data['custom_settings'] ) ) {
+					$custom_settings = array_merge( $custom_settings, $data['custom_settings'] );
+				}
 
-					if ( empty( $controls[ $setting_key ] ) ) {
+				if ( ! empty( $custom_settings ) ) {
+					foreach ( $custom_settings as $setting_key => $setting_data ) {
 
-						$setting_data['condition'] = array(
-							'function_name' => array( $func_name ),
-						);
+						if ( empty( $controls[ $setting_key ] ) ) {
 
-						$controls[ $setting_key ] = $setting_data;
-					} else {
-						$controls[ $setting_key ]['condition']['function_name'][] = $func_name;
+							$setting_data['condition'] = array(
+								'function_name' => array( $func_name ),
+							);
+
+							$controls[ $setting_key ] = $setting_data;
+						} else {
+							$controls[ $setting_key ]['condition']['function_name'][] = $func_name;
+						}
+
 					}
-
 				}
 
 			}
@@ -135,13 +223,23 @@ if ( ! class_exists( 'Jet_Engine_Dynamic_Functions' ) ) {
 		 */
 		public function get_custom_settings( $function, $tag ) {
 
-			$settings = array();
+			$settings        = array();
+			$custom_settings = array();
+			$data            = ! empty( $this->functions_list[ $function ] ) ? $this->functions_list[ $function ] : array();
 
-			if ( empty( $this->functions_list[ $function ] ) || empty( $this->functions_list[ $function ]['custom_settings'] ) ) {
+			if ( ! empty( $data['custom_settings_cb'] ) && is_callable( $data['custom_settings_cb'] ) ) {
+				$custom_settings = array_merge( $custom_settings, call_user_func( $data['custom_settings_cb'] ) );
+			}
+
+			if ( ! empty( $data['custom_settings'] ) ) {
+				$custom_settings = array_merge( $custom_settings, $data['custom_settings'] );
+			}
+
+			if ( empty( $this->functions_list[ $function ] ) || empty( $custom_settings ) ) {
 				return $settings;
 			}
 
-			foreach ( $this->functions_list[ $function ]['custom_settings'] as $setting_key => $setting_data ) {
+			foreach ( $custom_settings as $setting_key => $setting_data ) {
 				$settings[ $setting_key ] = $tag->get_settings( $setting_key );
 			}
 
@@ -165,11 +263,40 @@ if ( ! class_exists( 'Jet_Engine_Dynamic_Functions' ) ) {
 			$func_data['field_name']      = $field_name;
 			$func_data['custom_settings'] = $custom_settings;
 
-			if ( ! empty( $func_data['type'] ) && 'sql' === $func_data['type'] ) {
-				return $this->call_sql_function( $func_data );
-			} else {
-				return $this->call_raw_function( $func_data );
+			if ( ! empty( $func_data['type'] ) ) {
+				switch ( $func_data['type'] ) {
+					case 'sql':
+						return $this->call_sql_function( $func_data );
+
+					case 'query_var':
+						return $this->get_query_var( $func_data );
+
+					default:
+						return $this->call_raw_function( $func_data );
+				}
 			}
+
+		}
+
+		public function get_query_var( $func_data ) {
+
+			if ( empty( $func_data['custom_settings'] ) || empty( $func_data['custom_settings']['_query_field'] ) ) {
+				return;
+			}
+
+			$query_data = explode( '::', $func_data['custom_settings']['_query_field'] );
+			$query_id   = str_replace( '_query_', '', $query_data[0] );
+			$column     = $query_data[1];
+			$query      = \Jet_Engine\Query_Builder\Manager::instance()->get_query_by_id( $query_id );
+
+			if ( ! $query || 'sql' !== $query->query_type ) {
+				return;
+			}
+
+			$func          = ! empty( $func_data['custom_settings']['_additional_function'] ) ? $func_data['custom_settings']['_additional_function'] : false;
+			$decimal_count = isset( $func_data['custom_settings']['decimal_count'] ) ? $func_data['custom_settings']['decimal_count'] : 0;
+
+			return $query->get_var( $column, $func, $decimal_count );
 
 		}
 

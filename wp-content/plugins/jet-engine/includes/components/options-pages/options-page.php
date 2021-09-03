@@ -406,7 +406,7 @@ if ( ! class_exists( 'Jet_Engine_Options_Page_Factory' ) ) {
 		 * @param  boolean $default [description]
 		 * @return [type]           [description]
 		 */
-		public function get( $option, $default = false, $field = array() ) {
+		public function get( $option = '', $default = false, $field = array() ) {
 
 			if ( null === $this->options ) {
 				$this->options = get_option( $this->slug, array() );

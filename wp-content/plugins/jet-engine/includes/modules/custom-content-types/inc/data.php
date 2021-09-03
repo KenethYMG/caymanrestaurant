@@ -445,7 +445,7 @@ class Data extends \Jet_Engine_Base_Data {
 	/**
 	 * Rewrite this function in the child class to perform any actions on item update
 	 */
-	public function after_item_update( $item, $is_new = false ) {
+	public function after_item_update( $item = array(), $is_new = false ) {
 
 		$meta_fields = ! empty( $item['meta_fields'] ) ? $item['meta_fields'] : array();
 		$meta_fields = array_merge(

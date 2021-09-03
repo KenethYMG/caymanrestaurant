@@ -276,7 +276,7 @@ if ( ! class_exists( 'Jet_Engine_Listings_Ajax_Handlers' ) ) {
 				$render_instance->posts_template( $posts, $widget_settings );
 
 			} else {
-				$render_instance->render();
+				$render_instance->render_content();
 			}
 
 			$response['html'] = ob_get_clean();

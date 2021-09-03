@@ -26,6 +26,7 @@
 			this.presetJoin();
 			this.presetWhere();
 			this.presetOrder();
+			this.presetCols()
 		},
 		computed: {
 			availableColumns: function() {
@@ -37,7 +38,7 @@
 					result = JSON.parse( JSON.stringify( columns ) );
 				}
 
-				if ( this.query.join_tables.length ) {
+				if ( this.query.use_join && this.query.join_tables.length ) {
 
 					for (var i = 0; i < result.length; i++) {
 						result[ i ].value = this.query.table + '.' + result[ i ].value;
@@ -117,6 +118,11 @@
 					this.$set( this.dynamicQuery, 'where', {} );
 				} else if ( 'object' !== typeof this.dynamicQuery.where || undefined !== this.dynamicQuery.where.length ) {
 					this.$set( this.dynamicQuery, 'where', {} );
+				}
+			},
+			presetCols: function() {
+				if ( ! this.query.calc_cols ) {
+					this.$set( this.query, 'calc_cols', [] );
 				}
 			},
 			newDynamicWhere: function( newClause, metaQuery, prevID ) {

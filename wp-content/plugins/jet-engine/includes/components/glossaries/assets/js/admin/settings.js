@@ -2,6 +2,55 @@
 
 	'use strict';
 
+	Vue.component( 'jet-engine-media', {
+		template: '#jet_engine_media',
+		data: function() {
+			return {
+				fileData: {},
+				mediaFrame: null,
+			};
+		},
+		props: [ 'value' ],
+		created: function() {
+
+			if ( ! this.value || ! this.value.id ) {
+				this.fileData = {
+					id: null,
+					name: null,
+					url: null,
+				};
+			} else {
+				this.fileData = this.value;
+			}
+
+			this.mediaFrame = window.wp.media({
+				title: 'Select or Upload File for Glossary',
+				button: {
+					text: 'Use this file'
+				},
+				multiple: false,
+			});
+
+			this.mediaFrame.on( 'select', () => {
+
+				var attachment = this.mediaFrame.state().get( 'selection' ).first().toJSON();
+
+				this.$set( this.fileData, 'id', attachment.id );
+				this.$set( this.fileData, 'name', attachment.filename );
+				this.$set( this.fileData, 'url', attachment.url );
+
+				this.$emit( 'input', this.fileData );
+
+			} );
+
+		},
+		methods: {
+			selectFile: function() {
+				this.mediaFrame.open();
+			},
+		},
+	} );
+
 	Vue.component( 'jet-engine-glossaries', {
 		template: '#jet_engine_glossaries',
 		data: function() {
@@ -162,7 +211,6 @@
 		},
 		mounted: function() {
 			this.settings = this.value;
-			console.log( this.value );
 		},
 		methods: {
 			isSaving: function() {

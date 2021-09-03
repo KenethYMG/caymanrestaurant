@@ -80,7 +80,7 @@ class Elementor_Integration {
 	 * @param  [type] $widget [description]
 	 * @return [type]         [description]
 	 */
-	public function register_link_controls( $widget, $is_image = false ) {
+	public function register_link_controls( $widget = null, $is_image = false ) {
 
 		$pages = $this->get_pages_for_options();
 

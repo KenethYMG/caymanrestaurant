@@ -38,6 +38,13 @@ if ( ! class_exists( 'Jet_Engine_Listings' ) ) {
 		public $macros = null;
 
 		/**
+		 * Did posts watcher instance
+		 *
+		 * @var null
+		 */
+		public $did_posts_watcher = null;
+
+		/**
 		 * Filters manager instance
 		 *
 		 * @var null
@@ -82,12 +89,14 @@ if ( ! class_exists( 'Jet_Engine_Listings' ) ) {
 			require jet_engine()->plugin_path( 'includes/components/listings/filters.php' );
 			require jet_engine()->plugin_path( 'includes/components/listings/data.php' );
 			require jet_engine()->plugin_path( 'includes/components/listings/delete-post.php' );
+			require jet_engine()->plugin_path( 'includes/components/listings/did-posts-watcher.php' );
 
 			$this->post_type   = new Jet_Engine_Listings_Post_Type();
 			$this->macros      = new Jet_Engine_Listings_Macros();
 			$this->filters     = new Jet_Engine_Listings_Filters();
 			$this->data        = new Jet_Engine_Listings_Data();
 			$this->delete_post = new Jet_Engine_Delete_Post();
+			$this->did_posts   = new Jet_Engine_Did_Posts_Watcher();
 
 			// Ensure backward compatibility
 			jet_engine()->post_type = $this->post_type;
@@ -429,7 +438,7 @@ if ( ! class_exists( 'Jet_Engine_Listings' ) ) {
 		public function render_listing( $settings = array() ) {
 
 			$instance = $this->get_render_instance( 'listing-grid', $settings );
-			$instance->render();
+			$instance->render_content();
 
 		}
 
@@ -443,7 +452,7 @@ if ( ! class_exists( 'Jet_Engine_Listings' ) ) {
 		public function render_item( $item = null, $settings = array() ) {
 
 			$instance = $this->get_render_instance( $item, $settings );
-			$instance->render();
+			$instance->render_content();
 
 		}
 
@@ -472,7 +481,7 @@ if ( ! class_exists( 'Jet_Engine_Listings' ) ) {
 				'jet_engine_render_acf_checkbox_values' => __( 'ACF Checkbox field values', 'jet-engine' ),
 				'jet_engine_render_post_titles'         => __( 'Get post titles from IDs', 'jet-engine' ),
 				'jet_related_posts_list'                => __( 'Related posts list', 'jet-engine' ),
-				'jet_engine_render_field_values_count'  => __( 'Field values count', 'jet-engine' ),
+				'jet_engine_render_field_values_count'  => __( 'Field values count (for arrays returns array items count)', 'jet-engine' ),
 				'wp_get_attachment_image'               => __( 'Get image by ID', 'jet-engine' ),
 				'do_shortcode'                          => __( 'Do shortcodes', 'jet-engine' ),
 				'human_time_diff'                       => __( 'Human readable time difference', 'jet-engine' ),
@@ -482,6 +491,222 @@ if ( ! class_exists( 'Jet_Engine_Listings' ) ) {
 				'jet_engine_label_by_glossary'          => __( 'Get labels by glossary data', 'jet-engine' ),
 			) );
 
+		}
+
+		/**
+		 * Returns allowed callback arguments list
+		 *
+		 * @return [type] [description]
+		 */
+		public function get_callbacks_args() {
+
+			$glossaries = array(
+				'' => __( 'Select glossary...', 'jet-engine' ),
+			);
+
+			foreach ( jet_engine()->glossaries->settings->get() as $glossary ) {
+				$glossaries[ $glossary['id']] = $glossary['name'];
+			}
+
+			return apply_filters( 'jet-engine/listings/allowed-callbacks-args', array(
+				'labels_by_glossary' => array(
+					'label'     => __( 'Select glossary', 'jet-engine' ),
+					'type'      => 'select',
+					'default'   => '',
+					'options'   => $glossaries,
+					'condition' => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'jet_engine_label_by_glossary' ),
+					),
+				),
+				'date_format' => array(
+					'label'       => esc_html__( 'Format', 'jet-engine' ),
+					'type'        => 'text',
+					'default'     => 'F j, Y',
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'date', 'date_i18n' ),
+					),
+					'description' => sprintf( '<a href="https://codex.wordpress.org/Formatting_Date_and_Time" target="_blank">%s</a>', __( 'Documentation on date and time formatting', 'jet-engine' ) ),
+				),
+				'num_dec_point' => array(
+					'label'       => esc_html__( 'Decimal point', 'jet-engine' ),
+					'type'        => 'text',
+					'default'     => '.',
+					'description' => __( 'Sets the separator for the decimal point', 'jet-engine' ),
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'number_format' ),
+					),
+				),
+				'num_thousands_sep' => array(
+					'label'       => esc_html__( 'Thousands separator', 'jet-engine' ),
+					'type'        => 'text',
+					'default'     => ',',
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'number_format' ),
+					),
+				),
+				'human_time_diff_from_key' => array(
+					'label'       => esc_html__( 'Additional meta key', 'jet-engine' ),
+					'description' => esc_html__( 'Pass additional date meta key for calculating time diff. If not set, difference will be calculated between current time and input time. If set - between time from this meta field and input time.', 'jet-engine' ),
+					'type'        => 'text',
+					'default'     => '',
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'human_time_diff' ),
+					),
+				),
+				'num_decimals' => array(
+					'label'       => esc_html__( 'Decimal points', 'jet-engine' ),
+					'type'        => 'number',
+					'min'         => 0,
+					'max'         => 10,
+					'step'        => 1,
+					'default'     => 2,
+					'description' => __( 'Sets the number of visible decimal points', 'jet-engine' ),
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'number_format' ),
+					),
+				),
+				'zeroise_threshold' => array(
+					'label'       => esc_html__( 'Threshold', 'jet-engine' ),
+					'type'        => 'number',
+					'min'         => 0,
+					'max'         => 10,
+					'step'        => 1,
+					'default'     => 3,
+					'description' => __( 'Digit places number needs to be to not have zeros added', 'jet-engine' ),
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'zeroise' ),
+					),
+				),
+				'child_path' => array(
+					'label'       => __( 'Child item name', 'jet-engine' ),
+					'type'        => 'text',
+					'label_block' => true,
+					'default'     => '',
+					'description' => __( 'Name of the child item to get. Or path to the nested child item. Separate nesting levels with "/". For example - level-1-name/level-2-name/child-item-name', 'jet-engine' ),
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'jet_engine_get_child' ),
+					),
+				),
+				'attachment_image_size' => array(
+					'label'   => __( 'Image size', 'jet-engine' ),
+					'type'    => 'select',
+					'default' => 'full',
+					'options' => $this->get_image_sizes(),
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'wp_get_attachment_image' ),
+					),
+				),
+				'related_list_is_single' => array(
+					'label'        => esc_html__( 'Single value', 'jet-engine' ),
+					'type'         => 'switcher',
+					'label_on'     => esc_html__( 'Yes', 'jet-engine' ),
+					'label_off'    => esc_html__( 'No', 'jet-engine' ),
+					'return_value' => 'yes',
+					'default'      => '',
+					'condition'    => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'jet_related_posts_list' ),
+					),
+				),
+				'related_list_is_linked' => array(
+					'label'        => esc_html__( 'Add links to related posts', 'jet-engine' ),
+					'type'         => 'switcher',
+					'label_on'     => esc_html__( 'Yes', 'jet-engine' ),
+					'label_off'    => esc_html__( 'No', 'jet-engine' ),
+					'return_value' => 'yes',
+					'default'      => 'yes',
+					'condition'    => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'jet_related_posts_list' ),
+					),
+				),
+				'related_list_tag' => array(
+					'label'   => __( 'Related list HTML tag', 'jet-engine' ),
+					'type'    => 'select',
+					'default' => 'ul',
+					'options' => array(
+						'ul'   => 'UL',
+						'ol'   => 'OL',
+						'div'  => 'DIV',
+					),
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'jet_related_posts_list' ),
+					),
+				),
+				'multiselect_delimiter' => array(
+					'label'       => esc_html__( 'Delimiter', 'jet-engine' ),
+					'type'        => 'text',
+					'default'     => ', ',
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'jet_engine_render_multiselect', 'jet_related_posts_list', 'jet_engine_render_post_titles', 'jet_engine_render_checkbox_values', 'jet_engine_label_by_glossary' ),
+					),
+				),
+				'switcher_true' => array(
+					'label'       => esc_html__( 'Text if enabled', 'jet-engine' ),
+					'type'        => 'textarea',
+					'default'     => '',
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'jet_engine_render_switcher' ),
+					),
+				),
+				'switcher_false' => array(
+					'label'       => esc_html__( 'Text if disabled', 'jet-engine' ),
+					'type'        => 'textarea',
+					'default'     => '',
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'jet_engine_render_switcher' ),
+					),
+				),
+				'checklist_cols_num' => array(
+					'label'       => __( 'Columns number', 'jet-engine' ),
+					'type'        => 'number',
+					'default'     => 1,
+					'min'         => 1,
+					'max'         => 6,
+					'step'        => 1,
+					'condition'   => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'jet_engine_render_checklist' ),
+					),
+				),
+				'checklist_divider' => array(
+					'label'        => esc_html__( 'Add divider between items', 'jet-engine' ),
+					'type'         => 'switcher',
+					'label_on'     => esc_html__( 'Yes', 'jet-engine' ),
+					'label_off'    => esc_html__( 'No', 'jet-engine' ),
+					'return_value' => 'yes',
+					'default'      => '',
+					'condition'    => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'jet_engine_render_checklist' ),
+					),
+				),
+				'checklist_divider_color' => array(
+					'label' => __( 'Divider color', 'jet-engine' ),
+					'type' => 'color',
+					'condition'    => array(
+						'dynamic_field_filter' => 'yes',
+						'filter_callback'      => array( 'jet_engine_render_checklist' ),
+						'checklist_divider'    => 'yes',
+					),
+					'selectors' => array(
+						'{{WRAPPER}} .jet-listing-dynamic-field .jet-check-list__item' => 'border-color: {{VALUE}}',
+					),
+				),
+			) );
 		}
 
 		public function allowed_context_list( $for = 'elementor' ) {
@@ -556,7 +781,8 @@ if ( ! class_exists( 'Jet_Engine_Listings' ) ) {
 
 				case 'wp_get_attachment_image':
 
-					$args = array( $result, 'full' );
+					$size = isset( $settings['attachment_image_size'] ) ? $settings['attachment_image_size'] : 'full';
+					$args = array( $result, $size );
 
 					break;
 
@@ -603,7 +829,12 @@ if ( ! class_exists( 'Jet_Engine_Listings' ) ) {
 					$field_icon = ! empty( $settings['field_icon'] ) ? esc_attr( $settings['field_icon'] ) : false;
 					$new_icon   = ! empty( $settings['selected_field_icon'] ) ? $settings['selected_field_icon'] : false;
 
-					$base_class    = $widget->get_name();
+					if ( is_callable( array( $widget, 'get_name' ) ) ) {
+						$base_class = $widget->get_name();
+					} else {
+						$base_class = 'jet-dynamic-field';
+					}
+
 					$new_icon_html = Jet_Engine_Tools::render_icon( $new_icon, $base_class . '__icon' );
 					$icon          = false;
 
@@ -613,7 +844,7 @@ if ( ! class_exists( 'Jet_Engine_Listings' ) ) {
 						$icon = sprintf( '<i class="%1$s %2$s__icon"></i>', $field_icon, $base_class );
 					}
 
-					if ( $icon ) {
+					if ( $icon && $widget ) {
 						$widget->prevent_icon = true;
 					}
 

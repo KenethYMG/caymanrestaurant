@@ -114,7 +114,7 @@ if ( ! class_exists( 'Jet_Engine_DB' ) ) {
 		 * @param  array  $data [description]
 		 * @return [type]       [description]
 		 */
-		public function update( $table, $data = array(), $format = array() ) {
+		public function update( $table = null, $data = array(), $format = array() ) {
 
 			$prepared_data = array();
 
@@ -151,7 +151,7 @@ if ( ! class_exists( 'Jet_Engine_DB' ) ) {
 			return $result;
 		}
 
-		public function delete( $table, $where = array(), $format = array() ) {
+		public function delete( $table = null, $where = array(), $format = array() ) {
 			global $wpdb;
 			$table_name = $this->tables( $table, 'name' );
 			$wpdb->delete( $table_name, $where, $format );
@@ -210,7 +210,7 @@ if ( ! class_exists( 'Jet_Engine_DB' ) ) {
 		 * @param  string   $table  Table name.
 		 * @return int
 		 */
-		public function count( $table, $args = array() ) {
+		public function count( $table = null, $args = array() ) {
 
 			global $wpdb;
 

@@ -21,10 +21,12 @@ class Manager {
 		require_once Module::instance()->module_path( 'auth-types/base.php' );
 		require_once Module::instance()->module_path( 'auth-types/application-password.php' );
 		require_once Module::instance()->module_path( 'auth-types/bearer-token.php' );
+		require_once Module::instance()->module_path( 'auth-types/custom-header.php' );
 		require_once Module::instance()->module_path( 'auth-types/rapidapi.php' );
 
 		$this->register_type( new Application_Password() );
 		$this->register_type( new Bearer_Token() );
+		$this->register_type( new Custom_Header() );
 		$this->register_type( new RapidAPI() );
 
 		do_action( 'jet-engine/rest-api-listings/register-auth-types', $this );

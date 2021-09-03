@@ -47,6 +47,10 @@ if ( ! class_exists( 'Jet_Engine_ACF_Package' ) ) {
 
 			add_filter( 'jet-engine/listings/allowed-callbacks', array( $this, 'gallery_field_callbacks' ) );
 
+			// Listing item link.
+			add_action( 'jet-engine/listings/document/custom-link-source-controls', array( $this, 'listing_link_controls' ) );
+			add_filter( 'jet-engine/elementor-views/frontend/custom-listing-url',   array( $this, 'listing_link_render' ), 10, 2 );
+
 		}
 
 		/**
@@ -133,7 +137,7 @@ if ( ! class_exists( 'Jet_Engine_ACF_Package' ) ) {
 		 * @param  array  $settings [description]
 		 * @return [type]           [description]
 		 */
-		public function field_render( $result, $settings = array() ) {
+		public function field_render( $result = null, $settings = array() ) {
 
 			$key = isset( $settings['acf_field_key'] ) ? $settings['acf_field_key'] : false;
 			$key = $this->parse_key( $key, true );
@@ -230,7 +234,7 @@ if ( ! class_exists( 'Jet_Engine_ACF_Package' ) ) {
 		 * @param  array  $settings [description]
 		 * @return [type]           [description]
 		 */
-		public function image_url_render( $url, $settings = array() ) {
+		public function image_url_render( $url = false, $settings = array() ) {
 
 			$custom = ! empty( $settings['image_link_source_custom'] ) ? $settings['image_link_source_custom'] : false;
 
@@ -273,7 +277,7 @@ if ( ! class_exists( 'Jet_Engine_ACF_Package' ) ) {
 		 * @param  array  $settings [description]
 		 * @return [type]           [description]
 		 */
-		public function link_render( $url, $settings = array() ) {
+		public function link_render( $url = false, $settings = array() ) {
 
 			if ( ! empty( $settings['dynamic_link_source_custom'] ) ) {
 				return $url;
@@ -315,7 +319,7 @@ if ( ! class_exists( 'Jet_Engine_ACF_Package' ) ) {
 		 * @param  [type] $key [description]
 		 * @return [type]      [description]
 		 */
-		public function parse_key( $key, $return_with_id = false ) {
+		public function parse_key( $key = null, $return_with_id = false ) {
 
 			if ( ! $key ) {
 				return false;
@@ -420,7 +424,7 @@ if ( ! class_exists( 'Jet_Engine_ACF_Package' ) ) {
 
 		}
 
-		public function add_control( $widget, $args = array() ) {
+		public function add_control( $widget = null, $args = array() ) {
 
 			$group     = isset( $args['group'] ) ? $args['group'] : 'fields';
 			$condition = isset( $args['condition'] ) ? $args['condition'] : array();
@@ -680,6 +684,26 @@ if ( ! class_exists( 'Jet_Engine_ACF_Package' ) ) {
 				'oembed'           => array( 'field' ),
 			);
 
+		}
+
+		public function listing_link_controls( $document ) {
+
+			$this->add_control( $document, array(
+				'group'     => 'links',
+				'condition' => array(
+					'listing_link_source' => 'acf_field_groups',
+				),
+			) );
+
+		}
+
+		public function listing_link_render( $url, $settings ) {
+
+			if ( empty( $settings['listing_link_source'] ) || 'acf_field_groups' !== $settings['listing_link_source'] ) {
+				return $url;
+			}
+
+			return $this->link_render( $url, $settings );
 		}
 
 	}

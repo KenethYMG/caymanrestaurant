@@ -104,7 +104,7 @@ export default class DatePeriod extends Filter {
 
 				this.$datepickerInput.val(convertDate(startDate) + '-' + convertDate(endDate)).trigger('change');
 			} else {
-				this.$datepickerInput.trigger('change');
+				this.$datepickerInput.val(convertDate(date)).trigger('change');
 			}
 		};
 
@@ -162,6 +162,13 @@ export default class DatePeriod extends Filter {
 		// init air datepicker
 		this.$datepicker = this.$datepickerInput.airDatepicker(datepickerOptions);
 		this.datepicker = this.$datepicker.data('datepicker');
+
+		// clear events to avoid duplication
+		this.$datepickerBtn.off('click');
+		this.$prevPeriodBtn.off('click');
+		this.$nextPeriodBtn.off('click');
+		this.$nextPeriodBtn.off('click');
+		this.$datepickerInput.off('change');
 
 		// init events
 		this.$datepickerBtn.on('click', () => {
@@ -293,7 +300,7 @@ export default class DatePeriod extends Filter {
 
 		const newPeriodStartValue = newPeriodStart ? convertDate(newPeriodStart) : '';
 
-		this.$datepickerInput.val((newPeriodStartValue + '-' + newPeriodEndValue).replace(/^:|:$/g, '')).trigger('change');
+		this.$datepickerInput.val((newPeriodStartValue + '-' + newPeriodEndValue).replace(/^-|-$/g, '')).trigger('change');
 		this.datepicker.selectDate(this.periodType === 'range' ? [newPeriodStart, newPeriodEnd] : newPeriodStart);
 	}
 

@@ -413,7 +413,7 @@ class Render extends \Jet_Engine_Render_Listing_Grid {
 	 * @param  array  $settings Settings
 	 * @return string
 	 */
-	public function get_marker_label( $post, $settings = array() ) {
+	public function get_marker_label( $post = null, $settings = array() ) {
 
 		$type = ! empty( $settings['marker_type'] ) ? $settings['marker_type'] : 'image';
 

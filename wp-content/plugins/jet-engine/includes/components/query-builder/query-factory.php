@@ -31,6 +31,7 @@ class Query_Factory {
 		$query_config                  = array();
 		$query_config['id']            = $id;
 		$query_config['name']          = $labels['name'];
+		$query_config['type']          = $type;
 		$query_config['query']         = isset( $args[ $type ] ) ? $args[ $type ] : array();
 		$query_config['dynamic_query'] = isset( $args[ '__dynamic_' . $type ] ) ? $args[ '__dynamic_' . $type ] : array();
 

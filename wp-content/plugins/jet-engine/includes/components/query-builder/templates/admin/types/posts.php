@@ -250,13 +250,6 @@
 									:value="query.meta_query[ index ].key"
 									@input="setFieldProp( clause._id, 'key', $event, query.meta_query )"
 								><jet-query-dynamic-args v-model="dynamicQuery.meta_query[ clause._id ].key"></jet-query-dynamic-args></cx-vui-input>
-								<cx-vui-input
-									label="<?php _e( 'Value', 'jet-engine' ); ?>"
-									:wrapper-css="[ 'equalwidth', 'has-macros' ]"
-									size="fullwidth"
-									:value="query.meta_query[ index ].value"
-									@input="setFieldProp( clause._id, 'value', $event, query.meta_query )"
-								><jet-query-dynamic-args v-model="dynamicQuery.meta_query[ clause._id ].value"></jet-query-dynamic-args></cx-vui-input>
 								<cx-vui-select
 									label="<?php _e( 'Compare', 'jet-engine' ); ?>"
 									description="<?php _e( 'Operator to test', 'jet-engine' ); ?>"
@@ -266,6 +259,13 @@
 									:value="query.meta_query[ index ].compare"
 									@input="setFieldProp( clause._id, 'compare', $event, query.meta_query )"
 								></cx-vui-select>
+								<cx-vui-input
+									label="<?php _e( 'Value', 'jet-engine' ); ?>"
+									:wrapper-css="[ 'equalwidth', 'has-macros' ]"
+									size="fullwidth"
+									:value="query.meta_query[ index ].value"
+									@input="setFieldProp( clause._id, 'value', $event, query.meta_query )"
+								><jet-query-dynamic-args v-model="dynamicQuery.meta_query[ clause._id ].value"></jet-query-dynamic-args></cx-vui-input>
 								<cx-vui-select
 									label="<?php _e( 'Type', 'jet-engine' ); ?>"
 									description="<?php _e( 'Data type stored in the given field', 'jet-engine' ); ?>"

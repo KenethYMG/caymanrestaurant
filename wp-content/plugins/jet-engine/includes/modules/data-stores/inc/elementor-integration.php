@@ -10,6 +10,8 @@ class Elementor_Integration {
 		add_action( 'jet-engine/listing/after-posts-query-fields', array( $this, 'register_listing_controls' ) );
 		add_action( 'jet-engine/elementor-views/dynamic-tags/register', array( $this, 'register_dynamic_tags' ) );
 
+		add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widgets' ) );
+
 	}
 
 	public function register_dynamic_tags( $tags_module ) {
@@ -22,6 +24,19 @@ class Elementor_Integration {
 		$tags_module->register_tag( new Dynamic_Tags\Store_Count() );
 		$tags_module->register_tag( new Dynamic_Tags\Get_Store() );
 
+	}
+
+	/**
+	 * Register widgets
+	 *
+	 * @param  object $widgets_manager
+	 *
+	 * @return void
+	 * @throws \Exception
+	 */
+	public function register_widgets( $widgets_manager ) {
+		require_once jet_engine()->modules->modules_path( 'data-stores/inc/widgets/button.php' );
+		$widgets_manager->register_widget_type( new Widgets\Button() );
 	}
 
 	/**
@@ -99,7 +114,7 @@ class Elementor_Integration {
 				array(
 					'type'        => \Elementor\Controls_Manager::SWITCHER,
 					'label'       => __( 'Open popup on success', 'jet-engine' ),
-					'description' => __( 'Open selected popup from JetPopup after post succesfully added to store. Popup should be selected in the <b>Advanced Tab > JetPopup</b> section, <b>Trigger Type</b> must be set to <b>None</b>', 'jet-engine' ),
+					'description' => __( 'Open selected popup from JetPopup after post successfully added to store. Popup should be selected in the <b>Advanced Tab > JetPopup</b> section, <b>Trigger Type</b> must be set to <b>None</b>', 'jet-engine' ),
 					'condition' => array(
 						'dynamic_link_source' => array( 'add_to_store' ),
 					),

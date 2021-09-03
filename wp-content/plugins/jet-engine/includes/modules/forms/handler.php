@@ -73,11 +73,11 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Handler' ) ) {
 			$refer_key = '_jet_engine_refer';
 
 			if ( ! $this->is_ajax ) {
-				$this->form  = ! empty( $_REQUEST[ $form_key ] ) ? $_REQUEST[ $form_key ] : false;
-				$this->refer = ! empty( $_REQUEST[ $refer_key ] ) ? $_REQUEST[ $refer_key ] : false;
+				$this->form  = ! empty( $_POST[ $form_key ] ) ? $_POST[ $form_key ] : false;
+				$this->refer = ! empty( $_POST[ $refer_key ] ) ? $_POST[ $refer_key ] : false;
 			} else {
 
-				$values = ! empty( $_REQUEST['values'] ) ? $_REQUEST['values'] : array();
+				$values = ! empty( $_POST['values'] ) ? $_POST['values'] : array();
 
 				foreach ( $values as $data ) {
 
@@ -88,10 +88,9 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Handler' ) ) {
 					if ( $data['name'] === $refer_key ) {
 						$this->refer = $data['value'];
 					}
-
 				}
-
 			}
+			$this->refer = wp_validate_redirect( $this->refer );
 		}
 
 		/**
@@ -121,6 +120,16 @@ if ( ! class_exists( 'Jet_Engine_Booking_Forms_Handler' ) ) {
 		public function process_form() {
 
 			$this->setup_form();
+
+			if ( ! $this->form || ! $this->refer ) {
+				$this->add_response_data( array(
+					'reload' => true,
+				) );
+
+				$this->redirect( array(
+					'status' => 'failed',
+				) );
+			}
 
 			$data = $this->get_form_data();
 

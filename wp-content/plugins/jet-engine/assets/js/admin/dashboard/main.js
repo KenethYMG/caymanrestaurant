@@ -12,9 +12,12 @@
 	window.JetEngineDashboard = new Vue( {
 		el: '#jet_engine_dashboard',
 		data: {
-			availableModules: dashboardConfig.available_modules,
+			internalModules: dashboardConfig.internal_modules,
+			externalModules: dashboardConfig.external_modules,
 			activeModules: dashboardConfig.active_modules,
+			toUpdate: dashboardConfig.modules_to_update,
 			componentsList: dashboardConfig.components_list,
+			isLicenseActive: dashboardConfig.is_license_active,
 			shortcode: {
 				component: '',
 				meta_field: '',
@@ -29,10 +32,16 @@
 			},
 			saving: false,
 			result: false,
+			installationLog: {
+				inProgress: false,
+				showInstallPopup: false,
+				module: {},
+			},
 			errorMessage: '',
 			successMessage: '',
 			moduleDetails: false,
 			showCopyShortcode: undefined !== navigator.clipboard && undefined !== navigator.clipboard.writeText,
+			updateLog: {}
 		},
 		mounted: function() {
 			this.$el.className = 'is-mounted';
@@ -85,6 +94,9 @@
 			isActive: function( module ) {
 				return 0 <= this.activeModules.indexOf( module );
 			},
+			isExternalActive: function( module ) {
+				return module.is_related_plugin_active;
+			},
 			switchActive: function( input, module ) {
 
 				if ( this.isActive( module.value ) ) {
@@ -93,6 +105,154 @@
 				} else {
 					this.activeModules.push( module.value );
 				}
+
+			},
+			linkIsVisible: function( link, module ) {
+
+				if ( ! link.is_local ) {
+					return true;
+				} else {
+					return this.isExternalActive( module );
+				}
+
+			},
+			processUpdate: function( file ) {
+
+				this.$set( this.updateLog, file, 'updating' );
+
+				jQuery.ajax({
+					url: window.ajaxurl,
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						action: 'jet_engine_update_module',
+						file: file,
+					},
+				}).done( ( response ) => {
+
+					let type = 'success';
+					let duration = 3000;
+
+					if ( ! response.success ) {
+						type = 'error';
+						duration = 15000;
+						this.$set( this.updateLog, file, false );
+					} else {
+						this.$set( this.updateLog, file, 'done' );
+					}
+
+					this.$CXNotice.add( {
+						message: response.data.message,
+						type: type,
+						duration: duration,
+					} );
+
+				} ).fail( ( e, textStatus ) => {
+					this.$set( this.updateLog, file, false );
+					this.$CXNotice.add( {
+						message: e.statusText,
+						type: 'error',
+						duration: 15000,
+					} );
+				} );
+
+			},
+			updateExternalPluginState: function( module, newVal ) {
+				for ( var i = 0; i < this.externalModules.length; i++) {
+					if ( this.externalModules[ i ].value === module.value ) {
+						this.$set( this.externalModules[ i ], 'is_related_plugin_active', newVal );
+					}
+				}
+			},
+			switchExternalActive: function( input, module ) {
+
+				if ( this.isExternalActive( module ) ) {
+					this.updateExternalPluginState( module, false );
+					this.uninstallExternalModule( module );
+				} else {
+					this.updateExternalPluginState( module, true );
+					this.installExternalModule( module );
+				}
+
+			},
+			closeInstallationPopup: function() {
+				this.$set( this.installationLog, 'showInstallPopup', false );
+				this.$set( this.installationLog, 'message', false );
+				this.$set( this.installationLog, 'actions', false );
+			},
+			uninstallExternalModule: function( module ) {
+
+				var self = this;
+
+				jQuery.ajax({
+					url: window.ajaxurl,
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						action: 'jet_engine_uninstall_module',
+						module: module,
+					},
+				}).done( function( response ) {
+
+					let type = 'success';
+					let duration = 3000;
+
+					if ( ! response.success ) {
+						type = 'error';
+						duration = 15000;
+					}
+
+					self.$CXNotice.add( {
+						message: response.data.message,
+						type: type,
+						duration: duration,
+					} );
+
+				} ).fail( function( e, textStatus ) {
+					self.$CXNotice.add( {
+						message: e.statusText,
+						type: 'error',
+						duration: 15000,
+					} );
+				} );
+
+			},
+			installExternalModule: function( module ) {
+
+				var self = this;
+
+				self.$set( self.installationLog, 'showInstallPopup', true );
+
+				if ( ! self.isLicenseActive ) {
+					return;
+				}
+
+				self.$set( self.installationLog, 'inProgress', true );
+				self.$set( self.installationLog, 'module', module );
+
+				jQuery.ajax({
+					url: window.ajaxurl,
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						action: 'jet_engine_install_module',
+						module: module,
+					},
+				}).done( function( response ) {
+
+					self.$set( self.installationLog, 'inProgress', false );
+					self.$set( self.installationLog, 'message', response.data.message );
+
+					if ( response.success ) {
+						self.$set( self.installationLog, 'actions', response.data.actions );
+					} else {
+						self.updateExternalPluginState( module, false );
+					}
+
+				} ).fail( function( e, textStatus ) {
+					self.$set( self.installationLog, 'inProgress', false );
+					self.updateExternalPluginState( module, false );
+				} );
 
 			},
 			saveModules: function() {

@@ -52,6 +52,9 @@ class Jet_Engine_Dynamic_Function_Tag extends Elementor\Core\DynamicTags\Tag {
 					'term_meta' => __( 'Term Meta', 'jet-engine' ),
 					'user_meta' => __( 'User Meta', 'jet-engine' ),
 				),
+				'condition' => array(
+					'function_name!' => 'query_var',
+				),
 			)
 		);
 
@@ -61,6 +64,9 @@ class Jet_Engine_Dynamic_Function_Tag extends Elementor\Core\DynamicTags\Tag {
 				'label'       => __( 'Field Name', 'jet-engine' ),
 				'type'        => Elementor\Controls_Manager::TEXT,
 				'label_block' => true,
+				'condition'   => array(
+					'function_name!' => 'query_var',
+				),
 			)
 		);
 
@@ -79,6 +85,7 @@ class Jet_Engine_Dynamic_Function_Tag extends Elementor\Core\DynamicTags\Tag {
 				),
 				'condition' => array(
 					'data_source' => 'post_meta',
+					'function_name!' => 'query_var',
 				),
 			)
 		);
@@ -92,6 +99,7 @@ class Jet_Engine_Dynamic_Function_Tag extends Elementor\Core\DynamicTags\Tag {
 				'condition' => array(
 					'data_source' => 'post_meta',
 					'data_context' => 'related_posts',
+					'function_name!' => 'query_var',
 				),
 			)
 		);
@@ -105,6 +113,7 @@ class Jet_Engine_Dynamic_Function_Tag extends Elementor\Core\DynamicTags\Tag {
 				'condition' => array(
 					'data_source' => 'post_meta',
 					'data_context' => 'current_term',
+					'function_name!' => 'query_var',
 				),
 			)
 		);
@@ -119,6 +128,7 @@ class Jet_Engine_Dynamic_Function_Tag extends Elementor\Core\DynamicTags\Tag {
 				'condition' => array(
 					'data_source' => 'post_meta',
 					'data_context' => 'current_term',
+					'function_name!' => 'query_var',
 				),
 			)
 		);
@@ -133,6 +143,7 @@ class Jet_Engine_Dynamic_Function_Tag extends Elementor\Core\DynamicTags\Tag {
 				'condition' => array(
 					'data_source' => 'post_meta',
 					'data_context' => 'queried_user',
+					'function_name!' => 'query_var',
 				),
 			)
 		);
@@ -158,6 +169,7 @@ class Jet_Engine_Dynamic_Function_Tag extends Elementor\Core\DynamicTags\Tag {
 				),
 				'condition'   => array(
 					'data_source' => 'post_meta',
+					'function_name!' => 'query_var',
 				),
 			)
 		);
@@ -173,6 +185,7 @@ class Jet_Engine_Dynamic_Function_Tag extends Elementor\Core\DynamicTags\Tag {
 				'options'     => jet_engine()->listings->get_post_types_for_options(),
 				'condition'   => array(
 					'data_source' => 'post_meta',
+					'function_name!' => 'query_var',
 				),
 			)
 		);

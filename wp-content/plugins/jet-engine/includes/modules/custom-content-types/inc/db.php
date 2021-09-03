@@ -502,7 +502,7 @@ class DB {
 	 * @param  boolean $format [description]
 	 * @return [type]          [description]
 	 */
-	public function get_sub_query( $key, $value, $format = false ) {
+	public function get_sub_query( $key = null, $value = null, $format = false ) {
 
 		$query = '';
 		$glue  = '';

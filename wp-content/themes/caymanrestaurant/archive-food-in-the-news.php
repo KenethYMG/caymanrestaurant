@@ -11,6 +11,12 @@
     </div>
     <!--banner chefs-->
 
+    <div class="description_chef_inner_green w-100 font_Trebuchet ">
+        <div class="inner_description d-flex justify-content-center  align-items-center flex-column flex-wrap h-100 text-center">
+
+        </div><!-- /.inner_description -->
+    </div><!-- /description_restaurant -->
+
     <div class="pt-5">
         <!--listing food in the news-->
         <div class="container">
@@ -21,7 +27,7 @@
 
                 $args = array(
                     'post_type' => 'food-in-the-news', // Your post type name
-                    'posts_per_page' => 6,
+                    'posts_per_page' => 8,
                     'paged' => $paged,
                 );
 
@@ -30,10 +36,6 @@
                 //While Food in the news
                 while ($loop->have_posts()) : $loop->the_post();
 
-                    //Get Image Field
-                    $image = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'single-post-thumbnail');
-                    $ImageUrl = $image[0];
-
                     //Description News
                     $content = get_the_content();
                     $content = strip_tags($content);
@@ -41,10 +43,10 @@
 
                 ?>
                     <!--col-->
-                    <div class="col-12 col-md-4 col-lg-4 mb-5">
+                    <div class="col-12 col-md-3 col-lg-3 mb-5">
                         <div class="card">
                             <div class="boxImage">
-                                <img src="<?php echo $ImageUrl; ?>" class="img-fluid">
+                                <?php the_post_thumbnail('full', array('class' => 'img-fluid')) ?>
                             </div>
                             <div class="card-body">
                                 <h3 class="card-title font_Trebuchet text-uppercase mb-4"><?php echo the_title(); ?></h3>
@@ -55,7 +57,10 @@
                     </div>
                     <!--col-->
 
-                <?php endwhile; ?>
+                <?php 
+                    endwhile; 
+                    wp_reset_query();
+                ?>
 
                 <div class="pagination-box">
                     <?php

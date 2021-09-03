@@ -1272,7 +1272,7 @@ class Maps_Listings_Widget extends \Elementor\Jet_Listing_Grid_Widget {
 	 */
 	public function render_posts() {
 		$instance = jet_engine()->listings->get_render_instance( 'maps-listing', $this->get_widget_settings() );
-		$instance->render();
+		$instance->render_content();
 	}
 
 	protected function render() {

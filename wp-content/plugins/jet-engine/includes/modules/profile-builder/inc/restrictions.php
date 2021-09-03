@@ -83,7 +83,7 @@ class Restrictions {
 	/**
 	 * Get user posts count
 	 */
-	public function get_user_posts( $user_id, $post_type = null ) {
+	public function get_user_posts( $user_id = null, $post_type = null ) {
 
 		global $wpdb;
 

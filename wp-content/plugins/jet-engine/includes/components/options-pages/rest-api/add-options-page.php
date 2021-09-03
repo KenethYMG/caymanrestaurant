@@ -14,7 +14,7 @@ class Jet_Engine_Rest_Add_Options_Page extends Jet_Engine_Base_API_Endpoint {
 		return 'add-options-page';
 	}
 
-	public function safe_get( $args, $group, $key, $default = false ) {
+	public function safe_get( $args = array(), $group = '', $key = '', $default = false ) {
 		return isset( $args[ $group ][ $key ] ) ? $args[ $group ][ $key ] : $default;
 	}
 

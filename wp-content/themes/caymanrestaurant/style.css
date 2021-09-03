@@ -7,8 +7,57 @@ Version: 1.0
 License: GNU General Public License 
 License URI: license.txt
 */
-
-
+/**font**/
+/*DIN Condensed Bold*/
+@font-face {
+    font-family: 'Conv_DIN Condensed Bold';
+    src: url('includes/Font/DIN_Condensed_Bold/DIN Condensed Bold.eot');
+    src: local('☺'), url('includes/Font/DIN_Condensed_Bold/DIN Condensed Bold.woff') format('woff'), 
+    url('includes/Font/DIN_Condensed_Bold/DIN Condensed Bold.ttf') format('truetype'), 
+    url('includes/Font/DIN_Condensed_Bold/DIN Condensed Bold.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Tahu';
+    src: url('includes/Font/tahu/Tahu! 400.ttf');
+    src: local('☺'), url('includes/Font/tahu/Tahu! 400.ttf') format('truetype'); 
+    font-weight: normal;
+    font-style: normal;
+}
+/*Tahu*/
+@font-face {
+    font-family: 'Conv_Tahu!';
+    src: url('includes/Font/Tahu/Tahu!.eot');
+    src: local('☺'), 
+    url('includes/Font/Tahu/Tahu!.woff') format('woff'), 
+    url('includes/Font/Tahu/Tahu!.ttf') format('truetype'), 
+    url('includes/Font/Tahu/Tahu!.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+/*Trebuchet_Regular - BODY COPY */
+@font-face {
+    font-family: 'Conv_Trebuchet_MS';
+    src: url('includes/Font/Trebuchet_Regular/Trebuchet_MS.eot');
+    src: local('☺'), 
+    url('includes/Font/Trebuchet_Regular/Trebuchet_MS.woff') format('woff'), 
+    url('includes/Font/Trebuchet_Regular/Trebuchet_MS.ttf') format('truetype'), 
+    url('includes/Font/Trebuchet_Regular/Trebuchet_MS.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+/*Trebuchet_Regular - SUB HEADINGS */
+@font-face {
+    font-family: 'Conv_trebuchet-ms-bold';
+    src: url('includes/Font/Trebuchet_Bold/trebuchet-ms-bold.eot');
+    src: local('☺'), 
+    url('includes/Font/Trebuchet_Bold/trebuchet-ms-bold.woff') format('woff'), 
+    url('includes/Font/Trebuchet_Bold/trebuchet-ms-bold.ttf') format('truetype'), 
+    url('includes/Font/Trebuchet_Bold/trebuchet-ms-bold.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
 h1,
 h2,
 h3,
@@ -80,34 +129,68 @@ a:focus{
 .text-uppercase {
     text-transform: uppercase;
 }
-
+/**font colors**/
+.font-dark-blue{
+    color:#003B71;
+}
 .font-orange{
-    color:#FF5C00;
+    color:#E65300;
 }
-
 .font-blue{
-    color:#0A1F62;
+    color:#00205C;
+}
+.font-light-blue{
+    color:#007CBA;
 }
 
-.font-light-blue{
+.font-teal{
     color:#0095A9;
 }
-
-/* font-family: "Trebuchet MS";*/
-.font_Trebuchet{
-    font-family: "Trebuchet MS";
+.color-green{
+    color:#AAC27F;
 }
-
-/*font-family: 'Conv_DIN Condensed Bold';*/
-.font_Din_Condensed_Bold{
-    font-family: 'Conv_DIN Condensed Bold';
+/**bg colors**/
+.bg-dark-blue{
+    background:#003B71;
 }
-
+.bg-orange{
+    background:#E65300;
+}
+.bg-blue{
+    background:#00205C;
+}
+.bg-light-blue{
+    background:#007CBA;
+}
+.bg-teal{
+    background:#0095A9;
+}
+.bg-green{
+    background:#AAC27F;
+}
+.font-uppercase{
+    text-transform: uppercase;
+}
 /**/
 .font_Tahu{
     font-family: 'Conv_Tahu!';
 }
-
+/*font-family: 'Conv_Tahu!'; - IMPACT HEADING*/
+.font_Tahu{
+    font-family: 'Conv_Tahu!';
+}
+/*font-family: 'Conv_DIN Condensed Bold'; - HEADINGS*/
+.font_Din_Condensed_Bold{
+    font-family: 'Conv_DIN Condensed Bold';
+}
+/* font-family: "Trebuchet MS BOLD"; - SUB HEADINGS*/
+.font_Trebuchet_Bold{
+    font-family: 'Conv_trebuchet-ms-bold';
+}
+/* font-family: "Trebuchet MS"; - BODY COPY*/
+.font_Trebuchet{
+    font-family: 'Conv_Trebuchet_MS';
+}
 .btn-blue{
     background-color: #0095A9 !important;
     border-color:#0095A9 !important;
@@ -149,7 +232,6 @@ a:focus{
 .btn-blue.active, 
 .btn-blue:active, 
 .show>.btn-blue.dropdown-toggle,
-
 .btn-check:active+.btn-green, 
 .btn-check:checked+.btn-green, 
 .btn-green.active, 
@@ -267,48 +349,6 @@ a:focus{
 }
 
 
-/*
-HEADER
-*/
-
-
-/**font**/
-/*DIN Condensed Bold*/
-@font-face {
-    font-family: 'Conv_DIN Condensed Bold';
-    src: url('includes/Font/DIN_Condensed_Bold/DIN Condensed Bold.eot');
-    src: local('☺'), url('includes/Font/DIN_Condensed_Bold/DIN Condensed Bold.woff') format('woff'), 
-    url('includes/Font/DIN_Condensed_Bold/DIN Condensed Bold.ttf') format('truetype'), 
-    url('includes/Font/DIN_Condensed_Bold/DIN Condensed Bold.svg') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Tahu';
-    src: url('includes/Font/tahu/Tahu! 400.ttf');
-    src: local('☺'), url('includes/Font/tahu/Tahu! 400.ttf') format('truetype'); 
-    font-weight: normal;
-    font-style: normal;
-}
-
-/*Tahu*/
-@font-face {
-	font-family: 'Conv_Tahu!';
-	src: url('includes/Font/Tahu/Tahu!.eot');
-	src: local('☺'), 
-    url('includes/Font/Tahu/Tahu!.woff') format('woff'), 
-    url('includes/Font/Tahu/Tahu!.ttf') format('truetype'), 
-    url('includes/Font/Tahu/Tahu!.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-.font_Din_Condensed_Bold{
-    font-family: 'Conv_DIN Condensed Bold';
-}
-.font-tahu{
-    font-family: 'Tahu';
-}
 /*
 HEADER
 */
@@ -698,6 +738,14 @@ HEADER
     .carousel-inner{
         height: 650px;
     }
+    .carousel-height{
+        height: 400px;
+    }
+    .banner-height{
+        height: 400px;
+        object-position: center;
+        object-fit: cover;
+    }
     .title-home{
         font-size: 10em;
     }
@@ -707,12 +755,38 @@ HEADER
     .btn-orange{
         font-size:36px;
     }
-    .bk-site-description{
+    .bk-site-description, .bk-profile-excerpt{
         height:400px;
+    }
+    .min-height{
+        height:140px;
+    }
+    .border-right:after{
+        position: absolute;
+        top: 0;
+        right: 4%;
+        content: "";
+        width: 1px;
+        height: 90%;
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+    .start-bottom:after{
+        position: absolute;
+        bottom: 0;
+        right: 4%;
+        content: "";
+        width: 1px;
+        height: 90%;
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+    .border-bottom-info{
+        background-color: rgba(255, 255, 255, 0.3);
+        height:1px;
+        width:91%;
     }
 }
 @media (max-width: 480px){
-    .bk-site-description{
+    .bk-site-description, .bk-profile-excerpt{
         height:500px;
     }
 }
@@ -797,4 +871,55 @@ HOME
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+/*
+SINGLE RESTAURANT
+*/
+.bk-profile-excerpt{
+    background-image: url('img/bk-profile-orange.png');
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.restaurant-info p{
+    color:#ffffff;
+    padding-left: 24px;
+}
+.p-info{
+    padding-left: 24px;
+}
+.bi-circle{
+    font-size:17px;
+}
+.bk-menus{
+    background: url('img/bk-menus.png') #d44e00;
+}
+.btn-dark-blue{
+    background-color: #0A1F62 !important;
+    border-color:#0A1F62 !important;
+    font-family: 'Conv_DIN Condensed Bold';
+}
+.btn-dark-blue:hover{
+    color: #ffffff;
+    background-color: #071649 !important;
+    border-color:#071649 !important;
+}
+.btn-check:active+.btn-dark-blue, 
+.btn-check:checked+.btn-dark-blue, 
+.btn-dark-blue.active, 
+.btn-dark-blue:active, 
+.show>.btn-blue.dropdown-toggle{
+    color: #ffffff;
+}
+.btn-check:focus+.btn-dark-blue, 
+.btn-dark-blue:focus,
+.btn-check:active+.btn-dark-blue:focus, 
+.btn-check:checked+.btn-dark-blue:focus, 
+.btn-dark-blue.active:focus, 
+.btn-dark-blue:active:focus, 
+.show>.btn-dark-blue.dropdown-toggle:focus{
+    box-shadow: 0 0 0 0.25rem rgb(255 92 0 / 50%);
+    color: #ffffff;
 }

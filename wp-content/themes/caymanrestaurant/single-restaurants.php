@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php get_header(); ?>
 <?php while (have_posts()): the_post(); ?>
     <section>
@@ -164,4 +165,13 @@
         </div>
     </section>
 <?php endwhile; ?>
+=======
+<?php
+//show headers
+get_header(); ?>
+
+
+
+
+>>>>>>> Master
 <?php get_footer(); ?>

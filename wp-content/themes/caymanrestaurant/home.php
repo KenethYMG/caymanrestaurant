@@ -18,8 +18,14 @@
 <div class="section-today-special">
     <?php require('home/section-today-special.php'); ?>
 </div>
+<<<<<<< HEAD
 <!--NEWSLETTER FORM -->
 <div class="section-newsletter">
     <?php require('home/section-newsletter.php'); ?>
+=======
+<!--SOCIAL SHARE -->
+<div class="section-social-share">
+    <?php require('home/section-social-share.php'); ?>
+>>>>>>> Master
 </div>
 <?php get_footer(); ?>

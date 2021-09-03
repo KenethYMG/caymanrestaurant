@@ -4,7 +4,7 @@
         <div class="row">
             <?php
                 //Query Post - Food in the news 
-                query_posts('post_type=restaurant&posts_per_page=3');
+                query_posts('post_type=restaurants&posts_per_page=3');
                 //While Food in the news
                 while (have_posts()): the_post();
 
@@ -17,7 +17,7 @@
                 $content = strip_tags($content);
 
                 //Get Location Restaurant Field
-                $location_restaurant = get_post_meta( get_the_ID(), 'location', true )
+                $location_restaurant = get_post_meta( get_the_ID(), 'location_address', true );
                 
                 
             ?>

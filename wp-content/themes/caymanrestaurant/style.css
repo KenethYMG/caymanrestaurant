@@ -168,7 +168,9 @@ a:focus{
 .bg-green{
     background:#AAC27F;
 }
-
+.font-uppercase{
+    text-transform: uppercase;
+}
 /**/
 .font_Tahu{
     font-family: 'Conv_Tahu!';
@@ -230,7 +232,6 @@ a:focus{
 .btn-blue.active, 
 .btn-blue:active, 
 .show>.btn-blue.dropdown-toggle,
-
 .btn-check:active+.btn-green, 
 .btn-check:checked+.btn-green, 
 .btn-green.active, 
@@ -891,4 +892,34 @@ SINGLE RESTAURANT
 }
 .bi-circle{
     font-size:17px;
+}
+.bk-menus{
+    background: url('img/bk-menus.png') #d44e00;
+}
+.btn-dark-blue{
+    background-color: #0A1F62 !important;
+    border-color:#0A1F62 !important;
+    font-family: 'Conv_DIN Condensed Bold';
+}
+.btn-dark-blue:hover{
+    color: #ffffff;
+    background-color: #071649 !important;
+    border-color:#071649 !important;
+}
+.btn-check:active+.btn-dark-blue, 
+.btn-check:checked+.btn-dark-blue, 
+.btn-dark-blue.active, 
+.btn-dark-blue:active, 
+.show>.btn-blue.dropdown-toggle{
+    color: #ffffff;
+}
+.btn-check:focus+.btn-dark-blue, 
+.btn-dark-blue:focus,
+.btn-check:active+.btn-dark-blue:focus, 
+.btn-check:checked+.btn-dark-blue:focus, 
+.btn-dark-blue.active:focus, 
+.btn-dark-blue:active:focus, 
+.show>.btn-dark-blue.dropdown-toggle:focus{
+    box-shadow: 0 0 0 0.25rem rgb(255 92 0 / 50%);
+    color: #ffffff;
 }

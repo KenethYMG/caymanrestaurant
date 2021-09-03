@@ -30,8 +30,4 @@
 <div class="section-social-share">
     <?php require('home/section-social-share.php'); ?>
 </div>
-<!--NEWSLETTER FORM -->
-<div class="section-newsletter">
-    <?php require('home/section-newsletter.php'); ?>
-</div>
 <?php get_footer(); ?>

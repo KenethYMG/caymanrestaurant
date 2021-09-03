@@ -81,32 +81,81 @@ a:focus{
     text-transform: uppercase;
 }
 
+/**font colors**/
+.font-dark-blue{
+    color:#003B71;
+}
+
 .font-orange{
-    color:#FF5C00;
+    color:#E65300;
 }
 
 .font-blue{
-    color:#0A1F62;
+    color:#00205C;
 }
 
 .font-light-blue{
+    color:#007CBA;
+}
+
+.font-teal{
     color:#0095A9;
 }
 
-/* font-family: "Trebuchet MS";*/
-.font_Trebuchet{
-    font-family: "Trebuchet MS";
+.color-green{
+    color:#AAC27F;
 }
 
-/*font-family: 'Conv_DIN Condensed Bold';*/
+/**bg colors**/
+.bg-dark-blue{
+    background:#003B71;
+}
+
+.bg-orange{
+    background:#E65300;
+}
+
+.bg-blue{
+    background:#00205C;
+}
+
+.bg-light-blue{
+    background:#007CBA;
+}
+
+.bg-teal{
+    background:#0095A9;
+}
+
+.bg-green{
+    background:#AAC27F;
+}
+
+
+
+/*font-family: 'Conv_Tahu!'; - IMPACT HEADING*/
+.font_Tahu{
+    font-family: 'Conv_Tahu!';
+}
+
+/*font-family: 'Conv_DIN Condensed Bold'; - HEADINGS*/
 .font_Din_Condensed_Bold{
     font-family: 'Conv_DIN Condensed Bold';
 }
 
-/**/
-.font_Tahu{
-    font-family: 'Conv_Tahu!';
+/* font-family: "Trebuchet MS BOLD"; - SUB HEADINGS*/
+.font_Trebuchet_Bold{
+    font-family: 'Conv_trebuchet-ms-bold';
 }
+
+/* font-family: "Trebuchet MS"; - BODY COPY*/
+.font_Trebuchet{
+    font-family: 'Conv_Trebuchet_MS';
+}
+
+
+
+
 
 .btn-blue{
     background-color: #0095A9 !important;
@@ -121,20 +170,20 @@ a:focus{
 }
 
 .btn-green{
-    background-color: #afcf7b !important;
-    border-color:#afcf7b !important;
+    background-color: #AAC27F !important;
+    border-color:#AAC27F !important;
     font-family: 'Conv_DIN Condensed Bold';
     font-size:36px;
 }
 .btn-green:hover{
     color: #ffffff;
-    background-color: #afcf7b !important;
-    border-color:#afcf7b !important;
+    background-color: #AAC27F !important;
+    border-color:#AAC27F !important;
 }
 
 .btn-orange{
-    background-color: #FF5C00 !important;
-    border-color:#FF5C00 !important;
+    background-color: #E65300 !important;
+    border-color:#E65300 !important;
     font-family: 'Conv_DIN Condensed Bold';
     font-size:36px;
 }
@@ -252,7 +301,7 @@ a:focus{
 }
 
 .forms button.jet-form__submit{
-    background:#0A1F62;
+    background:#E65300;
     border:0;
     height:45px;
     font-family: "Trebuchet MS";
@@ -303,6 +352,32 @@ HEADER
 	font-style: normal;
 }
 
+/*Trebuchet_Regular - BODY COPY */
+@font-face {
+	font-family: 'Conv_Trebuchet_MS';
+	src: url('includes/Font/Trebuchet_Regular/Trebuchet_MS.eot');
+	src: local('☺'), 
+    url('includes/Font/Trebuchet_Regular/Trebuchet_MS.woff') format('woff'), 
+    url('includes/Font/Trebuchet_Regular/Trebuchet_MS.ttf') format('truetype'), 
+    url('includes/Font/Trebuchet_Regular/Trebuchet_MS.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/*Trebuchet_Regular - SUB HEADINGS */
+@font-face {
+	font-family: 'Conv_trebuchet-ms-bold';
+	src: url('includes/Font/Trebuchet_Bold/trebuchet-ms-bold.eot');
+	src: local('☺'), 
+    url('includes/Font/Trebuchet_Bold/trebuchet-ms-bold.woff') format('woff'), 
+    url('includes/Font/Trebuchet_Bold/trebuchet-ms-bold.ttf') format('truetype'), 
+    url('includes/Font/Trebuchet_Bold/trebuchet-ms-bold.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+
 .font_Din_Condensed_Bold{
     font-family: 'Conv_DIN Condensed Bold';
 }
@@ -325,10 +400,10 @@ HEADER
 }
 
 #main-menu ul li a:hover{
-    color: #0A1F62 !important;
+    color: #E65300 !important;
 }
 
-#main-menu ul li:nth-child(1) a {
+/*#main-menu ul li:nth-child(1) a {
     color: #0A1F62;
 }
 
@@ -386,7 +461,7 @@ HEADER
 }
 
 .submit_box{
-    background-color: #0A1F62;
+    background-color: #E65300;
     border:0;
     color:#fff;
     width: 29px;
@@ -434,13 +509,14 @@ HEADER
 }
 
 .buttonLink {
-    font-size: 20px;
+    font-size: 20px !important;
 }
 
 .card-location{
-    color:#FF5C00;
+    color:#E65300;
     font-weight: bold;
     display: inline-flex;
+    font-size: 14px;
 }
 
 .card-location i{
@@ -527,6 +603,7 @@ HEADER
     text-decoration:none;
     font-size:14px;
     font-family: "Trebuchet MS";
+    color: #00205C;
 }
 
 /**FEATURED CHEFS**/
@@ -539,6 +616,8 @@ HEADER
 .featured_chefs{
     background: url('img/texture-feature-chef.png') #0095A9;
 }
+
+
 
 .box_chef{
     height:424px;
@@ -556,8 +635,11 @@ HEADER
 /**photo Chef*/
 .featured_chefs .boxImages{
     background-color: #6D6E71;
-    display: flex;
-    align-items: center;
+}
+
+.featured_chefs .boxImages img{
+    height: 100%;
+    object-fit: cover;
 }
 
 /**name chef**/
@@ -583,12 +665,49 @@ HEADER
 }
 
 /**read more infomation Chef**/
-.featured_chefs .view_more_chef{
+.featured_chefs .view_more_chef,
+.view_more_chef{
     font-size: 20px;
 }
 
+.name_restaurant_chef {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+}
+
+.description_chef {
+    font-size: 15px;
+    text-align: center;
+    line-height: 20px;
+    letter-spacing: 2px;
+}
+.name_chef {
+    font-size: 28px;
+    font-weight: bold;
+}
+.name_restaurant_chef {
+    display: block;
+    width: 100%;
+}
 
 /**end features chefs home**/
+
+/*** Chef listing page ***/
+.full-listing-chefs{
+    
+}
+
+
+.bg-gray{
+    background:#F1F2F2;
+}
+
+.full-listing-chefs .boxImages img{
+    height: 100%;
+    object-fit: cover;
+}
 
 /*** Food in the news***/
 .food-in-news .boxImage{
@@ -615,7 +734,7 @@ HEADER
 
 
 .food-in-news .button_view_more{
-    color:#AFCF7B;
+    color:#AAC27F;
 }
 
 .title_section_blue{
@@ -690,7 +809,249 @@ HEADER
 .social-share-box{
     background: #1A2B6D;
 }
+/*************************/
 
+/**** Single Chef*****/
+.banner_featured{
+    height:400px;
+    position:relative;
+    background-size: cover !important;
+    background-position: center center !important;
+}
+
+/*chef name Restaurant*/
+.name_chef_inner{
+    top: 35%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.name_chef_inner .inner_name_chef{
+    text-align: center;
+}
+
+.name_chef_inner .inner_name_chef h1{
+    font-size: 7.5em;
+}
+
+
+.description_chef_inner{
+    background: url(img/background_description_chef.png);
+    height:250px;
+    color:#fff;
+    position: relative;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    
+}
+
+.description_chef_inner .inner_description{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Conv_Trebuchet_MS';
+    font-size:14px;
+    max-width: 980px;
+    margin:0 auto;
+}
+
+.name_restaurant_chef{
+    display: block;
+}
+
+.columnLateralChef{
+    background:#F1F2F2;
+}
+
+.bodyChef{
+    font-size: 14px;
+    font-family: 'Conv_Trebuchet_MS';
+    line-height: 23px;
+}
+
+.chefs_recipies_by_chef .img_recipes img{
+    object-fit: cover;
+    height:100%;
+}
+
+
+/***end Single Chef****/
+
+/**Single chef recipes**/
+.recipes-single-full .instructions{
+    border-top: 1px solid #3C83BB;
+    margin-top: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #3C83BB;
+}
+
+.recipes-single-full .instructions{
+    font-family: 'Conv_Trebuchet_MS';
+}
+
+.recipes-single-full .instructions ul{
+    margin:0;
+    padding:0;
+    margin-top:10px;
+}
+
+.recipes-single-full .instructions ul li{
+    list-style: none;
+    font-weight: bold;;
+}
+
+.recipes-single-full .instructions ul li b{
+    color:#3C83BB;
+}
+
+.recipes-single-full .instructions ul li{
+    list-style: none;
+}
+
+.tags-taxonomy{
+    color: #3C83BB;
+    font-weight: bold;
+    display: inline-flex;
+    font-size: 14px;
+    align-items: center;
+}
+
+.tags-taxonomy i {
+    font-size: 35px;
+    margin-right: 10px;
+    margin-top: 0;
+}
+
+.tags-taxonomy i:before{
+    -webkit-transform:rotate(88deg);
+    -moz-transform: rotate(88deg);
+    -ms-transform: rotate(88deg);
+    -o-transform: rotate(88deg);
+    transform: rotate(88deg);
+}
+
+/*directions - ingredients*/
+.ingredientsBox{
+
+}
+
+.ingredientsBox ul{
+    margin:0;
+    padding:0;
+    margin-top:10px;
+}
+
+.ingredientsBox ul li{
+    list-style: none;
+}
+
+.ingredientsBox ul li{
+    list-style: none;
+}
+
+/*directions - list*/
+.directionsBox{
+
+}
+
+.directionsBox ul{
+    margin:0;
+    padding:0;
+    margin-top:10px;
+    counter-reset: item;
+}
+
+.directionsBox ul li{
+    list-style: none;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.directionsBox ul li:before {
+    content: counter(item) "";
+    counter-increment: item;
+    color: #fff;
+    background: #0A1F62;
+    border-radius: 10px;
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+
+}
+
+.directionsBox ul li{
+    list-style: none;
+}
+
+.imageRecipe img{
+    height: 100%;
+    object-fit: cover;
+}
+
+/**Area video**/
+.video-recipes iframe{
+    width:100%;
+}
+
+
+/**END Single chef recipes**/
+
+/***listing recipes****/
+.container-tags-recipes .imageTag{
+    max-width: 140px;
+    height:140px;
+    background: gray;
+    border-radius: 10px;
+}
+/**********************/
+
+.banner_featured{
+    position:relative;
+}
+.banner_featured:after{
+    background: rgb(0 0 0 / 50%);
+    content: " ";
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    margin-top: .5rem;
+}
+
+/*paginator*/
+.pagination-box{
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    margin-top: .5rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.pagination-box .page-numbers{
+    position: relative;
+    display: block;
+    color: #0d6efd;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    padding: .375rem .75rem;
+}
+
+.pagination-box .page-numbers:hover,
+.pagination-box .current{
+    background:#0A1F62;
+    color:#fff;
+}
 
 /****media querires****/
 /* MIN 1200 */
@@ -732,6 +1093,30 @@ HEADER
 
     .sectionCopyright ul li:after{
         content:"";
+    }
+
+    /**chef profile**/
+    .banner_featured{
+        height: 300px;
+    }
+
+    .name_chef_inner {
+        top: 35%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .name_chef_inner .inner_name_chef h1{
+        font-size: 3.5em;
+    }
+
+    .description_chef_inner{
+        height:100%;
+    }
+    .description_chef_inner .inner_description{
+        padding: 10px;
     }
 
 }/*end media 320*/

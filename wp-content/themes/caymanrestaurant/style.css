@@ -1254,6 +1254,31 @@ HOME
 .carousel-item{
     z-index: -1 !important;
 }
+
+/*first item active */
+.first-item.active{
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    animation-duration: .6s;
+    transition-delay: 1s;
+}
+
+@keyframes fadeInOpacity {
+0% {
+    opacity: 0.2;
+}
+
+50% {
+    opacity: 0.5;
+}
+
+100% {
+    opacity: 1;
+}
+}
+
+
 .textindex{
     z-index: 1;
 }

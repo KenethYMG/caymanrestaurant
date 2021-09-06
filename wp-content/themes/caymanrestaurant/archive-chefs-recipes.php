@@ -1,23 +1,5 @@
 <?php get_header(); ?>
-
-<div class="container-fluid  px-0">
-    <!--banner chefs-->
-    <div class="banner_featured" style="background:url('<?php echo IMAGES ?>/listing-chefs-recipes.jpg')">
-        <div class="name_chef_inner">
-            <div class="inner_name_chef font-white">
-                <h1 class="font_Tahu">Recipes</h1>
-            </div>
-        </div>
-    </div>
-    <!--banner chefs-->
-
-    <div class="description_chef_inner w-100 font_Trebuchet ">
-        <div class="inner_description d-flex justify-content-center  align-items-center flex-column flex-wrap h-100 text-center">
-
-        </div><!-- /.inner_description -->
-    </div><!-- /description_restaurant -->
-
-    <div class="browse-tag bg-blue container-fluid pt-5 pb-5">
+    <div class="browse-tag bg-blue container-fluid pt-4 pb-5">
         <h2 class="button_view_more_chef views_read_more_blue text-uppercase font-light-blue font_Din_Condensed_Bold mb-5">
             Browse Tag
         </h2>
@@ -178,6 +160,5 @@
         <!-- listingChefs Recipies-->
     </div>
 
-</div>
 
 <?php get_footer(); ?>

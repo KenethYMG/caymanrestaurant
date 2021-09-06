@@ -165,7 +165,48 @@
                         $term_obj_list = get_the_terms( $post->ID, 'category-features' );
                         $features = join(', ', wp_list_pluck($term_obj_list, 'name'));
                     ?>
-                    <p class="p-info"><?php echo $features; ?></p>
+                    <ul class="p-info features"><?php echo $features; ?></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="today-special-box mt-3 pt-4 pb-4">
+        <h1 class="title_section_f_chefs font_Tahu pt-5 pb-5">Today's Special</h1>
+        <div class="container">
+            <div class="row">
+                <!--col-->
+                <div class="col-12 col-md-4 col-lg-4 mb-5 box-girate-r">
+                    <div class="card">
+                        <div class="boxImage">
+                            <img src="<?php echo $restaurant['restaurant-image-special-1'][0]; ?>" class="img-fluid" />
+                        </div>
+                        <div class="card-body mt-4">
+                            <span class="nameSpecial font-orange font_Trebuchet text-uppercase d-block"><?php echo $restaurant['restaurant-title-special-1'][0]; ?></span>
+                            <span class="nameRestaurant font-white font_Trebuchet text-uppercase d-block"><?php echo $restaurant['restaurant-description-special-1'][0]; ?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 col-lg-4 mb-5 box-girate-l">
+                    <div class="card">
+                        <div class="boxImage">
+                            <img src="<?php echo $restaurant['restaurant-image-special-2'][0]; ?>" class="img-fluid" />
+                        </div>
+                        <div class="card-body mt-4">
+                            <span class="nameSpecial font-orange font_Trebuchet text-uppercase d-block"><?php echo $restaurant['restaurant-title-special-2'][0]; ?></span>
+                            <span class="nameRestaurant font-white font_Trebuchet text-uppercase d-block"><?php echo $restaurant['restaurant-description-special-2'][0]; ?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 col-lg-4 mb-5">
+                    <div class="card">
+                        <div class="boxImage">
+                            <img src="<?php echo $restaurant['restaurant-image-special-3'][0]; ?>" class="img-fluid" />
+                        </div>
+                        <div class="card-body mt-4">
+                            <span class="nameSpecial font-orange font_Trebuchet text-uppercase d-block"><?php echo $restaurant['restaurant-title-special-3'][0]; ?></span>
+                            <span class="nameRestaurant font-white font_Trebuchet text-uppercase d-block"><?php echo $restaurant['restaurant-description-special-3'][0]; ?></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

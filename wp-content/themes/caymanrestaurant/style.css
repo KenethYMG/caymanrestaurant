@@ -1340,6 +1340,9 @@ SINGLE RESTAURANT
 .bk-menus{
     background: url('img/bk-menus.png') #d44e00;
 }
+.title-menu{
+    font-size: 4em;
+}
 .btn-dark-blue{
     background-color: #0A1F62 !important;
     border-color:#0A1F62 !important;
@@ -1367,3 +1370,19 @@ SINGLE RESTAURANT
     box-shadow: 0 0 0 0.25rem rgb(255 92 0 / 50%);
     color: #ffffff;
 }
+.title-features, .title-about{
+    font-size: 3em;
+}
+ul.features{
+    columns: 4;
+    -webkit-columns: 4;
+    -moz-columns: 4;
+}
+ul {
+    list-style: none;
+  }
+  
+  .bi-check {
+    color:#FF5C00;
+    font-size:25px;
+  }

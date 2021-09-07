@@ -1,5 +1,5 @@
 <div class="container-fluid restaurant-list mt-3 mb-3 pt-2 pb-2">
-    <h1 class="title_section_blue font_Din_Condensed_Bold text-uppercase font-blue pt-5 pb-5">Today’s Feature Restaurants</h1>
+    <h1 class="title_section_blue font_Din_Condensed_Bold text-uppercase font-blue pt-5 pb-5">Today’s Featured Restaurants</h1>
     <div class="container">
         <div class="row">
             <?php

@@ -54,20 +54,20 @@
                             <h1 class="font-orange font_Trebuchet_Bold text-center"><?php the_title(); ?></h1>
                         </div>
                         <div class="col-lg-4 padding-top-md padding-bottom-md border-right position-relative min-height">
-                            <h5 class="font-orange"><i class="bi bi-circle font-orange"></i> Location</h5>
-                            <div class="restaurant-info"><?php echo $restaurant['restaurant-location'][0]; ?></div>
+                            <h5 class="font-orange font_Trebuchet_Bold "><i class="bi bi-circle font-orange"></i> Location</h5>
+                            <div class="restaurant-info font_Trebuchet_Bold"><?php echo $restaurant['restaurant-location'][0]; ?></div>
                         </div>
                         <div class="col-lg-4 padding-top-md padding-bottom-md border-right position-relative min-height">
                             <?php 
                                 $term_obj_list = get_the_terms( $post->ID, 'category-cuisines' );
                                 $cuisines = join(', ', wp_list_pluck($term_obj_list, 'name'));
                             ?>
-                            <h5 class="font-orange"><i class="bi bi-circle font-orange"></i> Cousines</h5>
-                            <p class="font-white p-info"><?php echo $cuisines; ?></p>
+                            <h5 class="font-orange font_Trebuchet_Bold "><i class="bi bi-circle font-orange"></i> Cousines</h5>
+                            <p class="font-white p-info font_Trebuchet_Bold"><?php echo $cuisines; ?></p>
                         </div>
                         <div class="col-lg-4 padding-top-md padding-bottom-md min-height">
-                            <h5 class="font-orange"><i class="bi bi-circle font-orange"></i> Hours</h5>
-                            <div class="restaurant-info"><?php echo $restaurant['restaurant-hours'][0]; ?></div> 
+                            <h5 class="font-orange font_Trebuchet_Bold "><i class="bi bi-circle font-orange"></i> Hours</h5>
+                            <div class="restaurant-info font_Trebuchet_Bold"><?php echo $restaurant['restaurant-hours'][0]; ?></div> 
                         </div>
                         <div class="col-lg-4">
                             <div class="border-bottom-info d-none d-xxl-block"></div>
@@ -80,20 +80,20 @@
                         </div>
 
                         <div class="col-lg-4 padding-top-md padding-bottom-md position-relative start-bottom min-height">
-                            <h5 class="font-orange"><i class="bi bi-circle font-orange"></i> Review</h5>
+                            <h5 class="font-orange font_Trebuchet_Bold "><i class="bi bi-circle font-orange"></i> Review</h5>
                             <div class="restaurant-info"><?php echo $restaurant['restaurant-location'][0]; ?></div>
                         </div>
                         <div class="col-lg-4 padding-top-md padding-bottom-md position-relative start-bottom min-height">
-                            <h5 class="font-orange"><i class="bi bi-circle font-orange"></i> Meals</h5>
+                            <h5 class="font-orange font_Trebuchet_Bold "><i class="bi bi-circle font-orange"></i> Meals</h5>
                             <?php 
                                 $term_obj_list = get_the_terms( $post->ID, 'category-meals' );
                                 $meals = join(', ', wp_list_pluck($term_obj_list, 'name'));
                             ?>
-                            <p class="font-white p-info"><?php echo $meals; ?></p>
+                            <p class="font-white p-info font_Trebuchet_Bold"><?php echo $meals; ?></p>
                         </div>
                         <div class="col-lg-4 padding-top-md padding-bottom-md min-height">
-                            <h5 class="font-orange"><i class="bi bi-circle font-orange"></i> Contact</h5>
-                            <p class="font-white p-info"><?php echo $restaurant['restaurant-phone'][0]; ?> | <?php echo $restaurant['restaurant-website-url'][0]; ?></p>
+                            <h5 class="font-orange font_Trebuchet_Bold "><i class="bi bi-circle font-orange"></i> Contact</h5>
+                            <p class="font-white p-info font_Trebuchet_Bold"><?php echo $restaurant['restaurant-phone'][0]; ?> | <?php echo $restaurant['restaurant-website-url'][0]; ?></p>
                         </div>
                     </div>
                 </div>
@@ -163,9 +163,16 @@
                 <div class="col-12">
                     <?php 
                         $term_obj_list = get_the_terms( $post->ID, 'category-features' );
-                        $features = join(', ', wp_list_pluck($term_obj_list, 'name'));
+                        //print_r($term_obj_list);
+                        //$features = join('<li><i class="bi bi-check"></i> ', wp_list_pluck($term_obj_list, 'name')).'</li>';
                     ?>
-                    <ul class="p-info features"><?php echo $features; ?></ul>
+                    <ul class="p-info features">
+                        <?php 
+                            foreach($term_obj_list as $feature){
+                                echo '<li><i class="bi bi-check"></i> '.$feature->name.'</li>';
+                            }
+                        ?>
+                    </ul>
                 </div>
             </div>
         </div>

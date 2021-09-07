@@ -1,23 +1,5 @@
 <?php get_header(); ?>
-
-<div class="container-fluid   px-0">
-    <!--banner chefs-->
-    <div class="banner_featured" style="background:url('<?php echo IMAGES ?>/chef-profile-banner.jpg')">
-        <div class="name_chef_inner">
-            <div class="inner_name_chef font-white">
-                <h1 class="font_Tahu">Chefs</h1>
-            </div>
-        </div>
-    </div>
-    <!--banner chefs-->
-
-    <div class="description_chef_inner w-100 font_Trebuchet mb-md-5 mb-lg-5">
-        <div class="inner_description d-flex justify-content-center  align-items-center flex-column flex-wrap h-100 text-center">
-
-        </div><!-- /.inner_description -->
-    </div><!-- /description_restaurant -->
-
-    <div class="">
+<div class="">
         <!--listing chef profile-->
         <div class="container pt-5  inner_box_columns full-listing-chefs ">
             <div class="row mx-n5">
@@ -39,10 +21,7 @@
 
                 //While Chef
                 while ($loop->have_posts()) : $loop->the_post();
-                    //Get Image Chef Field
-                    $images_chef = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
-
-
+                    
                     //Description Chef
                     $content = get_post_meta(get_the_ID(), 'chef-description', true);;
                     $content = strip_tags($content);
@@ -56,7 +35,7 @@
                         <div class="bg-light">
                             <div class="row shadow rounded">
                                 <div class="col-6 px-0 boxImages">
-                                    <img src="<?php echo $images_chef[0]; ?>" class="img-fluid">
+                                    <?php the_post_thumbnail('full', array('class' => 'img-fluid')) ?>
                                 </div>
                                 <div class="col-6 bg-gray informationChef d-flex flex-wrap justify-content-center align-items-center font_Trebuchet text-center pt-5 pb-5">
                                     <h2 class="name_chef text-center text-uppercase font-blue mb-1"><?php echo the_title(); ?></h2>
@@ -69,7 +48,10 @@
                     
 
 
-                <?php endwhile; ?>
+                <?php 
+                    endwhile;
+                    wp_reset_query();
+                ?>
 
 
                 <div class="pagination-box">
@@ -87,7 +69,4 @@
             </div>
             <!--/listing chef profile-->
         </div>
-
-    </div>
-
     <?php get_footer(); ?>

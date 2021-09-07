@@ -193,6 +193,11 @@ a:focus{
 .font_Trebuchet{
     font-family: 'Conv_Trebuchet_MS';
 }
+
+
+
+
+
 .btn-blue{
     background-color: #0095A9 !important;
     border-color:#0095A9 !important;
@@ -303,6 +308,29 @@ a:focus{
 
 .views_read_more:hover{
     color:#fff;
+}
+
+/***title chefs recipes archive***/
+.views_read_more_blue{
+    color:#007CBA;
+    max-width: 152px;
+    height: 37px;
+    text-decoration: none;
+    margin: 0 auto;
+    border-left: 1px solid #D1D3D4;
+    border-right: 1px solid #D1D3D4;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 25px;
+}
+
+.views_read_more_blue:hover{
+    color:#007CBA;
 }
 
 /**forms***/
@@ -885,6 +913,20 @@ HEADER
     
 }
 
+.description_chef_inner_green{
+    background: url(img/background_description_green.png);
+    height:250px;
+    color:#fff;
+    position: relative;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    
+}
+
+.description_chef_inner_green .inner_description,
 .description_chef_inner .inner_description{
     display: flex;
     justify-content: center;
@@ -1212,6 +1254,31 @@ HOME
 .carousel-item{
     z-index: -1 !important;
 }
+
+/*first item active */
+.first-item.active{
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    animation-duration: .6s;
+    transition-delay: 1s;
+}
+
+@keyframes fadeInOpacity {
+0% {
+    opacity: 0.2;
+}
+
+50% {
+    opacity: 0.5;
+}
+
+100% {
+    opacity: 1;
+}
+}
+
+
 .textindex{
     z-index: 1;
 }

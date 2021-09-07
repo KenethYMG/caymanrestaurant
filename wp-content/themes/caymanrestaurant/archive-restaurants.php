@@ -54,10 +54,23 @@
             $loop = new WP_Query($args);
 
             //While 
-            while ($loop->have_posts()) : $loop->the_post(); ?>
-                <div class="col-4">
-                    <?php the_title(); ?>
+            while ($loop->have_posts()) : $loop->the_post(); 
+            $location_restaurant = get_post_meta( get_the_ID(), 'restaurant-location', true ); ?>
+
+            <div class="col-12 col-md-4 col-lg-4 mb-5 boxItemGray">
+                <div class="card">
+                    <div class="boxImage">
+                        <?php the_post_thumbnail('full', array('class'=>'img-fluid')); ?>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title font_Trebuchet text-uppercase mb-4"><?php echo the_title(); ?></h3>
+                        <p class="card-text font_Trebuchet mb-4"><?php the_excerpt(); ?></p>
+                        <p class="card-location font_Trebuchet mb-2"><i class="bi bi-tag"></i><?php echo $location_restaurant; ?></p>
+                        <a href="<?php the_permalink();?>" class="buttonLink btn btn-light btn-lg btn-orange font-white  text-uppercase font_Din_Condensed_Bold">Find Out More</a>
+                    </div>
                 </div>
+            </div>
+            
             <?php endwhile; ?>
             <div class="pagination-box">
                 <?php

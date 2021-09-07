@@ -1330,12 +1330,14 @@ SINGLE RESTAURANT
 .restaurant-info p{
     color:#ffffff;
     padding-left: 24px;
+    font-family: 'Conv_Trebuchet_MS';
 }
 .p-info{
     padding-left: 24px;
 }
 .bi-circle{
     font-size:17px;
+    font-family: 'Conv_Trebuchet_MS';
 }
 .bk-menus{
     background: url('img/bk-menus.png') #d44e00;
@@ -1378,7 +1380,17 @@ ul.features{
     -webkit-columns: 4;
     -moz-columns: 4;
 }
-ul {
+ul.filter-cuisines{
+    columns: 5;
+    -webkit-columns: 5;
+    -moz-columns: 5;
+    padding-left:0;
+}
+ul.filter-cuisines li img{
+    width:70%;
+    height:155px;
+}
+ul.features, ul.filter-cuisines {
     list-style: none;
   }
   

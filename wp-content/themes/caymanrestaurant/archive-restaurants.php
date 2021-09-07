@@ -29,11 +29,39 @@
         </div>
     </div>
 </section>
-<section>
+<section class="bg-blue">
     <div class="container">
         <div class="row">
             <div class="col-12">
-                
+            <?php
+                $args = array(
+                'child_of'                 => 0,
+                'parent'                   => '',
+                'orderby'                  => 'name',
+                'order'                    => 'ASC',
+                'hide_empty'               => 0,
+                'hierarchical'             => 1,
+                'taxonomy'                 => 'category-cuisines',
+                'pad_counts'               => false );
+                $categories = get_categories($args);
+                echo '<ul class="filter-cuisines margin-top-lg margin-bottom-lg">';
+
+                foreach ($categories as $category) {
+                    $url = get_term_link($category);
+                    //print_r($category);
+                    $ids = $category->term_id;
+                    //print_r($ids);
+                    $term_image = get_term_meta( $category->term_id, 'category-cuisine-image', true);
+                    //print_r($term_image);
+                ?>
+                    <li class="text-center">
+                        <img class="img-fluid rounded-circle" src="<?php echo $term_image['url'] ?>" />
+                        <p class="font-orange text-center text-uppercase font_Trebuchet_Bold margin-top-md"><?php echo $category->name; ?></p> 
+                    </li>
+                    <?php
+                }
+                echo '</ul>';
+            ?>
             </div>
         </div>
     </div>
@@ -41,6 +69,9 @@
 <section>
     <div class="container">
         <div class="row">
+            <div class="col-12 margin-top-lg margin-bottom-lg">
+                <h1 class="font-orange text-uppercase text-center margin-top-lg margin-bottom-lg font_Din_Condensed_Bold"><?php post_type_archive_title(); ?></h1>
+            </div>
             <?php
             //Query Post - Chef recipies
             $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
@@ -70,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <?php endwhile; ?>
             <div class="pagination-box">
                 <?php

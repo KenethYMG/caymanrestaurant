@@ -22,7 +22,8 @@
                         $d = 0; 
                         foreach($carousel_images as $carousel_image){ 
                                 if($d==0){
-                                    $active = 'active';
+                                    $active = 'first-item active';
+                                    
                                 }else{
                                     $active = '';
                                 }

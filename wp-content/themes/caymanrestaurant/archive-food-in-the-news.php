@@ -1,22 +1,5 @@
 <?php get_header(); ?>
 
-<div class="container-fluid   px-0">
-    <!--banner chefs-->
-    <div class="banner_featured" style="background:url('<?php echo IMAGES ?>/food-in-news-banner.jpg')">
-        <div class="name_chef_inner">
-            <div class="inner_name_chef font-white">
-                <h1 class="font_Tahu">Food in the News</h1>
-            </div>
-        </div>
-    </div>
-    <!--banner chefs-->
-
-    <div class="description_chef_inner_green w-100 font_Trebuchet ">
-        <div class="inner_description d-flex justify-content-center  align-items-center flex-column flex-wrap h-100 text-center">
-
-        </div><!-- /.inner_description -->
-    </div><!-- /description_restaurant -->
-
     <div class="pt-5">
         <!--listing food in the news-->
         <div class="container">
@@ -77,7 +60,5 @@
             </div>
         </div>
         <!--listing food in the news-->
-
-    </div>
 
     <?php get_footer(); ?>

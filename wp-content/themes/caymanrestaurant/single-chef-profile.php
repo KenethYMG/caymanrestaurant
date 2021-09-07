@@ -7,9 +7,6 @@ global $post;
 //Banner Chef
 $bannerChef = get_post_meta( get_the_ID(), 'banner-chef', true );;
 
-//Get Image Chef Field
-$images_chef = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
-
 //Description Chef
 $nameRestaurant = get_post_meta( get_the_ID(), 'chef-name-restaurant', true );;
 
@@ -39,7 +36,7 @@ $content = strip_tags($content);
     <div class="container shadow rounded">
         <div class="row">
             <div class="col-12 col-md-6 col-lg-6 px-0">
-                <img src="<?php echo $images_chef[0]; ?>" class="img-fluid w-100"/>
+            <?php the_post_thumbnail('full', array('class' => 'img-fluid w-100')) ?>
             </div>
             <div class="col-12 col-md-6 col-lg-6 ps-5 pe-5 pb-5 pt-5 columnLateralChef">
                 <h2 class="font-teal text-uppercase font_Trebuchet_Bold"><?php echo the_title(); ?></h2>
@@ -61,15 +58,12 @@ $content = strip_tags($content);
                 query_posts('post_type=chefs-recipes&posts_per_page=1');
                 //While Chef
                 while (have_posts()): the_post();
-                //Get Image Chef Field
-                $images_chef_recipies = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
-                
                 //Get Introuduction
                 $introduction = get_post_meta( get_the_ID(), 'introduction', true );
             
             ?>
             <div class="col-12 col-md-6 col-lg-6 px-0 img_recipes">
-                <img src="<?php echo $images_chef_recipies[0] ?>" class="img-fluid w-100" alt="">
+                <?php the_post_thumbnail('full', array('class' => 'img-fluid, w-100')) ?>
             </div>
             <div class="col-12 col-md-6 col-lg-6 ps-5 pe-5 pb-5 pt-5 columnLateralChef">
                 <h2 class="name_chef text-uppercase font-blue mb-4"><?php echo the_title(); ?></h2>
@@ -79,7 +73,7 @@ $content = strip_tags($content);
             <?php endwhile; ?>
         </div>
 
-        <a href="<?php echo HOMELINK ?>chefs-recipes" class="button_view_more_chef views_read_more text-uppercase font-white font_Din_Condensed_Bold mt-5">
+        <a href="<?php echo HOMELINK ?>list-chefs-recipes" class="button_view_more_chef views_read_more text-uppercase font-white font_Din_Condensed_Bold mt-5">
         Sell all recipies
         </a><!-- /.button_view_more -->
 

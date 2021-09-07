@@ -1,23 +1,5 @@
 <?php get_header(); ?>
-
-<div class="container-fluid   px-0">
-    <!--banner chefs-->
-    <div class="banner_featured" style="background:url('<?php echo IMAGES ?>/chef-profile-banner.jpg')">
-        <div class="name_chef_inner">
-            <div class="inner_name_chef font-white">
-                <h1 class="font_Tahu">Chefs</h1>
-            </div>
-        </div>
-    </div>
-    <!--banner chefs-->
-
-    <div class="description_chef_inner w-100 font_Trebuchet mb-md-5 mb-lg-5">
-        <div class="inner_description d-flex justify-content-center  align-items-center flex-column flex-wrap h-100 text-center">
-
-        </div><!-- /.inner_description -->
-    </div><!-- /description_restaurant -->
-
-    <div class="">
+<div class="">
         <!--listing chef profile-->
         <div class="container pt-5  inner_box_columns full-listing-chefs ">
             <div class="row mx-n5">
@@ -87,7 +69,4 @@
             </div>
             <!--/listing chef profile-->
         </div>
-
-    </div>
-
     <?php get_footer(); ?>

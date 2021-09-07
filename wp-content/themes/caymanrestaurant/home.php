@@ -20,6 +20,6 @@
 </div>
 <!--SOCIAL SHARE -->
 <div class="section-social-share">
-    <?php// require('home/section-social-share.php'); ?>
+    <?php //require('home/section-social-share.php'); ?>
 </div>
 <?php get_footer(); ?>

@@ -13,9 +13,6 @@ $bannerChef = get_post_meta(get_the_ID(), 'banner-recipe', true);;
 //introduction
 $contentIntroduction = get_post_meta(get_the_ID(), 'chef-recipes-introduction', true);;
 
-//Get Image recipe Field
-$images_recipe = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
-
 
 //YIELDS
 $yields = get_post_meta(get_the_ID(), 'chef-recipes-yields', true);
@@ -84,7 +81,7 @@ $getIdvideo = explode("v=", $youtube_url);
 
             </div>
             <div class="col-12 col-md-8 col-lg-8 px-0 columnLateralChef imageRecipe">
-                <img src="<?php echo $images_recipe[0]; ?>" class="img-fluid w-100" />
+                <?php the_post_thumbnail('full', array('class' => 'img-fluid, w-100')) ?>
 
             </div>
         </div>

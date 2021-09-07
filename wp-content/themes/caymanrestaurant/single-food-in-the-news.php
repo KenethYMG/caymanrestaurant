@@ -5,10 +5,6 @@ get_header();
 //Banner Food in the news
 $banner_food = get_post_meta(get_the_ID(), 'banner-food-in-the-news', true);;
 
-//Get Image Chef Field
-$images_chef = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
-
-
 ?>
 
 
@@ -33,7 +29,7 @@ $images_chef = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 
             </div>
 
             <div class="col-12 col-md-6 col-lg-6 px-0">
-                <img src="<?php echo $images_chef[0]; ?>" class="img-fluid w-100" />
+                <?php the_post_thumbnail('full', array('class' => 'img-fluid, w-100')) ?>
             </div>
 
         </div>

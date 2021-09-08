@@ -1,8 +1,8 @@
 var featuresNode = document.querySelector(".features");
 //valida si existe el div
 if (featuresNode != null) {
-  var feature = featuresNode.innerHTML.split(",");
-/*var featuresNode = document.querySelector('.features');
+var feature = featuresNode.innerHTML.split(",");
+var featuresNode = document.querySelector('.features');
 var feature = featuresNode.innerHTML.split(',');
 
   var featureHTML = [];
@@ -34,5 +34,3 @@ $(document).ready(function () {
         $(this).addClass("active");
     });
 });
-
-featuresNode.innerHTML = featureHTML.join('');*/

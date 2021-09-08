@@ -1375,7 +1375,21 @@ SINGLE RESTAURANT
 .title-features, .title-about{
     font-size: 3em;
 }
-ul.features{
+ul.features, ul.filter-cuisines {
+    list-style: none;
+  }
+  
+  .bi-check {
+    color:#FF5C00;
+    font-size:25px;
+  }
+  /*
+ARCHIVE RESTAURANT
+*/
+  .filters-nav{
+    border-bottom:0;
+  }
+  ul.features{
     columns: 4;
     -webkit-columns: 4;
     -moz-columns: 4;
@@ -1390,11 +1404,24 @@ ul.filter-cuisines li img{
     width:70%;
     height:155px;
 }
-ul.features, ul.filter-cuisines {
-    list-style: none;
-  }
-  
-  .bi-check {
-    color:#FF5C00;
-    font-size:25px;
-  }
+.nav-bk{
+    border-top: 0;
+    border-bottom:0;
+    border:0 !important;
+    border-radius: 0 !important;
+    color:#ffffff;
+}
+.nav-bk-left{
+    border-left: 1px solid #FF5C00 !important;
+}
+.nav-bk-right{
+    border-right: 1px solid #FF5C00 !important;
+}
+.nav-tabs .nav-item.show .nav-bk, .nav-tabs .nav-bk.active,
+.nav-tabs .nav-bk:focus, .nav-tabs .nav-bk:hover{
+    background-color: transparent;
+    border-top: 0;
+    border-bottom:0;
+    border-radius: 0;
+    color: #FF5C00;
+}

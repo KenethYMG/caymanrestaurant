@@ -86,6 +86,8 @@ function kr_scripts()
     wp_enqueue_style('icons-bootstrap');
 
 
+    wp_enqueue_script('isotop', '//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js', array('jquery'), false, true);
+
     wp_register_script('app', PATH . '/js/main.js', array('jquery'), null, true);
     wp_enqueue_script('app');
 }

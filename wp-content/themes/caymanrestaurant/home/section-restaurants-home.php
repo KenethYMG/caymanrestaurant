@@ -33,6 +33,6 @@
         </div>
     </div>
     <a href="" class="button_view_more views_read_more  text-uppercase font-white font_Din_Condensed_Bold">
-        Sell all restaurants
+        See all restaurants
     </a><!-- /.button_view_more -->
 </div>

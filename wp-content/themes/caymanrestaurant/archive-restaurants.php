@@ -29,11 +29,80 @@
         </div>
     </div>
 </section>
-<section>
+<section class="bg-blue">
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                
+            <div class="col-12 padding-top-lg padding-bottom-lg">
+                <nav>
+                    <div class="nav nav-tabs justify-content-center filters-nav" id="nav-tab" role="tablist">
+                        <button class="nav-link active nav-bk nav-bk-left font_Trebuchet_Bold" id="nav-cuisine-tab" data-bs-toggle="tab" data-bs-target="#nav-cuisine" type="button" role="tab" aria-controls="nav-cuisine" aria-selected="true">BROWSE BY CUISINE</button>
+                        <button class="nav-link nav-bk nav-bk-left nav-bk-right font_Trebuchet_Bold" id="nav-location-tab" data-bs-toggle="tab" data-bs-target="#nav-location" type="button" role="tab" aria-controls="nav-location" aria-selected="false">BROWSE BY LOCATION</button>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active padding-top-lg" id="nav-cuisine" role="tabpanel" aria-labelledby="nav-cuisine-tab">
+                        <?php
+                            $args = array(
+                            'child_of'                 => 0,
+                            'parent'                   => '',
+                            'orderby'                  => 'name',
+                            'order'                    => 'ASC',
+                            'hide_empty'               => 0,
+                            'hierarchical'             => 1,
+                            'taxonomy'                 => 'category-cuisines',
+                            'pad_counts'               => false );
+                            $categories_cuisines = get_categories($args);
+                            echo '<ul class="filter-cuisines margin-top-lg margin-bottom-lg">';
+
+                            foreach ($categories_cuisines as $category_cuisines) {
+                                $url = get_term_link($category_cuisines);
+                                //print_r($category);
+                                //$ids = $category_cuisines->term_id;
+                                //print_r($ids);
+                                $term_image_cuisines = get_term_meta( $category_cuisines->term_id, 'category-cuisine-image', true);
+                                //print_r($term_image);
+                            ?>
+                                <li class="text-center">
+                                    <img class="img-fluid rounded-circle" src="<?php echo $term_image_cuisines['url'] ?>" />
+                                    <p class="font-orange text-center text-uppercase font_Trebuchet_Bold margin-top-md"><?php echo $category_cuisines->name; ?></p> 
+                                </li>
+                                <?php
+                            }
+                            echo '</ul>';
+                        ?>
+                    </div>
+                    <div class="tab-pane fade padding-top-lg" id="nav-location" role="tabpanel" aria-labelledby="nav-location-tab">
+                    <?php
+                            $args = array(
+                            'child_of'                 => 0,
+                            'parent'                   => '',
+                            'orderby'                  => 'name',
+                            'order'                    => 'ASC',
+                            'hide_empty'               => 0,
+                            'hierarchical'             => 1,
+                            'taxonomy'                 => 'category-location',
+                            'pad_counts'               => false );
+                            $categories_location = get_categories($args);
+                            echo '<ul class="filter-location margin-top-lg margin-bottom-lg">';
+
+                            foreach ($categories_location as $category_location) {
+                                $url = get_term_link($category_location);
+                                //print_r($category);
+                                //$ids = $category_location->term_id;
+                                //print_r($ids);
+                                $term_image_location = get_term_meta( $category_location->term_id, 'image-category-location', true);
+                                //print_r($term_image);
+                            ?>
+                                <li class="text-center">
+                                    <img class="img-fluid rounded-circle" src="<?php echo $term_image_location['url'] ?>" />
+                                    <p class="font-orange text-center text-uppercase font_Trebuchet_Bold margin-top-md"><?php echo $category_location->name; ?></p> 
+                                </li>
+                                <?php
+                            }
+                            echo '</ul>';
+                        ?>  
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -41,6 +110,9 @@
 <section>
     <div class="container">
         <div class="row">
+            <div class="col-12 margin-top-lg margin-bottom-lg">
+                <h1 class="font-orange text-uppercase text-center margin-top-lg margin-bottom-lg font_Din_Condensed_Bold"><?php post_type_archive_title(); ?></h1>
+            </div>
             <?php
             //Query Post - Chef recipies
             $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
@@ -70,7 +142,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <?php endwhile; ?>
             <div class="pagination-box">
                 <?php

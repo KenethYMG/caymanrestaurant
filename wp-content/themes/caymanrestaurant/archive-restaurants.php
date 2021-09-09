@@ -56,7 +56,7 @@
 
                             foreach ($categories_cuisines as $category_cuisines) {
                                 $url = get_term_link($category_cuisines);
-                                //print_r($category);
+                                //print_r($url);
                                 //$ids = $category_cuisines->term_id;
                                 //print_r($ids);
                                 $term_image_cuisines = get_term_meta( $category_cuisines->term_id, 'category-cuisine-image', true);
@@ -64,7 +64,11 @@
                             ?>
                                 <li class="text-center">
                                     <img class="img-fluid rounded-circle" src="<?php echo $term_image_cuisines['url'] ?>" />
-                                    <p class="font-orange text-center text-uppercase font_Trebuchet_Bold margin-top-md"><?php echo $category_cuisines->name; ?></p> 
+                                    <p class="margin-top-md">
+                                        <a href="<?php echo $url; ?>" class="cuisine-link font-orange text-center text-uppercase font_Trebuchet_Bold">
+                                            <?php echo $category_cuisines->name; ?>
+                                        </a>
+                                    </p> 
                                 </li>
                                 <?php
                             }
@@ -87,7 +91,7 @@
 
                             foreach ($categories_location as $category_location) {
                                 $url = get_term_link($category_location);
-                                //print_r($category);
+                                //print_r($category_location);
                                 //$ids = $category_location->term_id;
                                 //print_r($ids);
                                 $term_image_location = get_term_meta( $category_location->term_id, 'image-category-location', true);

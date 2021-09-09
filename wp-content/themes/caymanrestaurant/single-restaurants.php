@@ -115,7 +115,10 @@
             <div class="row justify-content-center">
                 <div class="col-8">
                     <?php the_content(); ?>
+                    <?php echo do_shortcode("[wppr_avg_rating]"); ?>
+                    <?php echo do_shortcode("[wppr_avg_rating_post_id id='43']"); ?>
                 </div>
+
             </div>
         </div>
     </section>

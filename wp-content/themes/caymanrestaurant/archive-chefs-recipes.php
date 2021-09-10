@@ -1,8 +1,47 @@
-<?php get_header(); ?>
+<?php get_header();
+
+//type content banner
+$post_banner = query_posts('post_type=banners&order=ASC');
+
+//While Food in the news
+while (have_posts()) : the_post();
+
+//banner
+$section_banner = get_post_meta($post->ID, 'banner-chef-recipe', true);
+//description
+$section_description = get_post_meta($post->ID, 'description-chef-recipe', true);
+
+//Get Image Banner Field
+$urlBanner = "";
+if(isset($section_banner["url"])){
+    $urlBanner = $section_banner["url"];
+}
+
+endwhile;
+
+?>
+
+<div class="container-fluid px-0">
+
+    <!--banner chefs-->
+    <div class="banner_featured" style="background:url('<?php echo $urlBanner ?>')">
+        <div class="name_chef_inner">
+            <div class="inner_name_chef font-white">
+                <h1 class="font_Tahu">Recipes</h1>
+            </div>
+        </div>
+    </div>
+    <!--banner chefs-->
+
+    <div class="description_chef_inner w-100 font_Trebuchet">
+        <div class="inner_description d-flex justify-content-center  align-items-center flex-column flex-wrap h-100 text-center">
+        <?php echo $section_description; ?>
+        </div><!-- /.inner_description -->
+    </div><!-- /description_banner -->
+
+</div><!--end container-fluid-->
+
 <div class="browse-tag bg-blue container-fluid pt-4 pb-5">
-
-
-
 
     <h2 class="button_view_more_chef views_read_more_blue text-uppercase font-light-blue font_Din_Condensed_Bold mb-5">
         Browse Tag

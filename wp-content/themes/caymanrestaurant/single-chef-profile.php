@@ -73,7 +73,7 @@ $content = strip_tags($content);
             <?php endwhile; ?>
         </div>
 
-        <a href="<?php echo HOMELINK ?>list-chefs-recipes" class="button_view_more_chef views_read_more text-uppercase font-white font_Din_Condensed_Bold mt-5">
+        <a href="<?php echo HOMELINK ?>chefs-recipes" class="button_view_more_chef views_read_more text-uppercase font-white font_Din_Condensed_Bold mt-5">
         Sell all recipies
         </a><!-- /.button_view_more -->
 

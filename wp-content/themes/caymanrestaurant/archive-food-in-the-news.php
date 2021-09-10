@@ -1,4 +1,45 @@
-<?php get_header(); ?>
+<?php get_header();
+
+//type content banner
+$post_banner = query_posts('post_type=banners&order=ASC');
+
+//While Food in the news
+while (have_posts()) : the_post();
+
+//banner
+$section_banner = get_post_meta($post->ID, 'banner-food-in-the-news', true);
+//description
+$section_description = get_post_meta($post->ID, 'description-food-in-the-news', true);
+
+//Get Image Banner Field
+$urlBanner = "";
+if(isset($section_banner["url"])){
+    $urlBanner = $section_banner["url"];
+}
+
+endwhile;
+
+?>
+
+<div class="container-fluid px-0">
+
+    <!--banner chefs-->
+    <div class="banner_featured" style="background:url('<?php echo $urlBanner ?>')">
+        <div class="name_chef_inner">
+            <div class="inner_name_chef font-white">
+                <h1 class="font_Tahu">Food in the news</h1>
+            </div>
+        </div>
+    </div>
+    <!--banner chefs-->
+
+    <div class="description_chef_inner_green w-100 font_Trebuchet">
+        <div class="inner_description d-flex justify-content-center  align-items-center flex-column flex-wrap h-100 text-center">
+        <?php echo $section_description; ?>
+        </div><!-- /.inner_description -->
+    </div><!-- /description_banner -->
+
+</div><!--end container-fluid-->
 
     <div class="pt-5">
         <!--listing food in the news-->

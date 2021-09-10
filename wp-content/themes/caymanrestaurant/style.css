@@ -1446,7 +1446,12 @@ ul.filter-cuisines li img{
     border-radius: 0;
     color: #FF5C00;
 }
-
+.cuisine-link{
+    text-decoration: none;
+}
+.cuisine-link:hover{
+    color:#ffffff;
+}
 
 
   h1{

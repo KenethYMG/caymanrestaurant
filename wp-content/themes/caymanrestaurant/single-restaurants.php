@@ -81,7 +81,7 @@
 
                         <div class="col-lg-4 padding-top-md padding-bottom-md position-relative start-bottom min-height">
                             <h5 class="font-orange font_Trebuchet_Bold "><i class="bi bi-circle font-orange"></i> Review</h5>
-                            <div class="restaurant-info"><?php echo $restaurant['restaurant-location'][0]; ?></div>
+                            <div class="restaurant-info"><?php echo do_shortcode('[rvx-star-count post_id="43"]'); ?></div>
                         </div>
                         <div class="col-lg-4 padding-top-md padding-bottom-md position-relative start-bottom min-height">
                             <h5 class="font-orange font_Trebuchet_Bold "><i class="bi bi-circle font-orange"></i> Meals</h5>
@@ -115,8 +115,6 @@
             <div class="row justify-content-center">
                 <div class="col-8">
                     <?php the_content(); ?>
-                    <?php echo do_shortcode("[wppr_avg_rating]"); ?>
-                    <?php echo do_shortcode("[wppr_avg_rating_post_id id='43']"); ?>
                 </div>
 
             </div>
@@ -220,6 +218,9 @@
                 </div>
             </div>
         </div>
+    </section>
+    <section>
+    <?php comments_template(); ?>
     </section>
 <?php endwhile; ?>
 <?php get_footer(); ?>

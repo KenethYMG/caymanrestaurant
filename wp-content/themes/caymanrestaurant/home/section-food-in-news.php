@@ -36,7 +36,7 @@
             <?php endwhile; ?>
         </div>
     </div>
-    <a href="<?php echo HOMELINK ?>list-food-in-the-news" class="button_view_more views_read_more text-uppercase font-white font_Din_Condensed_Bold">
+    <a href="<?php echo HOMELINK ?>food-in-the-news" class="button_view_more views_read_more text-uppercase font-white font_Din_Condensed_Bold">
         Sell all news
     </a><!-- /.button_view_more -->
 </div>

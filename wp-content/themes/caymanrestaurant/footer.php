@@ -1,3 +1,7 @@
+<!--SOCIAL SHARE -->
+<div class="section-social-share">
+    <?php require('section-share-social.php'); ?>
+</div>
 <!--NEWSLETTER FORM -->
 <div class="section-newsletter">
     <?php require('home/section-newsletter.php'); ?>

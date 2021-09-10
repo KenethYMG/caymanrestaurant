@@ -40,7 +40,7 @@
         </div>
     </div><!--inner_box_columns-->
 
-    <a href="<?php echo HOMELINK ?>list-chef-profile" class="button_view_more_chef views_read_more text-uppercase font-white font_Din_Condensed_Bold">
+    <a href="<?php echo HOMELINK ?>chef-profile" class="button_view_more_chef views_read_more text-uppercase font-white font_Din_Condensed_Bold">
         Sell all chefs
     </a><!-- /.button_view_more -->
     
